@@ -13,4 +13,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.14" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Depodaki hikâye klasörü (icerik/) derlenen çıktıya "icerik" adıyla kopyalanır.
+         Sesler depoda olmadığı için hiçbir ses dosyası kopyalanmaz. -->
+    <None Include="..\..\icerik\**\*" Exclude="..\..\icerik\**\ses\**" LinkBase="icerik"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

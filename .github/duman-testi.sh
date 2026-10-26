@@ -31,6 +31,9 @@ kontrol "kod 22 karakter" 22 "${#KOD}"
 
 echo "2) Sahte bir ses dosyası konuyor (ses klasöründen sunulduğunu görmek için)"
 mkdir -p "$Ses__Yol/m1" && printf 'ID3deneme' > "$Ses__Yol/m1/m1_s001.mp3"
+# Sunucuda her hikâyede bulunan ortam sesinin yerine geçerli, 1 saniyelik sessiz bir WAV.
+# (Bu dosya yoksa onaylı sayfa açılışta "ses verisi çözülemedi" hatası verir; gerçekte dosya var.)
+python3 -c "import wave,sys; w=wave.open(sys.argv[1],'wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(8000); w.writeframes(b'\0\0'*8000); w.close()" "$Ses__Yol/m1/ortam.wav"
 
 echo "3) Site başlatılıyor"
 dotnet "$YAYIN/VeliAkademisi.dll" > "$GECICI/site.log" 2>&1 &

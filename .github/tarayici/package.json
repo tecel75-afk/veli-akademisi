@@ -1,0 +1,9 @@
+{
+  "name": "veli-akademisi-tarayici-testi",
+  "private": true,
+  "type": "module",
+  "description": "Hikâye sayfasını gerçek bir tarayıcıda (Chrome) açıp kayıt kancasını sınar.",
+  "dependencies": {
+    "puppeteer": "25.16.0"
+  }
+}

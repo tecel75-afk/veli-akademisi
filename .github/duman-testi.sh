@@ -6,6 +6,7 @@ set -euo pipefail
 trap 'echo "::error::Betik $LINENO. satırda beklenmedik şekilde durdu (komut: $BASH_COMMAND)"' ERR
 
 YAYIN="$(cd "$1" && pwd)"
+KLASOR="$(cd "$(dirname "$0")" && pwd)"   # bu betiğin klasörü (tarayıcı testi burada)
 GECICI="$(mktemp -d)"
 # Site, deponun klasöründen değil başka bir klasörden çalıştırılır; böylece dosyaları
 # gerçekten derlenmiş paketin içinden okuduğu sınanır.
@@ -110,7 +111,20 @@ kontrol "cevap: geçersiz kod → 404" 404 "$(post /api/cevap "{\"kod\":\"$GECER
 RED=0; for n in $(seq 1 130); do [ "$(post /api/ilerleme "{\"kod\":\"$KOD\",\"hikaye\":\"m1\",\"adim\":1}")" == 429 ] && RED=$((RED+1)) || true; done
 kontrol "hız sınırı: dakikada 120'den sonrası reddedilir (429)" evet "$([ $RED -gt 0 ] && echo evet || echo hayır)"
 
-echo "6) Site günlüğü"
+echo "6) Tarayıcı testi (gerçek Chrome ile kayıt kancası)"
+# Ayrı bir deneme velisi: önceki velinin hız sınırı bu dakika dolmuş olabilir.
+KOD2="$(dotnet "$YAYIN/VeliAkademisi.dll" veli-ekle "Tarayıcı Deneme" "1-B" | sed -n 's/^Kod: //p')"
+if node "$KLASOR/tarayici/test.mjs" "$ADRES" "$KOD2" "$SORU"; then
+  kontrol "tarayıcı testi" tamam tamam
+else
+  kontrol "tarayıcı testi" tamam başarısız
+fi
+# Tarayıcının gönderdiği kayıtlar veritabanına doğru düşmüş mü?
+VELI2="(select Id from Veliler where Kod='$KOD2')"
+kontrol "  veritabanında: m1 ilerlemesi soru adımında" "$SORU" "$(satir "select SonAdim from Ilerlemeler where VeliId=$VELI2 and Hikaye='m1'")"
+kontrol "  veritabanında: iki seçim, sırayla B sonra C" "1,2" "$(satir "select group_concat(Secim) from (select Secim from Cevaplar where VeliId=$VELI2 and Adim=$SORU order by Id)")"
+
+echo "7) Site günlüğü"
 sed 's/^/     /' "$GECICI/site.log"
 
 if [ $hata -ne 0 ]; then echo "SONUÇ: kontrollerden en az biri tutmadı."; exit 1; fi

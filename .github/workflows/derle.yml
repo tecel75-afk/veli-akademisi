@@ -1,0 +1,32 @@
+# GitHub'ın kodu derleme tarifi.
+# main dalına her gönderimde (ya da elle başlatılınca) çalışır:
+# kodu indirir, .NET 10 SDK'yı kurar, siteyi yayın için derler ve çıktıyı saklar.
+
+name: Derle
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  derle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodu indir
+        uses: actions/checkout@v7
+
+      - name: .NET 10 SDK kur
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Siteyi derle (Release)
+        run: dotnet publish src/VeliAkademisi/VeliAkademisi.csproj -c Release -o yayin
+
+      - name: Derlenen çıktıyı sakla
+        uses: actions/upload-artifact@v7
+        with:
+          name: veli-akademisi-yayin
+          path: yayin
+          if-no-files-found: error

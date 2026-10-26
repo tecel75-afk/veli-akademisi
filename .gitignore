@@ -1,0 +1,10 @@
+# Derleme sırasında oluşan klasörler depoya girmez.
+bin/
+obj/
+yayin/
+
+# Veritabanı dosyaları ve gizli ayarlar depoya girmez.
+*.db
+*.db-shm
+*.db-wal
+appsettings.Production.json

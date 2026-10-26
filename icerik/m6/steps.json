@@ -1,0 +1,469 @@
+[
+ {
+  "t": "section",
+  "n": 1,
+  "title": "1. Bölüm",
+  "sub": "Sorun ve çaresizlik"
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare1.webp",
+  "text": "Can on yaşındaydı. Otizmliydi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare1.webp",
+  "text": "Birkaç kelime kullanıyordu. Ama her istediğini konuşarak anlatamıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare2.webp",
+  "text": "Bir şey istediğinde annesi Hülya'nın elinden tutuyordu. Sonra onu istediği yere götürüyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare2.webp",
+  "text": "Mutfak dolabına götürürse sevdiği atıştırmalığı istiyordu. Kapıya götürürse dışarı çıkmak istiyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare2.webp",
+  "text": "Bazı şeyleri de eliyle işaret ediyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare3.webp",
+  "text": "Hülya: “Ben onu bakışından anlıyorum,” diyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare3.webp",
+  "text": "Ama Can'ı başkaları her zaman anlayamıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare4.webp",
+  "text": "Bir gün akrabalarında Can bir şey istedi. Kimse ne istediğini anlayamadı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare4.webp",
+  "text": "Can önce teyzesinin elini çekti. Sonra sesini yükseltti. Ağlamaya başladı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare4.webp",
+  "text": "Hülya onu sakinleştirmeye çalıştı.",
+  "sec": 1
+ },
+ {
+  "t": "q",
+  "q": "Can teyzesinin elini çekti, sonra ağlamaya başladı. Sizce bu ağlama ne anlatıyor olabilir?",
+  "o": [
+   "Şımarıklık yapıyor.",
+   "Ne istediğini anlatamadığı için zorlanıyor.",
+   "Akrabalarında olmak istemiyor."
+  ],
+  "fb": [
+   "Öyle görünebilir. Ama Can bir şey istiyordu ve kimse anlamadı. Önce elini çekti; anlaşılmayınca ağladı. Sizce ağlamadan önce başka nasıl anlatabilirdi?",
+   "Evet, çok önemli bir fark ediş. Konuşmakta zorlanan çocuklar anlaşılmadıklarında çoğu zaman öfke ya da ağlamayla anlatır. Ona başka bir yol vermek, bu anları azaltır.",
+   "Olabilir. Ama Can'ın ağlaması, bir şey isteyip anlaşılamamasıyla başladı. Belki sorun yer değil, kendini anlatamamaktı."
+  ],
+  "sec": 1,
+  "all": false,
+  "lb": [
+   "Bir de şöyle bakalım.",
+   "Can'ın yerine kendinizi koydunuz, ne güzel!",
+   "Birlikte düşünelim."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Can'ın yerine kendinizi koydunuz, ne güzel!"
+  },
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım bu zor ziyaretten sonra Hülya neler düşünecek?",
+   "n": "Ziyaret bitmiş, aile eve dönüyordu."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare5.webp",
+  "text": "Eve dönerken Hülya çok düşündü.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare5.webp",
+  "text": "“Ben onu anlıyorum. Ama ben her zaman yanında olmayacağım.” Bu düşünce onu üzdü.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare5.webp",
+  "text": "Eşi Burak da aynı şeyi fark etmişti. Şöyle dedi: “Belki başka bir şekilde de anlatmayı öğrenebilir.”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b1_kare5.webp",
+  "text": "Ama nasıl başlayacaklarını bilmiyorlardı.",
+  "sec": 1
+ },
+ {
+  "t": "think",
+  "q": "Çocuğunuz sizden bir şey istediğinde bunu nasıl anlatıyor? Sizin dışınızda kimler onu anlayabiliyor?",
+  "sec": 1,
+  "bridge": {
+   "e": "Haydi hikâyemize devam edelim. Belki de cevap, bir telefon görüşmesinde saklı.",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 2,
+  "title": "2. Bölüm",
+  "sub": "Başkasının deneyimi"
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b2_kare1.webp",
+  "text": "Hülya'nın kuzeni Gül başka bir şehirde yaşıyordu. Bir akşam görüntülü konuşuyorlardı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b2_kare1.webp",
+  "text": "Hülya yaşadıklarını anlattı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b2_kare1.webp",
+  "text": "Gül şöyle dedi: “Biz de kızımla aynı şeyi yaşadık.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b2_kare2.webp",
+  "text": "“Nasıl yaptınız?”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b2_kare2.webp",
+  "text": "Gül telefonun kamerasına birkaç küçük resim gösterdi. Sevdiği yiyeceklerin ve etkinliklerin fotoğraflarıydı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b2_kare2.webp",
+  "text": "“Kızım bazı şeyleri resimle istemeyi öğrendi. Konuşabildiği kelimeleri de kullanıyor. Bazen işaret ediyor. Yani tek bir yolu yok.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b2_kare3.webp",
+  "text": "Hülya: “Can bana zaten anlatıyor. Ama başkası anlamıyor,” dedi.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b2_kare3.webp",
+  "text": "Gül başını salladı. “Ben de tam bunu fark etmiştim. Benim anlamam yetmiyordu.”",
+  "sec": 2
+ },
+ {
+  "t": "q",
+  "q": "Gül'ün anlattıklarından hangisi size en yakın geldi?",
+  "o": [
+   "Bazı şeyleri resimle istemeyi öğretmek.",
+   "Kelime, işaret, resim: iletişimin tek bir yolu olmadığını bilmek.",
+   "Annenin anlamasının yetmediğini fark etmek."
+  ],
+  "fb": [
+   "Güzel bir seçim. Resim, çocuğun elinde kalan bir söz gibidir; annesi yanında olmasa da başkasına gösterebilir.",
+   "Güzel bir seçim. Resim, kelimenin yerini almaz; ona eşlik eder. Çocuğun kullandığı her yol değerlidir.",
+   "Güzel bir seçim. Anne babanın çocuğu anlaması çok kıymetli. Ama çocuğun dünyası genişledikçe, başkalarının da onu anlayabilmesi gerekir."
+  ],
+  "sec": 2,
+  "all": true,
+  "bridge": {
+   "e": "Haydi devam edelim. Bakalım Gül'ün son bir önerisi var mı?",
+   "n": "Gül ekranda bir süre düşündü."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b2_kare4.webp",
+  "text": "Sonra özellikle ekledi:",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b2_kare4.webp",
+  "text": "“İlk çalışmayı çok sevdiği ama bekleyebileceği bir şeyle yap. Mesela sevdiği atıştırmalıkla.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b2_kare4.webp",
+  "text": "“Su, tuvalet gibi temel ihtiyaçları hiçbir zaman resim kullansın diye bekletme.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b2_kare4.webp",
+  "text": "Hülya bu cümleyi aklında tuttu.",
+  "sec": 2
+ },
+ {
+  "t": "think",
+  "q": "Çocuğunuzun en sevdiği ama bekleyebileceği şey ne? Resimle istemeyi onunla başlatabilir misiniz?",
+  "sec": 2,
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım Can'ın ilk resmi nasıl karşılanacak?",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 3,
+  "title": "3. Bölüm",
+  "sub": "Uyarlama ve azalma"
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare1.webp",
+  "text": "Can'ın en sevdiği küçük atıştırmalığın bir fotoğrafını hazırladılar.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare1.webp",
+  "text": "İlk gün Can mutfağa geldi. Hülya'nın elini tuttu. Onu dolaba götürdü.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare1.webp",
+  "text": "Hülya hemen dolabı açmadı. Atıştırmalığın resmini gösterdi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare2.webp",
+  "text": "Can annesinin elini yeniden çekti.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare2.webp",
+  "text": "Hülya: “Bunu istiyorsan resmi gösterebilirsin,” dedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare2.webp",
+  "text": "Can resmi almadı. Sinirlendi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare3.webp",
+  "text": "Hülya fazla uzatmadı. Ona küçük bir yardım verdi. Can'ın elini resme yaklaştırdı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare3.webp",
+  "text": "Can resme dokundu. Hülya hemen atıştırmalığı verdi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare3.webp",
+  "text": "“İstedin. Anladım,” dedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare4.webp",
+  "text": "Ertesi gün Can yine annesinin elini çekti. Resme bakmadı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare4.webp",
+  "text": "Hülya bir an “Galiba olmayacak,” diye düşündü.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare4.webp",
+  "text": "Burak şöyle dedi: “Daha yeni başladık. Biraz daha deneyelim.”",
+  "sec": 3
+ },
+ {
+  "t": "q",
+  "q": "Can ikinci gün resme hiç bakmadı. Hülya “Galiba olmayacak” diye düşündü. Siz ne yapardınız?",
+  "o": [
+   "Bırakır, eskisi gibi elimden tutmasına göre devam ederdim.",
+   "Biraz daha dener, gerekirse yine küçük bir yardım verirdim.",
+   "Resmi vermeden atıştırmalığı hiç vermez, ağlasa da beklerdim."
+  ],
+  "fb": [
+   "Bu çok anlaşılır; insan çocuğunu üzmek istemez. Ama yeni bir yol ilk günlerde zor gelir. Biraz daha zaman tanımak, Can'a yeni bir kapı açabilir.",
+   "Evet. Yeni bir beceri hemen oturmaz. Küçük bir yardımla başarıyı yaşatmak, sonra yardımı yavaş yavaş azaltmak en işe yarayan yoldur.",
+   "Kararlı olmak önemli; ama çocuk çok sinirlenirse öğrenmek zorlaşır. Hülya da fazla uzatmadı, küçük bir yardım verdi. Amaç zorlamak değil, yolu kolaylaştırmak."
+  ],
+  "sec": 3,
+  "all": false,
+  "lb": [
+   "Bu çok anlaşılır.",
+   "Sabırlı ve destekleyici bir seçim, tebrikler!",
+   "Bir de şöyle bakalım."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Sabırlı ve destekleyici bir seçim, tebrikler!"
+  },
+  "bridge": {
+   "e": "Haydi devam edelim. Sizce Hülya ile Burak denemeyi sürdürecek mi?",
+   "n": "Birkaç gün geçti. Resim hâlâ mutfak masasında duruyordu."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare5.webp",
+  "text": "Birkaç gün sonra Can resmi eline aldı ama annesine vermedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare5.webp",
+  "text": "Hülya yine de bunu fark etti. “Resmi buldun,” dedi ve gülümsedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare5.webp",
+  "text": "Can annesinin kısa bir şarkı söylemesini seviyordu. Hülya onun sevdiği iki satırlık küçük melodiyi söyledi. Can gülümsedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare6.webp",
+  "text": "Haftalar sonra bir akşam Can mutfağa geldi. Hülya onun yine elinden tutacağını düşündü.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare6.webp",
+  "text": "Can masadaki resmi aldı. Annesine uzattı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare6.webp",
+  "text": "Hülya'nın yüzü aydınlandı. “Can, bana ne istediğini gösterdin.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare6.webp",
+  "text": "Sonra sevdiği kısa melodiyi söyledi. Can gülümseyerek atıştırmalığını aldı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare7.webp",
+  "text": "Zamanla birkaç yeni resim daha eklediler. Ama iletişim sadece resimlerden oluşmadı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare7.webp",
+  "text": "Can bazen kelime kullandı. Bazen işaret etti. Bazen resim gösterdi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare7.webp",
+  "text": "Hülya artık her isteğini hemen tahmin etmiyordu. Ama temel ihtiyaçlarını da hiçbir zaman bekletmiyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare8.webp",
+  "text": "Aile ziyaretlerinde de Can'a daha çok zaman vermeye başladılar.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare8.webp",
+  "text": "Eskiden “Hadi merhaba de”, “Hadi cevap ver” deniyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare8.webp",
+  "text": "Şimdi el sallaması da selam sayılıyordu. Yanlarında kısa süre oturması da birlikte olmak sayılıyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare9.webp",
+  "text": "Bir gün Gül yine görüntülü aradı ve sordu: “Can artık daha çok konuşuyor mu?”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare9.webp",
+  "text": "Hülya düşündü. “Her zaman konuşmuyor. Ama artık kendini daha çok anlatıyor.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare9.webp",
+  "text": "Sorun tamamen bitmedi. Can anlaşılmadığında hâlâ bazen öfkeleniyordu. Yeni kişilerle iletişim kurmakta zorlanıyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m6_b3_kare9.webp",
+  "text": "Ama artık elinde daha fazla yol vardı.",
+  "sec": 3
+ },
+ {
+  "t": "think",
+  "q": "Evde sizi en çok zorlayan ve çocuğunuzun kendini anlatabilmesini istediğiniz an hangisi? Bunun için hangi küçük adımla başlayabilirsiniz?",
+  "sec": 3,
+  "destek": "Bu konuda okulumuzun rehberlik servisinden her zaman destek alabilirsiniz.",
+  "bridge": {
+   "e": "Hikâyemizin sonuna geldik. Son sözlerimizi birlikte dinleyelim.",
+   "n": null
+  }
+ },
+ {
+  "t": "close",
+  "lines": [
+   "Hülya ile Burak'ın yaşadıkları kolay değildi. İlk günler Can sinirlendi; onlar da vazgeçmenin eşiğine geldi.",
+   "Sorun tamamen bitmedi ama Can'ın kendini anlatabildiği yollar çoğaldı.",
+   "Böyle bir değişim bir günde olmaz. Çocuğun öğrenmesi zaman alır. Anne babanın öğrenmesi de.",
+   "Bu süreçte en belirleyici olan, sizin tutumunuzdur:",
+   "Çocuğa zaman tanımak, her iletişim yolunu değerli saymak ve temel ihtiyaçları hiçbir zaman bekletmemek.",
+   "Zorlandığınızda yalnız değilsiniz.",
+   "Çocuğunuzun öğretmeni ve okulumuzun rehberlik servisi her konuda yanınızda. Bize her zaman ulaşabilirsiniz."
+  ],
+  "sec": 3
+ }
+]

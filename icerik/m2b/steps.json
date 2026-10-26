@@ -1,0 +1,471 @@
+[
+ {
+  "t": "section",
+  "n": 1,
+  "title": "1. Bölüm",
+  "sub": "Sorun ve çaresizlik"
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare1.webp",
+  "text": "Zeynep on üç yaşındaydı. Otizmliydi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare1.webp",
+  "text": "Konuşması sınırlıydı. Kısa cümleleri ve hep aynı duyduğu sözleri daha kolay anlıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare1.webp",
+  "text": "Günlük yaşamda annesi Emine'nin desteğine ihtiyaç duyuyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare2.webp",
+  "text": "Son zamanlarda Emine'yi zorlayan yeni durumlar vardı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare2.webp",
+  "text": "Zeynep bazen salonda üzerini değiştirmeye başlıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare2.webp",
+  "text": "Banyodan çıkınca odasına gitmeden evin içinde dolaştığı da oluyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare2.webp",
+  "text": "Bazen de özel bölgelerine, evin ortak alanlarında dokunuyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare2.webp",
+  "text": "Emine ne yapacağını bilmiyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare3.webp",
+  "text": "Bir gün misafir varken Zeynep yine salonda üstünü çıkarmaya başladı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare3.webp",
+  "text": "Emine çok gerildi. Zeynep'i hemen odasına götürdü. “Böyle yapılmaz!” dedi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare3.webp",
+  "text": "Zeynep annesine baktı. Ama neyin yanlış olduğunu anlamış görünmüyordu.",
+  "sec": 1
+ },
+ {
+  "t": "q",
+  "q": "Emine “Böyle yapılmaz!” dedi, ama Zeynep anlamadı. Sizce neden?",
+  "o": [
+   "Zeynep annesini dinlemiyor.",
+   "“Böyle” ve “yapılmaz” ona neyi, nerede yapacağını söylemiyor.",
+   "Zeynep büyüyünce kendiliğinden öğrenir."
+  ],
+  "fb": [
+   "Öyle görünebilir. Ama Zeynep annesine baktı; dinliyordu. Belki de duyduğu sözler ona ne yapması gerektiğini söylemedi.",
+   "Evet, çok önemli bir fark ediş. “Böyle yapılmaz” yasaklıyor ama yol göstermiyor. Otizmli çocuklar neyin, nerede yapılacağını kısa ve açık duyduklarında daha kolay öğrenir.",
+   "Büyümek kendiliğinden bazı şeyleri getirir; ama mahremiyet çoğu zaman öğretilmesi gereken bir beceridir. Zeynep'e bunu kim, nasıl öğretebilir?"
+  ],
+  "sec": 1,
+  "all": false,
+  "lb": [
+   "Bir de şöyle bakalım.",
+   "Çok iyi yakaladınız! Sözün kendisine dikkat ettiniz.",
+   "Birlikte düşünelim."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Çok iyi yakaladınız! Sözün kendisine dikkat ettiniz."
+  },
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım Emine o gece neler düşünecek?",
+   "n": "Misafir gittikten sonra ev sessizleşti."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare4.webp",
+  "text": "O gece Emine uzun süre düşündü.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare4.webp",
+  "text": "“Ben utanıyorum diye ona kızıyorum. Ama o neyi, nerede yapacağını bilmiyor olabilir.”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare4.webp",
+  "text": "Kızının büyüdüğünü görüyordu. Ama mahremiyeti nasıl öğreteceğini bilmiyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b1_kare4.webp",
+  "text": "Eşi Hakan da zorlanıyordu. Bazen “Ayıp, yapma” diyordu. Ama bu sözler Zeynep için açık değildi.",
+  "sec": 1
+ },
+ {
+  "t": "think",
+  "q": "Sizin evinizde çocuğunuz büyürken mahremiyetle ilgili sizi en çok zorlayan an hangisi?",
+  "sec": 1,
+  "bridge": {
+   "e": "Haydi hikâyemize devam edelim. Belki de cevap, bir sabah servis durağında bekliyor.",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 2,
+  "title": "2. Bölüm",
+  "sub": "Başkasının deneyimi"
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare1.webp",
+  "text": "Bir sabah Emine, okul servisini beklerken Necla ile konuştu.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare1.webp",
+  "text": "Necla'nın on beş yaşındaki oğlu da otizmliydi.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare1.webp",
+  "text": "Konu çocukların büyümesine geldi. Emine çekinerek yaşadıklarını anlattı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare2.webp",
+  "text": "Necla başını salladı. “Ben de uzun süre ‘Ayıp’ deyip durdum.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare2.webp",
+  "text": "Sonra gülümsedi. “Ayıp ne demek, çocuk bunu nereden bilecek?”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare2.webp",
+  "text": "Emine sustu. Bu cümle ona çok tanıdık geldi.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare2.webp",
+  "text": "“Sonra şunu düşündüm. Bazı davranışlar ayıp değil. Özel. Özel olan şeylerin bir yeri var.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare3.webp",
+  "text": "“Nasıl anlattınız?”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare3.webp",
+  "text": "“Kısa söyledik. ‘Üst değiştirme odada.’ ‘Kapıyı kapatalım.’ Hep aynı sözleri kullandık.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare3.webp",
+  "text": "“Bir de kapısına resim astık. Kapalı kapı resmi. Oğlum resmi görünce daha kolay hatırlıyor.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare4.webp",
+  "text": "Necla bir süre durdu.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare4.webp",
+  "text": "“Bir de ben oğlumun odasına kapıyı çalmadan giriyordum. Ona mahremiyet öğretiyorum ama kendim göstermiyorum.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare4.webp",
+  "text": "Emine şaşırdı. “Sen de kapıyı çalmaya mı başladın?”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b2_kare4.webp",
+  "text": "“Evet. Önce ben yapıyorum.”",
+  "sec": 2
+ },
+ {
+  "t": "q",
+  "q": "Necla'nın anlattıklarından hangisiyle başlamak size en kolay gelir?",
+  "o": [
+   "“Ayıp” yerine “özel” demek ve yerini göstermek.",
+   "Hep aynı kısa sözleri kullanmak, kapıya resim asmak.",
+   "Önce kendim kapıyı çalarak örnek olmak."
+  ],
+  "fb": [
+   "Güzel bir başlangıç. “Ayıp” çocuğa yalnızca utanç verir; “özel” ise davranışın bir yeri olduğunu söyler.",
+   "Güzel bir başlangıç. Otizmli çocuklar için hep aynı söz ve aynı resim çok güçlü bir ipucudur. Sizin evde hangi kapıya resim asardınız?",
+   "Güzel bir başlangıç. Çocuk kuralı en çok sizi izleyerek öğrenir. Siz kapıyı çaldığınızda, odasının da özel olduğunu görür."
+  ],
+  "sec": 2,
+  "all": true
+ },
+ {
+  "t": "think",
+  "q": "Evde “ayıp” yerine hangi kısa sözleri kullanabilirsiniz? Bu sözleri kimlerle paylaşmanız gerekir?",
+  "sec": 2,
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım Emine eve dönünce ilk neyi deneyecek?",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 3,
+  "title": "3. Bölüm",
+  "sub": "Uyarlama ve azalma"
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare1.webp",
+  "text": "Emine eve geldiğinde büyük bir konuşma yapmadı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare1.webp",
+  "text": "Zeynep'in kapısına kapalı kapı resmi olan bir kart astı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare1.webp",
+  "text": "Kısa cümlelerle başladı. “Üst değiştirme odada.” “Kapıyı kapatalım.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare2.webp",
+  "text": "Zeynep banyodan çıktığında Emine odasını işaret etti.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare2.webp",
+  "text": "Zeynep bazen gidiyordu. Bazen yine salona yöneliyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare2.webp",
+  "text": "Özel bir davranışı ortak alanda yaptığında Emine kızmamaya çalıştı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare2.webp",
+  "text": "“Bu özel. Odada,” dedi. Sonra odasını gösterdi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare3.webp",
+  "text": "Bir gün Emine, alışkanlıkla Zeynep'in kapısını açmak üzereydi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare3.webp",
+  "text": "Durdu. Kapıyı çaldı. Biraz bekledi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare3.webp",
+  "text": "Hakan bunu gördü.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare4.webp",
+  "text": "Akşam konuştular.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare4.webp",
+  "text": "“Ben ‘özel’ diyorum, sen bazen ‘ayıp’ diyorsun. İkimiz de aynı kelimeleri kullansak daha kolay olmaz mı?”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare4.webp",
+  "text": "Hakan kabul etti. Artık ikisi de aynı kısa sözleri kullanıyordu.",
+  "sec": 3
+ },
+ {
+  "t": "q",
+  "q": "Evde anne “özel”, baba “ayıp” diyor. Siz bu ailenin yerinde ne yapardınız?",
+  "o": [
+   "Herkes kendi bildiği gibi söylesin; önemli değil.",
+   "Evdeki herkes aynı kısa sözleri kullansın diye anlaşırdım.",
+   "Bu konuyu hiç konuşmaz, kendiliğinden düzelmesini beklerdim."
+  ],
+  "fb": [
+   "Bu çok yaygın bir düşünce. Ama iki farklı söz, Zeynep için iki farklı kural gibi gelebilir. Aynı sözü duyarsa daha çabuk öğrenir.",
+   "Evet. Anne ve babanın aynı kısa sözleri kullanması, çocuğun işini çok kolaylaştırır. Okulla da aynı sözleri kullanmak için öğretmenle konuşabilirsiniz.",
+   "Aile içinde bu konuyu açmak gerçekten zor olabilir. Ama konuşulmadığında çocuk karışık mesajlar alır. Eşinize bunu nasıl anlatabilirdiniz?"
+  ],
+  "sec": 3,
+  "all": false,
+  "lb": [
+   "Bu çok yaygın bir düşünce.",
+   "Çok doğru bir karar!",
+   "Birlikte düşünelim."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Çok doğru bir karar!"
+  },
+  "bridge": {
+   "e": "Haydi devam edelim. Sizce bu yeni sözler Zeynep'e yardımcı olacak mı?",
+   "n": "Günler geçti; evde artık herkes aynı kısa sözleri kullanıyordu."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare5.webp",
+  "text": "İlk haftalar kolay geçmedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare5.webp",
+  "text": "Bir gün misafir geldiğinde Zeynep yine salonda üzerini değiştirmeye başladı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare5.webp",
+  "text": "Emine'nin yüzü gerildi. Sonra kendini topladı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare5.webp",
+  "text": "“Üst değiştirme odada,” dedi. Zeynep odasına gitti.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare6.webp",
+  "text": "Başka bir gün Zeynep banyodan çıktı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare6.webp",
+  "text": "Emine hiçbir şey söylemeden onu izledi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare6.webp",
+  "text": "Zeynep doğrudan odasına yürüdü. İçeri girdi. Kapıyı kapattı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare6.webp",
+  "text": "Emine kapının ardından sakin bir sesle: “Aferin Zeynep. Odana gittin, kapını kapattın.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare6.webp",
+  "text": "Zeynep kapıyı biraz aralayıp annesine baktı. Emine gülümsedi. Zeynep de hafifçe gülümsedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare7.webp",
+  "text": "Her şey tamamen düzelmedi. Yeni bir yerde Zeynep hâlâ zorlanabiliyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare7.webp",
+  "text": "Ama Emine artık sorunu yalnızca durdurmaya çalışmıyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare7.webp",
+  "text": "Bir sabah servis beklerken Necla'ya şöyle dedi:",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare7.webp",
+  "text": "“Tamamen bitmedi. Ama ben değiştim galiba. Eskiden sadece engellemeye çalışıyordum.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2b_b3_kare7.webp",
+  "text": "“Şimdi özel olanı, özel yerde yapmayı öğretmeye çalışıyorum.”",
+  "sec": 3
+ },
+ {
+  "t": "think",
+  "q": "Mahremiyetle ilgili evde sizi en çok zorlayan ve değişmesini istediğiniz davranış hangisi? Bunun için neler yapabilirsiniz?",
+  "sec": 3,
+  "destek": "Bu konuda okulumuzun rehberlik servisinden her zaman destek alabilirsiniz.",
+  "bridge": {
+   "e": "Hikâyemizin sonuna geldik. Son sözlerimizi birlikte dinleyelim.",
+   "n": null
+  }
+ },
+ {
+  "t": "close",
+  "lines": [
+   "Emine ile Hakan'ın yaşadıkları kolay değildi. Misafirli günler zor geçti. Kendi alışkanlıklarını değiştirmek de zaman aldı.",
+   "Sorun tamamen bitmedi ama çok azaldı.",
+   "Böyle bir değişim bir günde olmaz. Çocuğun öğrenmesi zaman alır. Anne babanın öğrenmesi de.",
+   "Bu süreçte en belirleyici olan, sizin tutumunuzdur:",
+   "Sakin kalmak, aynı kuralı her gün aynı şekilde uygulamak ve evdeki herkesin aynı dili konuşması.",
+   "Zorlandığınızda yalnız değilsiniz.",
+   "Çocuğunuzun öğretmeni ve okulumuzun rehberlik servisi her konuda yanınızda. Bize her zaman ulaşabilirsiniz."
+  ],
+  "sec": 3
+ }
+]

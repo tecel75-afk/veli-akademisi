@@ -1,0 +1,524 @@
+[
+ {
+  "t": "section",
+  "n": 1,
+  "title": "1. Bölüm",
+  "sub": "Sorun ve çaresizlik"
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare1.webp",
+  "text": "Cumartesi sabahı Elif, annesi Gülay ve babası Ahmet'le pazara gitti.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare1.webp",
+  "text": "Elif herkese gülümsüyor.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare1.webp",
+  "text": "Sebzeciye elleriyle kalp yaptı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare2.webp",
+  "text": "Meyve tezgâhında sırada bekleyen, hiç tanımadıkları bir kadına koştu ve ona sarıldı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare2.webp",
+  "text": "Kadın şaşırdı. Annesi kıpkırmızı oldu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare3.webp",
+  "text": "Annesi Elif'in kolundan tutup çekti: “Elif, sarılma! Kaç kere söyledim!”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare3.webp",
+  "text": "Elif'in yüzü düştü. Ne yanlış yaptığını anlamadı.",
+  "sec": 1
+ },
+ {
+  "t": "q",
+  "q": "Elif tanımadığı birine sarıldı. Sizce Elif bunu neden yapmış olabilir?",
+  "o": [
+   "Şımarıklık yapıyor.",
+   "Kimin tanıdık kimin yabancı olduğunu henüz ayırt edemiyor.",
+   "İlgi görmek istiyor."
+  ],
+  "fb": [
+   "Öyle görünebilir. Ama Elif'in yüzüne bakalım: kötü bir niyeti yok, sevgisini gösteriyor. Belki de kime sarılınır, kime sarılmaz, bunu henüz bilmiyor.",
+   "Evet, çok önemli bir nokta. Elif için herkes sevgiyi hak ediyor. Tanıdık ile yabancıyı ayırmak öğretilmesi gereken bir beceri.",
+   "Olabilir, insanlar ona gülümseyince mutlu oluyor. Ama bir de şuna bakalım: Elif tanıdık ile yabancıyı ayırt edebiliyor mu?"
+  ],
+  "sec": 1,
+  "all": false,
+  "lb": [
+   "Bir de şöyle bakalım.",
+   "Çok yerinde bir tespit!",
+   "Birlikte düşünelim."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Çok yerinde bir tespit!"
+  },
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım ertesi gün neler olacak?",
+   "n": "Gülay o gün pazardan eve düşünceli döndü."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare4.webp",
+  "text": "Ertesi gün apartmanda kapıcıya da sarıldı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare4.webp",
+  "text": "Akşam otobüste yanına oturan birine kalp yaptı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare4.webp",
+  "text": "Annesi her seferinde “sarılma” dedi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare4.webp",
+  "text": "Elif her seferinde üzüldü, ama yine yaptı.",
+  "sec": 1
+ },
+ {
+  "t": "q",
+  "q": "Annesi her seferinde “sarılma” dedi, ama Elif yine sarıldı. Sizce neden işe yaramadı?",
+  "o": [
+   "Daha sert söylemek gerekiyordu.",
+   "Elif'e sarılmak yerine ne yapacağı söylenmedi.",
+   "Elif kuralı anlayamaz."
+  ],
+  "fb": [
+   "Bu çok anlaşılır bir düşünce; insan endişelenince sesi yükselir. Ama Elif bağırınca yalnızca üzüldü. Sizce Elif ne yapması gerektiğini biliyor muydu?",
+   "Evet, işin anahtarı bu. “Sarılma” denince Elif'in elinde hiçbir şey kalmıyor. Sevgisini başka nasıl gösterebileceğini öğrenmesi gerekiyor.",
+   "Bunu düşünen çok anne baba var. Ama Down sendromlu çocuklar resimlerle, tekrarla ve örnek görerek çok şey öğrenebilir. Belki de kural ona doğru yoldan anlatılmadı."
+  ],
+  "sec": 1,
+  "all": false,
+  "lb": [
+   "Bir de şöyle bakalım.",
+   "Harika, sorunun özünü yakaladınız!",
+   "Birlikte düşünelim."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Harika, sorunun özünü yakaladınız!"
+  },
+  "bridge": {
+   "e": "Haydi devam edelim. Sizce Gülay ile Ahmet bu durumu nasıl çözecek?",
+   "n": "Elif yine birine sarılmış, yine üzülmüştü."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare5.webp",
+  "text": "Gece anne ve baba salonda oturuyor.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare5.webp",
+  "text": "Annesi fısıldadı: “Ya bir gün kötü niyetli birine sarılırsa? Onu nasıl koruyacağız?”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b1_kare5.webp",
+  "text": "Babası başını eğdi: “Bilmiyorum. Kızmak da işe yaramıyor.”",
+  "sec": 1
+ },
+ {
+  "t": "think",
+  "q": "Sizin çocuğunuz sevgisini nasıl gösteriyor? Bu sizi hangi durumlarda endişelendiriyor?",
+  "sec": 1,
+  "bridge": {
+   "e": "Haydi hikâyemize devam edelim. Belki de cevap, küçük bir ekranda bekliyor.",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 2,
+  "title": "2. Bölüm",
+  "sub": "Başkasının deneyimi"
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare1.webp",
+  "text": "Birkaç gün sonra annesi telefonda bir video açtı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare1.webp",
+  "text": "İki öğretmen konuşuyordu; konu çocuklarda mahremiyetti.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare1.webp",
+  "text": "Babasını yanına çağırdı: “Gel, bunu birlikte dinleyelim.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare2.webp",
+  "text": "“Pek çok anne baba bize aynı şeyi soruyor: Çocuğum herkese sarılıyor, ne yapayım?”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare2.webp",
+  "text": "“Sadece ‘sarılma’ demek yetmez. Çocuğa sevgisini başka nasıl göstereceğini de öğretmeliyiz.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare2.webp",
+  "text": "“El sallamak, beşlik çakmak, uzaktan kalp yapmak gibi.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare3.webp",
+  "text": "“Bunun için kartlar çok işe yarar. Üç halka düşünün.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare3.webp",
+  "text": "“En içte aile: anne, baba, kardeş. Onlara sarılabiliriz.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare3.webp",
+  "text": "“Ortada tanıdıklar: öğretmen, komşu. Onlara el sıkarız ya da el sallarız.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare3.webp",
+  "text": "“En dışta tanımadığımız insanlar. Onlara uzaktan el sallarız.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare3.webp",
+  "text": "“Halkalara aile fotoğraflarını koyabilirsiniz.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare4.webp",
+  "text": "“Mahremiyet evde başlar. Tuvalet ve banyo kapısı kapanır.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare4.webp",
+  "text": "“Giyinip soyunma kendi odasında, kapı kapalı yapılır. Odaya girerken kapı çalınır.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare4.webp",
+  "text": "“Bunu anne baba da yapmalı; çocuk görerek öğrenir.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare5.webp",
+  "text": "“Bir de şu var: Çocuğun bedeni ona aittir. İstemediğinde ‘hayır’ diyebilmeli.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare5.webp",
+  "text": "“Bu yüzden büyükler de onu zorla öpmemeli, kucaklamamalı.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare5.webp",
+  "text": "“Bir şey onu rahatsız ederse size ya da öğretmenine gelip anlatmasını öğretin.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b2_kare5.webp",
+  "text": "“Ve unutmayın: bütün aile aynı kuralı uygulamalı, okul da aynı kartları kullanmalı.”",
+  "sec": 2
+ },
+ {
+  "t": "q",
+  "q": "Uzmanların anlattıklarından hangisiyle başlamak size en kolay gelir?",
+  "o": [
+   "Kartlarla aile, tanıdık ve yabancıyı göstermek.",
+   "Evde kapı kurallarını başlatmak.",
+   "Sarılmak yerine el sallamayı öğretmek."
+  ],
+  "fb": [
+   "Güzel bir başlangıç. Kendi aile fotoğraflarınızla yaparsanız çocuğunuz kimin halkada nerede durduğunu daha kolay anlar. Kimleri koyardınız?",
+   "Güzel bir başlangıç. Kapı kuralı her gün tekrarlandığı için çabuk alışkanlık olur. Evde siz de kapıyı çalarak girerseniz çocuğunuz sizi örnek alır.",
+   "Güzel bir başlangıç. Çocuğunuzun sevgisi yasaklanmamış olur, yalnızca yönü değişir. Sizce çocuğunuz en çok hangisini sever: el sallamak mı, beşlik mi?"
+  ],
+  "sec": 2,
+  "all": true
+ },
+ {
+  "t": "think",
+  "q": "Sizin evinizde tuvalet, banyo ve giyinme sırasında kapılar kapalı mı? Evdeki büyükler bu konuda örnek oluyor mu?",
+  "sec": 2,
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım Gülay ile Ahmet bu fikirleri evde nasıl uygulayacak?",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 3,
+  "title": "3. Bölüm",
+  "sub": "Uyarlama ve azalma"
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare1.webp",
+  "text": "O akşam anne ve baba masaya oturdu. Büyük bir kartona üç halka çizdiler.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare1.webp",
+  "text": "En içe anne, baba ve dedenin fotoğraflarını yapıştırdılar.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare1.webp",
+  "text": "Ortaya öğretmenin ve komşu Nermin Teyze'nin.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare1.webp",
+  "text": "En dışa, hiç tanımadıkları insanları gösteren resimler koydular.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare2.webp",
+  "text": "Her halkanın yanına bir resim eklediler: iç halkaya sarılan iki kişi,",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare2.webp",
+  "text": "ortaya el sıkışan iki kişi, dışa uzaktan el sallayan biri.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare2.webp",
+  "text": "Kartonu Elif'in odasının kapısına astılar.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare3.webp",
+  "text": "Banyo ve tuvalet kapısına, kapalı kapı resmi olan küçük bir kart yapıştırdılar. Elif'in odasının kapısına da bir tane.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare3.webp",
+  "text": "Babası güldü: “Bu kural bizim için de geçerli. Ben de artık kapıyı çalıp gireceğim.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare4.webp",
+  "text": "Her sabah giyinirken annesi Elif'e hatırlattı: “Giyinirken kapımızı kapatırız.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare4.webp",
+  "text": "Elif bazen unuttu; annesi kızmadan kapıyı gösterdi, Elif kapattı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare4.webp",
+  "text": "Annesi her seferinde gülümsedi: “Aferin, kapıyı kapattın.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare5.webp",
+  "text": "Akşamları oyun oynadılar. Babası kapıyı çalıp içeri girdi: “Ben komşu Nermin Teyze'yim!”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare5.webp",
+  "text": "Elif halkalara baktı, babasına el uzattı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare5.webp",
+  "text": "Sonra annesi yabancı rolüne girdi; Elif uzaktan el salladı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare5.webp",
+  "text": "Her doğru seçimde beşlik çaktılar.",
+  "sec": 3
+ },
+ {
+  "t": "q",
+  "q": "Dede Elif'i görür görmez öpmek istedi. Elif geri çekildi, dede kırıldı. Siz bu anne babanın yerinde ne yapardınız?",
+  "o": [
+   "Dedeyi kırmamak için Elif'e “hadi öp dedeni” derdim.",
+   "Dedeye kuralı anlatır, Elif'e seçim hakkı tanırdım.",
+   "Hiçbir şey demez, geçiştirirdim."
+  ],
+  "fb": [
+   "Çok anlaşılır; büyükleri kırmak istemeyiz. Ama uzmanlar ne demişti? Elif'in bedeni ona ait. Elif istemediğinde büyük onu öperse, Elif ne öğrenir?",
+   "Evet, bu en zor ama en önemli adım. Dede de kuralın bir parçası olursa Elif'in öğrendiği şey güçlenir. Elif seçtiğinde dedenin sevgisi eksilmez.",
+   "Bu çok doğal; aile içinde konuşmak zordur. Ama bir şey söylenmezse Elif kuralın bazen geçerli, bazen geçersiz olduğunu düşünebilir. Dedeye nasıl anlatabilirdiniz?"
+  ],
+  "sec": 3,
+  "all": false,
+  "lb": [
+   "Bu çok anlaşılır.",
+   "Çok güzel! Hem Elif'i hem dedeyi gözettiniz.",
+   "Bir de şöyle bakalım."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Çok güzel! Hem Elif'i hem dedeyi gözettiniz."
+  },
+  "bridge": {
+   "e": "Haydi devam edelim. Sizce Ahmet bu durumu dedeye nasıl anlatacak?",
+   "n": "Dede kırılmıştı. Ahmet bir süre ne diyeceğini düşündü."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare6.webp",
+  "text": "Babası dedeyle konuştu. Dede önce alındı, sonra anladı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare6.webp",
+  "text": "Bir sonraki ziyarette eğildi ve kollarını açtı: “Bana sarılmak mı istersin, beşlik mi?”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare6.webp",
+  "text": "Elif koşup sarıldı. Herkes güldü.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare7.webp",
+  "text": "İlk hafta Elif pazarda yine birine koştu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare7.webp",
+  "text": "Annesi kızmadı; yanına eğildi: “Tanımıyoruz, uzaktan el sallarız,” dedi ve el salladı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare7.webp",
+  "text": "Elif de el salladı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare8.webp",
+  "text": "Üç hafta sonra otobüste yanlarına bir kadın oturdu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare8.webp",
+  "text": "Elif ona baktı, gülümsedi, uzaktan el salladı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare8.webp",
+  "text": "Annesinin gözleri doldu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare9.webp",
+  "text": "Her şey kusursuz değildi; Elif bazen yine unutuyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare9.webp",
+  "text": "Ama artık daha az unutuyordu, ve kapısını her sabah kendisi kapatıyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m2a_b3_kare9.webp",
+  "text": "Annesi öğretmeni aradı: “Evde bu kartları kullanıyoruz. Okulda da aynısını yapabilir miyiz?”",
+  "sec": 3
+ },
+ {
+  "t": "think",
+  "q": "Mahremiyetle ilgili evde sizi en çok zorlayan ve değişmesini istediğiniz davranış hangisi? Bunun için neler yapabilirsiniz?",
+  "sec": 3,
+  "destek": "Bu konuda okulumuzun rehberlik servisinden her zaman destek alabilirsiniz.",
+  "bridge": {
+   "e": "Hikâyemizin sonuna geldik. Son sözlerimizi birlikte dinleyelim.",
+   "n": null
+  }
+ },
+ {
+  "t": "close",
+  "lines": [
+   "Gülay ile Ahmet'in yaşadıkları kolay değildi. Elif bazen unuttu. Dedeyle konuşmak bile cesaret istedi. Haftalar sürdü.",
+   "Sorun tamamen bitmedi; Elif bazen hâlâ unutuyor. Ama çok azaldı.",
+   "Böyle bir değişim bir günde olmaz. Çocuğun öğrenmesi zaman alır. Anne babanın öğrenmesi de.",
+   "Bu süreçte en belirleyici olan, sizin tutumunuzdur:",
+   "Sakin kalmak, aynı kuralı her gün aynı şekilde uygulamak ve evdeki herkesin aynı dili konuşması.",
+   "Zorlandığınızda yalnız değilsiniz.",
+   "Çocuğunuzun öğretmeni ve okulumuzun rehberlik servisi her konuda yanınızda. Bize her zaman ulaşabilirsiniz."
+  ],
+  "sec": 3
+ }
+]

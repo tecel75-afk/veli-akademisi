@@ -1,0 +1,487 @@
+[
+ {
+  "t": "section",
+  "n": 1,
+  "title": "1. Bölüm",
+  "sub": "Sorun ve çaresizlik"
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare1.webp",
+  "text": "Efe on iki yaşındaydı. Serebral palsisi ve orta-ağır düzeyde zihinsel yetersizliği vardı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare1.webp",
+  "text": "Yürürken dengesini korumakta zorlanıyor, sağ elini daha rahat kullanıyordu. Birkaç kelimeyle konuşuyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare1.webp",
+  "text": "Değişikliklerde çok zorlanıyordu. Ne olacağını önceden bildiğinde daha sakin oluyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare2.webp",
+  "text": "Bir iş beklemediği anda değişirse ya da sevdiği bir etkinlik aniden biterse huzursuz oluyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare2.webp",
+  "text": "Bu yüzden akşam saatleri aile için zordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare3.webp",
+  "text": "Annesi Sevgi, Efe'nin yemekten sonra kırılmaz tabağını mutfağa götürmesini istiyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare3.webp",
+  "text": "Bu, Efe için kolay bir iş değildi. Yavaş yürüyor, tabağı tek eliyle taşıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare3.webp",
+  "text": "Babası Okan bazen şöyle diyordu: “Bırak şimdi. Zaten yoruldu.”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare4.webp",
+  "text": "Sevgi televizyonu kapattığında Okan şöyle diyebiliyordu: “Biraz daha izlesin.”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare4.webp",
+  "text": "Okan bir şeye “hayır” dediğinde de Efe annesine gidiyordu. Bazen Sevgi izin veriyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare4.webp",
+  "text": "Efe zamanla kime sorarsa ne olacağını öğrenmişti. Ama evde ne olacağını önceden kestirmesi de zorlaşıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare5.webp",
+  "text": "Bir akşam Sevgi televizyonu kapattı. Efe birden bağırmaya başladı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare5.webp",
+  "text": "Okan salondan seslendi: “Tamam, on dakika daha izlesin.”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare5.webp",
+  "text": "Sevgi hiçbir şey söylemeden mutfağa gitti.",
+  "sec": 1
+ },
+ {
+  "t": "q",
+  "q": "Okan on dakika daha izin verdi, Sevgi sessizce mutfağa gitti. Sizce Efe bu akşam ne öğrendi?",
+  "o": [
+   "Hiçbir şey; o sadece televizyon izlemek istiyordu.",
+   "Bağırırsa televizyonun açık kalabileceğini.",
+   "Annesinin ona kızgın olduğunu."
+  ],
+  "fb": [
+   "Efe gerçekten televizyon izlemek istiyordu. Ama çocuklar her gün, hangi davranışın neye yol açtığını da öğrenir. Bu akşam bağırmasının ardından ne oldu?",
+   "Evet, çok önemli bir fark ediş. Bağırınca istediği olursa, çocuk bir dahaki sefere yine bağırır. Bu Efe'nin suçu değil; evde öğrendiği bir yol.",
+   "Efe annesinin üzgün olduğunu hissetmiş olabilir. Ama o akşamdan aklında kalan asıl şey, bağırınca televizyonun açık kalmasıydı."
+  ],
+  "sec": 1,
+  "all": false,
+  "lb": [
+   "Bir de şöyle bakalım.",
+   "Çok keskin bir gözlem!",
+   "Birlikte düşünelim."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Çok keskin bir gözlem!"
+  },
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım o gece Sevgi ile Okan neler konuşacak?",
+   "n": "Televizyon kapandı, ev sessizleşti."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare6.webp",
+  "text": "O gece Efe uyuduktan sonra konuştular.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare6.webp",
+  "text": "Sevgi: “Ben hep kötü olan kişi gibi kalıyorum,” dedi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare6.webp",
+  "text": "Okan cevap verdi: “Ben de bağırmasını istemiyorum.”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b1_kare6.webp",
+  "text": "İkisi de yorgundu. İkisi de evin daha sakin olmasını istiyordu. Ama nasıl yapacaklarını bilmiyorlardı.",
+  "sec": 1
+ },
+ {
+  "t": "think",
+  "q": "Sizin evinizde çocuğunuz bir şey için “hayır” cevabı aldığında ne yapıyor? Evdeki büyükler aynı cevabı mı veriyor?",
+  "sec": 1,
+  "bridge": {
+   "e": "Haydi hikâyemize devam edelim. Belki de cevap, başka bir ailenin hikâyesinde saklı.",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 2,
+  "title": "2. Bölüm",
+  "sub": "Başkasının deneyimi"
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b2_kare1.webp",
+  "text": "Bir gün okuldaki veli toplantısından sonra bahçede Nazan ve Selim'le sohbet ettiler.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b2_kare1.webp",
+  "text": "Onların oğlu da Efe'nin okulundaydı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b2_kare1.webp",
+  "text": "Konu evde kurallara geldi.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b2_kare2.webp",
+  "text": "Selim güldü: “Bizim oğlan da annesi hayır deyince bana geliyordu. Benden olmazsa anneannesine gidiyordu.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b2_kare2.webp",
+  "text": "Okan katıldı: “Bizim evde de aynı.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b2_kare2.webp",
+  "text": "Nazan şöyle söyledi: “Biz sonra şunu fark ettik. Çocuk tutarsız değil. Biz tutarsızız.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b2_kare2.webp",
+  "text": "Sevgi başını kaldırdı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b2_kare3.webp",
+  "text": "Nazan devam etti: “Her konuda aynı düşünmüyoruz. Ama birkaç önemli konuda önce kendi aramızda karar veriyoruz.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b2_kare3.webp",
+  "text": "“Çocuğun yanında birbirimizin kararını değiştirmemeye çalışıyoruz.”",
+  "sec": 2
+ },
+ {
+  "t": "q",
+  "q": "Nazan ile Selim'in anlattıklarından hangisi size en yakın geldi?",
+  "o": [
+   "Önemli konularda önce anne babanın kendi arasında karar vermesi.",
+   "Çocuğun yanında birbirinin kararını değiştirmemek.",
+   "Akşam sırasını resimlerle göstermek."
+  ],
+  "fb": [
+   "Güzel bir seçim. Anne baba önceden anlaştığında, çocuğun önünde tartışmaya gerek kalmaz.",
+   "Güzel bir seçim. Birinin “hayır”ı öbürü tarafından “evet”e döndüğünde, çocuk kurala değil kişiye bakmayı öğrenir.",
+   "Güzel bir seçim. Resimler, özellikle konuşması sınırlı çocuklar için ne olacağını önceden görmenin en kolay yoludur."
+  ],
+  "sec": 2,
+  "all": true,
+  "bridge": {
+   "e": "Haydi devam edelim. Bakalım Nazan'ın söyleyeceği başka bir şey var mı?",
+   "n": "Okul bahçesinde sohbet sürüyordu."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b2_kare4.webp",
+  "text": "Sonra ekledi: “Bizim oğlan da değişiklikte çok zorlanıyor. Ne olacağını önceden gösterince daha rahat oluyor.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b2_kare4.webp",
+  "text": "“O yüzden akşam sırasını resimlerle yaptık.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b2_kare4.webp",
+  "text": "Eve dönerken Sevgi ile Okan uzun süre konuştular.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b2_kare4.webp",
+  "text": "Okan önerdi: “Her şeyi aynı anda değiştirmeyelim. Birkaç şey seçelim.”",
+  "sec": 2
+ },
+ {
+  "t": "think",
+  "q": "Evde sizin için en önemli üç kural ne olabilir? Bunları eşinizle ya da evdeki diğer büyüklerle nasıl konuşabilirsiniz?",
+  "sec": 2,
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım Sevgi ile Okan hangi üç konuyu seçecek?",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 3,
+  "title": "3. Bölüm",
+  "sub": "Uyarlama ve azalma"
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare1.webp",
+  "text": "Üç konu seçtiler. Yemekten sonra tabak mutfağa gidecekti. Televizyon belirli bir zamanda kapanacaktı. Sonra pijama giyilecekti.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare1.webp",
+  "text": "Bu sırayı basit resimlerle hazırladılar.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare1.webp",
+  "text": "Efe'ye akşam başlamadan önce gösterdiler. “Yemek. Tabak. Televizyon. Pijama.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare2.webp",
+  "text": "İlk akşam Efe yemeğini bitirdi. Tabağını bıraktı ve televizyona yöneldi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare2.webp",
+  "text": "Sevgi: “Önce tabak,” dedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare2.webp",
+  "text": "Efe sesini yükseltti.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare3.webp",
+  "text": "Okan bir şey söylemek üzereydi. Sonra durdu. Sevgi ile önceden konuştuklarını hatırladı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare3.webp",
+  "text": "“Önce tabak, sonra televizyon.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare3.webp",
+  "text": "Efe bir süre bekledi. Sonra tabağı yavaş yavaş mutfağa götürdü.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare4.webp",
+  "text": "Bir başka akşam televizyon kapanınca Efe çok zorlandı. Okan da çok yorgundu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare4.webp",
+  "text": "“Bugünlük izlesin.” Sevgi tartışmadı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare4.webp",
+  "text": "Efe uyuduktan sonra: “Bugün ikimiz de çok yorulduk. Yarın yine aynı sıraya dönelim,” dedi.",
+  "sec": 3
+ },
+ {
+  "t": "q",
+  "q": "Okan yorgunluktan “Bugünlük izlesin” dedi. Siz Sevgi'nin yerinde ne yapardınız?",
+  "o": [
+   "Efe'nin yanında Okan'la tartışırdım.",
+   "Tartışmaz, Efe uyuyunca konuşur, ertesi gün aynı sıraya dönerdim.",
+   "Bu yöntemin işe yaramadığını düşünür, bırakırdım."
+  ],
+  "fb": [
+   "Bu çok anlaşılır; o an insan haklı olduğunu söylemek ister. Ama çocuğun önündeki tartışma, onun için kuraldan daha güçlü bir mesaj olur.",
+   "Evet. Çocuğun yanında tartışmamak, ama sonra konuşup aynı yola dönmek; tutarlılık her gün kusursuz olmak değil, yeniden aynı yere dönebilmektir.",
+   "Böyle bir akşamdan sonra bunu düşünmek çok doğal. Ama bir zor akşam, yöntemin işe yaramadığı anlamına gelmez. Önemli olan ertesi gün yeniden başlamak."
+  ],
+  "sec": 3,
+  "all": false,
+  "lb": [
+   "Bu çok anlaşılır.",
+   "Çok olgun bir yaklaşım!",
+   "Bir de şöyle bakalım."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Çok olgun bir yaklaşım!"
+  },
+  "bridge": {
+   "e": "Haydi devam edelim. Sizce bu zor akşamdan sonra neler olacak?",
+   "n": "Sabah oldu. Resimler hâlâ buzdolabının üstünde duruyordu."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare5.webp",
+  "text": "Ertesi gün yeniden başladılar.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare5.webp",
+  "text": "Bir süre sonra Efe resimlere daha çok bakmaya başladı. Televizyon kapanmadan önce ne olacağını biliyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare5.webp",
+  "text": "Yine de bazı akşamlar bağırıyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare6.webp",
+  "text": "Bir gün misafir geldi ve akşam düzeni bozuldu. Efe o gece çok zorlandı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare6.webp",
+  "text": "Sevgi üzgündü. “Bunca zamandır çalışıyoruz. Yine aynı oldu.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare6.webp",
+  "text": "Okan cevap verdi: “Bugün düzen değişti. Onun için zor oldu.” Sonraki gün eski sıraya döndüler.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare7.webp",
+  "text": "Birkaç hafta sonra Efe yemeğini bitirdi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare7.webp",
+  "text": "Kimse bir şey söylemeden tabağını aldı. Yavaş adımlarla mutfağa götürdü.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare7.webp",
+  "text": "Sevgi şaşkınlıkla Okan'a baktı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare8.webp",
+  "text": "Okan gülümsedi. “Efe, tabağını kendin götürdün. Çok güzel.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare8.webp",
+  "text": "Efe övgü duyunca gülümsedi. Sonra televizyon resmini gösterdi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare8.webp",
+  "text": "Okan onayladı: “Evet. Şimdi televizyon.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare9.webp",
+  "text": "Sorun tamamen bitmedi. Efe hâlâ değişiklik olduğunda zorlanıyordu. Anne ve babası da bazen farklı tepkiler verebiliyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare9.webp",
+  "text": "Ama evde ne olacağı daha anlaşılır hâle gelmişti.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m5_b3_kare9.webp",
+  "text": "Efe yalnızca tabağını götürmeyi öğrenmiyordu. Anne ve babasının aynı durumda benzer davranacağını da öğreniyordu.",
+  "sec": 3
+ },
+ {
+  "t": "think",
+  "q": "Evde sizi en çok zorlayan ve değişmesini istediğiniz davranış hangisi? Evdeki herkesin aynı davranması için hangi küçük adımla başlayabilirsiniz?",
+  "sec": 3,
+  "destek": "Bu konuda okulumuzun rehberlik servisinden her zaman destek alabilirsiniz.",
+  "bridge": {
+   "e": "Hikâyemizin sonuna geldik. Son sözlerimizi birlikte dinleyelim.",
+   "n": null
+  }
+ },
+ {
+  "t": "close",
+  "lines": [
+   "Sevgi ile Okan'ın yaşadıkları kolay değildi. Yorgun akşamlarda aynı kuralda kalmak, misafirli günlerde düzeni yeniden kurmak zaman aldı.",
+   "Sorun tamamen bitmedi ama akşamlar eskisinden çok daha sakin geçmeye başladı.",
+   "Böyle bir değişim bir günde olmaz. Çocuğun öğrenmesi zaman alır. Anne babanın öğrenmesi de.",
+   "Bu süreçte en belirleyici olan, sizin tutumunuzdur:",
+   "Önce kendi aranızda anlaşmak, çocuğun önünde birbirinizin kararını bozmamak ve bozulan günlerden sonra aynı sıraya geri dönmek.",
+   "Zorlandığınızda yalnız değilsiniz.",
+   "Çocuğunuzun öğretmeni ve okulumuzun rehberlik servisi her konuda yanınızda. Bize her zaman ulaşabilirsiniz."
+  ],
+  "sec": 3
+ }
+]

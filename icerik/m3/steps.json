@@ -1,0 +1,477 @@
+[
+ {
+  "t": "section",
+  "n": 1,
+  "title": "1. Bölüm",
+  "sub": "Sorun ve çaresizlik"
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare1.webp",
+  "text": "Ali on beş yaşındaydı. Orta-ağır düzeyde zihinsel yetersizliği vardı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare1.webp",
+  "text": "Bir işi yapmayı öğrenirken çok tekrar etmesi gerekiyordu. Uzun yönergelerde zorlanıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare1.webp",
+  "text": "Bir işi küçük adımlarla ve aynı sırayla yaptığında daha kolay öğreniyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare2.webp",
+  "text": "Annesi Fatma sabahları onu okula hazırlarken neredeyse her şeyi kendisi yapıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare2.webp",
+  "text": "Tişörtünü giydiriyordu. Pantolonunu düzeltiyordu. Çantasını hazırlıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare2.webp",
+  "text": "Dişlerini fırçalamasına yardım ediyordu. Çoraplarını ve ayakkabılarını giydiriyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare3.webp",
+  "text": "Fatma bunu yıllardır yapıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare3.webp",
+  "text": "“Ali yapana kadar servis gider,” diyordu.",
+  "sec": 1
+ },
+ {
+  "t": "q",
+  "q": "Fatma yıllardır Ali'nin işlerini kendisi yapıyordu. Sizce bunun en büyük nedeni neydi?",
+  "o": [
+   "Ali bu işlerin hiçbirini yapamaz.",
+   "Sabahlar telaşlı; kendisi yapınca daha hızlı oluyor.",
+   "Fatma, Ali'nin öğrenmesini istemiyor."
+  ],
+  "fb": [
+   "Öyle görünebilir. Ama Ali bir işi küçük adımlarla ve aynı sırayla yaptığında öğrenebiliyordu. Belki hiç değil, “henüz değil” demek daha doğru.",
+   "Evet, çoğu ailede en büyük neden budur. Sabah telaşında yapmak, öğretmekten hızlıdır. Ama her seferinde çocuğun öğrenme fırsatı da elinden gider.",
+   "Fatma elbette Ali'nin öğrenmesini istiyordu. Sorun istememek değil, zamanın ve sabrın yetmemesiydi. Bu çok anlaşılır bir yorgunluk."
+  ],
+  "sec": 1,
+  "all": false,
+  "lb": [
+   "Bir de şöyle bakalım.",
+   "Çok içten ve gerçekçi bir cevap!",
+   "Birlikte düşünelim."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Çok içten ve gerçekçi bir cevap!"
+  },
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım bu düzen ne zamana kadar sürecek?",
+   "n": "Fatma her sabah aynı telaşla Ali'yi okula hazırlıyordu."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare4.webp",
+  "text": "Bir sabah Fatma hastalandı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare4.webp",
+  "text": "Eşi Kemal, Ali'yi okula hazırlamaya çalıştı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare4.webp",
+  "text": "Bir süre sonra odadan seslendi: “Fatma, Ali'nin çorapları nerede?”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare5.webp",
+  "text": "Fatma yatağından cevap verecekti. Sonra durdu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare5.webp",
+  "text": "Ali de çoraplarının nerede olduğunu bilmiyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b1_kare5.webp",
+  "text": "Fatma'nın içine bir sıkıntı oturdu. “Ben olmadığımda ne olacak?” diye düşündü.",
+  "sec": 1
+ },
+ {
+  "t": "think",
+  "q": "Sizin her gün çocuğunuz yerine yaptığınız işlerden biri hangisi? Ben olmasam bu işi kim yapardı?",
+  "sec": 1,
+  "bridge": {
+   "e": "Haydi hikâyemize devam edelim. Belki de cevap, hiç beklenmedik bir yerde bekliyor.",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 2,
+  "title": "2. Bölüm",
+  "sub": "Başkasının deneyimi"
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b2_kare1.webp",
+  "text": "Birkaç hafta sonra Fatma hastanede Hasan Bey'le karşılaştı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b2_kare1.webp",
+  "text": "Hasan Bey'in kızı on yedi yaşındaydı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b2_kare1.webp",
+  "text": "Sohbet çocukların günlük işlerine geldi.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b2_kare1.webp",
+  "text": "Fatma: “Ali'ye bir şeyi yaptırmak çok uzun sürüyor. Ben de sonunda kendim yapıyorum,” dedi.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b2_kare2.webp",
+  "text": "Hasan Bey güldü. “Bizde de öyleydi. Ben kızımın montunun fermuarını on altı yaşına kadar çekiyordum.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b2_kare2.webp",
+  "text": "Fatma şaşırdı. “Sonra nasıl bıraktınız?”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b2_kare2.webp",
+  "text": "“Birden bırakmadık. Zaten bıraksak yapamazdı. Önce işin küçücük bir kısmını ona bıraktık.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b2_kare3.webp",
+  "text": "Hasan Bey montu anlattı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b2_kare3.webp",
+  "text": "“Ben fermuarın alt kısmını birleştiriyordum. O sadece yukarı çekiyordu.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b2_kare3.webp",
+  "text": "Sonra yavaş yavaş yardımı azalttım.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b2_kare4.webp",
+  "text": "Fatma: “Benim o kadar sabrım yok galiba,” dedi.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b2_kare4.webp",
+  "text": "Hasan Bey başını salladı. “Benim de yoktu. O yüzden her şeyi aynı anda öğretmeye çalışmadım.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b2_kare4.webp",
+  "text": "Bu cümle Fatma'nın aklında kaldı.",
+  "sec": 2
+ },
+ {
+  "t": "q",
+  "q": "Hasan Bey'in anlattıklarından hangisi size en yakın geliyor?",
+  "o": [
+   "İşin küçücük bir parçasını çocuğa bırakmak.",
+   "Yardımı birden değil, yavaş yavaş azaltmak.",
+   "Her şeyi aynı anda öğretmeye çalışmamak."
+  ],
+  "fb": [
+   "Çok değerli bir nokta. Küçük bir parça çocuğa başarıyı yaşatır; başarı da bir sonraki adımı kolaylaştırır.",
+   "Çok değerli bir nokta. Yardımı bir anda çekmek çocuğu zorlar; yavaş yavaş azaltmak ona alışma zamanı verir.",
+   "Çok değerli bir nokta. Tek bir işe odaklanmak hem çocuğu hem anne babayı yormaz."
+  ],
+  "sec": 2,
+  "all": true
+ },
+ {
+  "t": "think",
+  "q": "Seçtiğiniz işin en küçük parçası ne olabilir? Hangi parçayı çocuğunuza bırakabilirsiniz?",
+  "sec": 2,
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım Fatma ertesi sabah neyle başlayacak?",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 3,
+  "title": "3. Bölüm",
+  "sub": "Uyarlama ve azalma"
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare1.webp",
+  "text": "Fatma ertesi sabah her şeyi değiştirmedi. Sadece çoraplarla başladı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare1.webp",
+  "text": "Ali'nin çoraplarının olduğu çekmeceye basit bir çorap resmi koydu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare1.webp",
+  "text": "Sabah Ali'ye resmi gösterdi. “Çorap.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare2.webp",
+  "text": "Ali bekledi. Fatma hemen çekmeceyi açmak istedi. Kendini tuttu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare2.webp",
+  "text": "Ali ilk çekmeceyi açtı. Yanlıştı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare2.webp",
+  "text": "Fatma hemen düzeltmedi. Biraz bekledi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare3.webp",
+  "text": "Ali ikinci çekmeceyi açtı. Çoraplarını buldu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare3.webp",
+  "text": "O sabah bu küçük iş bile çok uzun sürdü.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare3.webp",
+  "text": "Ertesi gün Ali yine annesini bekledi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare4.webp",
+  "text": "Üçüncü gün Fatma acele etti. Dayanamadı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare4.webp",
+  "text": "Çorapları kendi aldı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare5.webp",
+  "text": "Akşam kendine kızdı. “Yine ben yaptım.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare5.webp",
+  "text": "Kemal ona şöyle dedi: “Bir gün sen yaptın diye her şey bozulmuş olmaz. Yarın yine deneriz.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare5.webp",
+  "text": "Fatma rahatladı.",
+  "sec": 3
+ },
+ {
+  "t": "q",
+  "q": "Fatma üçüncü gün çorapları yine kendisi aldı ve “Yine ben yaptım” dedi. Siz ona ne derdiniz?",
+  "o": [
+   "Demek ki bu iş olmuyor; bırakmak daha iyi.",
+   "Bir gün yapman her şeyi bozmaz; yarın yeniden denersiniz.",
+   "Ali istemiyor; zorlamaya gerek yok."
+  ],
+  "fb": [
+   "Bu duygu çok anlaşılır. Ama Ali ilk iki günde çekmeceyi kendi buldu. Bir zor sabah, öğrendiklerini silmez.",
+   "Evet. Değişim düz bir çizgi gibi ilerlemez. Aksayan günler sürecin bir parçasıdır; önemli olan yeniden denemektir.",
+   "Ali'nin beklemesi isteksizlik değil, alışkanlık olabilir. Yıllarca annesi yaptığı için ondan beklenen buydu. Yeni alışkanlık zaman ister."
+  ],
+  "sec": 3,
+  "all": false,
+  "lb": [
+   "Bu duygu çok anlaşılır.",
+   "Ne güzel bir destek cümlesi!",
+   "Bir de şöyle bakalım."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Ne güzel bir destek cümlesi!"
+  },
+  "bridge": {
+   "e": "Haydi devam edelim. Sizce Fatma ertesi sabah yeniden deneyecek mi?",
+   "n": "Ertesi sabah Fatma çorap resmine yeniden baktı."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare6.webp",
+  "text": "Sonraki haftalarda birkaç küçük işe odaklandılar.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare6.webp",
+  "text": "Çoraplarını almak. Kirli kıyafetini sepete koymak. Diş fırçasını kendi yerinden almak.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare6.webp",
+  "text": "Ali bazı işleri tek başına yapamıyordu. Fatma bazen işaret ediyordu. Bazen nesneyi gösteriyordu. Bazen de fiziksel yardım veriyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare6.webp",
+  "text": "Ama artık her işi baştan sona onun yerine yapmıyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare7.webp",
+  "text": "Aylar sonra bir sabah Ali odasından çıktı. Elinde çorapları vardı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare7.webp",
+  "text": "Fatma mutfaktan onu izledi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare7.webp",
+  "text": "Ali yere oturdu. Bir çorabı ters tuttu. Çıkardı. Yeniden denedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare7.webp",
+  "text": "Uzun sürdü. Sonunda çorabını kendi giydi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare8.webp",
+  "text": "Fatma hemen yanına geldi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare8.webp",
+  "text": "Ali yüksek sesli övgüden hoşlanmıyordu. Ama annesinin gülümsemesini seviyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare8.webp",
+  "text": "Fatma ona gülümsedi. “Ali, kendin giydin. Çok güzel denedin.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare8.webp",
+  "text": "Ali annesine baktı ve gülümsedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare9.webp",
+  "text": "Bazı sabahlar hâlâ Fatma'nın yardımına ihtiyaç duyuyordu. Yorgun olduğunda daha çok bekliyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare9.webp",
+  "text": "Bazen Fatma yine acele edip işi kendisi yapıyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare9.webp",
+  "text": "Ama artık evde küçük bir fark vardı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m3_b3_kare9.webp",
+  "text": "Fatma yetişmek ile öğrenmek arasındaki farkı görmeye başlamıştı.",
+  "sec": 3
+ },
+ {
+  "t": "think",
+  "q": "Evde sizi en çok zorlayan ve çocuğunuzun kendi başına yapabilmesini istediğiniz iş hangisi? Bunun için hangi küçük adımla başlayabilirsiniz?",
+  "sec": 3,
+  "destek": "Bu konuda okulumuzun rehberlik servisinden her zaman destek alabilirsiniz.",
+  "bridge": {
+   "e": "Hikâyemizin sonuna geldik. Son sözlerimizi birlikte dinleyelim.",
+   "n": null
+  }
+ },
+ {
+  "t": "close",
+  "lines": [
+   "Fatma ile Kemal'in yaşadıkları kolay değildi. Beklemek, sabahları acele etmemek ve kendini tutmak zaman aldı.",
+   "Her şey tamamen çözülmedi ama Fatma'nın Ali yerine yaptığı işler çok azaldı.",
+   "Bir beceri bir günde öğrenilmez. Çocuk adım adım öğrenir. Anne baba da adım adım geri çekilmeyi öğrenir.",
+   "Bu süreçte en belirleyici olan, sizin tutumunuzdur:",
+   "Bir işin küçük bir parçasıyla başlamak, beklemeyi denemek ve aksayan günlerde yeniden başlamak.",
+   "Zorlandığınızda yalnız değilsiniz.",
+   "Çocuğunuzun öğretmeni ve okulumuzun rehberlik servisi her konuda yanınızda. Bize her zaman ulaşabilirsiniz."
+  ],
+  "sec": 3
+ }
+]

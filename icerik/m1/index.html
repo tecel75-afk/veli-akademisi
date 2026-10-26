@@ -1,0 +1,263 @@
+<html lang="tr">
+<title>Veli Akademisi · Tablet Kapanınca</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito:wght@500;700;800&display=swap">
+<style>
+/* Tek sütun, telefon önce: görsel üstte, yazı kartı altta, büyük düğmeler başparmak bölgesinde. */
+:root{
+  --bg:#EEF2F1; --surface:#FFFFFF; --ink:#1E2B2E; --muted:#5B6B6E;
+  --accent:#1E6B66; --accent-ink:#FFFFFF; --line:#D5DEDC;
+  --o1:#F6C8A4; --o2:#BFDCC6; --o3:#C3D3EE; --sel:#1E6B66; --soft:#E2EEEC;
+  --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121A1B; --surface:#1B2628; --ink:#E8EFEE; --muted:#A3B3B2; --accent:#5FB7AE; --accent-ink:#0E1A1A;
+  --line:#2C3A3C; --o1:#5A3F2C; --o2:#2F4A37; --o3:#2F3D57; --sel:#5FB7AE; --soft:#22322F; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121A1B; --surface:#1B2628; --ink:#E8EFEE; --muted:#A3B3B2; --accent:#5FB7AE; --accent-ink:#0E1A1A;
+  --line:#2C3A3C; --o1:#5A3F2C; --o2:#2F4A37; --o3:#2F3D57; --sel:#5FB7AE; --soft:#22322F; color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5}
+.app{max-width:560px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;gap:14px;
+  padding-block:12px 20px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{display:flex;align-items:center;gap:10px}
+.brand{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.sec{font-size:14px;color:var(--muted);margin-left:auto;font-weight:700}
+.top{flex-wrap:wrap}
+.bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.stage{display:flex;flex-direction:column;gap:14px;flex:1}
+.pic{width:100%;max-width:100%;aspect-ratio:1/1;border-radius:18px;object-fit:cover;background:var(--line);display:block}
+.card{background:var(--surface);border-radius:18px;padding:18px 18px;border:1px solid var(--line)}
+.text{font-size:21px;font-weight:700;line-height:1.45;text-wrap:pretty}
+.h1{font-family:var(--display);font-size:32px;line-height:1.15;font-weight:700;text-wrap:balance;margin:0}
+.h2{font-family:var(--display);font-size:24px;line-height:1.2;font-weight:700;text-wrap:balance;margin:0}
+.eyebrow{font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.hero{position:relative;border-radius:18px;overflow:hidden}
+.hero .pic{filter:saturate(.9)}
+.hero .over{position:absolute;inset:auto 0 0 0;padding:20px;background:linear-gradient(transparent,rgba(10,20,22,.82));color:#fff;display:flex;flex-direction:column;gap:6px}
+.hero .over .eyebrow{color:#cfe6e2}
+.opts{display:flex;flex-direction:column;gap:12px}
+.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;border:3px solid transparent;border-radius:16px;padding:14px 16px;
+  font:inherit;font-size:19px;font-weight:700;color:var(--ink);cursor:pointer;min-height:72px}
+.opt .n{flex:none;width:46px;height:46px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-family:var(--display);font-size:24px}
+.opt[data-i="0"]{background:var(--o1)}.opt[data-i="1"]{background:var(--o2)}.opt[data-i="2"]{background:var(--o3)}
+.opt.on{border-color:var(--sel)}
+.opt.dim{opacity:.45}
+.opt:focus-visible,.btn:focus-visible,.icon:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.fb{background:var(--soft);border-radius:16px;padding:16px 18px;font-size:19px;font-weight:700;line-height:1.5}
+.fb b{display:block;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+[hidden]{display:none!important}
+.nav{display:flex;gap:10px;position:sticky;bottom:0;padding-block:10px calc(4px + env(safe-area-inset-bottom,0px));background:var(--bg)}
+.btn{flex:1;min-height:60px;border-radius:16px;border:0;font:inherit;font-size:20px;font-weight:800;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.btn[disabled]{opacity:.35;cursor:not-allowed}
+.start{display:flex;flex-direction:column;gap:14px}
+.start .btn{flex:none}
+.text{transition:opacity .25s}
+.icon{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;font:inherit;font-size:14px;font-weight:800;padding:8px 12px;cursor:pointer}
+.icon[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.think{display:flex;flex-direction:column;gap:12px}
+.pill{align-self:flex-start;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:4px 14px;font-size:14px;font-weight:800;letter-spacing:.04em}
+.note{font-size:16px;color:var(--muted);font-weight:700}
+/* Soru ve düşünme ekranı: son sahnenin karartılmış görseli üzerinde açılır */
+.ustu{position:relative;border-radius:18px;overflow:hidden;padding:14px;min-height:60vh}
+.ustu .perde{position:absolute;inset:-8px;background:center/cover no-repeat;filter:brightness(.6) blur(1px)}
+.ustu .icerik{position:relative;display:flex;flex-direction:column;gap:12px}
+.ustu .note{color:#E8EFEE}
+/* Köprü: rehberin merak cümlesi farklı renkli kartta, anlatıcının cümlesi normal kartta */
+.card.rehber{background:var(--soft);border-color:var(--accent)}
+.close p{margin:0;font-size:20px;font-weight:700;line-height:1.5}
+.close{display:flex;flex-direction:column;gap:12px}
+@media (prefers-reduced-motion: reduce){.bar i{transition:none}}
+</style>
+
+<div class="app">
+  <div class="top">
+    <span class="brand">Veli Akademisi</span>
+    <span class="sec" id="sec"></span>
+    <button class="icon" id="basa" title="Bu bölümün başına döner">Bölüm başı</button>
+    <button class="icon" id="tekrar" title="Bu cümleyi yeniden dinle">Tekrar dinle</button>
+    <button class="icon" id="dur" aria-pressed="false">Duraklat</button>
+  </div>
+  <div class="bar" aria-hidden="true"><i id="prog"></i></div>
+  <main class="stage" id="stage" aria-live="polite"></main>
+  <div class="nav" id="nav" hidden>
+    <button class="btn" id="ileri">Devam</button>
+  </div>
+</div>
+
+<script>
+const STEPS = [{"t": "section", "n": 1, "title": "1. Bölüm", "sub": "Sorun ve çaresizlik"}, {"t": "frame", "img": "img/m1_b1_kare1.webp", "text": "Akşam olmuştu. Yemek hazırdı.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare1.webp", "text": "Deniz salonda, yerdeki minderin üzerinde oturuyordu.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare1.webp", "text": "Tablete bakıyordu. İki eliyle sıkıca tutmuştu.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare2.webp", "text": "Annesi Ayşe masanın yanından seslendi.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare2.webp", "text": "“Deniz, tableti bırak, yemeğe gel.”", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare2.webp", "text": "Deniz başını kaldırmadı. Ayşe biraz bekledi.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare2.webp", "text": "“Deniz, yemek hazır. Tableti bırakıyoruz.”", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare3.webp", "text": "Deniz birden bağırdı.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare3.webp", "text": "Tableti halıya attı. Sonra kendini yere bıraktı.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare3.webp", "text": "Ağlıyor, bağırıyor, ayaklarını yere vuruyordu.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare3.webp", "text": "Ayşe yemek masasının yanında kalakaldı.", "sec": 1}, {"t": "q", "q": "Burada ilk dikkatinizi çeken şey ne oldu?", "o": ["Deniz çok inatçı davrandı.", "Annesi tableti bırakmasını istediğinde davranış başladı.", "Deniz yemek yemeyi sevmiyor."], "fb": ["Evet, öyle görünebilir. Pek çok anne baba ilk anda böyle düşünür. Bir de şuna bakalım: Deniz bağırmadan hemen önce ne oldu?", "Çok güzel bir noktayı yakaladınız. Davranış, tam annesi tableti bırakmasını istediğinde başladı. Bu sırayı birlikte biraz daha yakından inceleyelim.", "Olabilir, bazı çocuklar yemek saatini sevmez. Ama dikkat edin: Deniz daha masaya gelmeden bağırmaya başladı. O anda ne olmuştu?"], "sec": 1, "all": false, "lb": ["Bir de şöyle bakalım.", "Harika, çok dikkatli bir gözlem!", "Bir de şöyle bakalım."], "bridge": {"e": "Haydi hikâyemize dönelim. Bakalım Ayşe bu zor anda ne yapacak?", "n": "Ayşe hâlâ yemek masasının yanında, Deniz'e bakıyordu."}, "ov": {"i": 1, "t": "Harika, çok dikkatli bir gözlem!"}}, {"t": "frame", "img": "img/m1_b1_kare4.webp", "text": "Ne yapacağını bilemedi.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare4.webp", "text": "Tableti geri verse yanlış yaptığını düşünüyordu. Vermese Deniz daha çok ağlıyordu.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare4.webp", "text": "“Her akşam böyle mi olacak?” diye düşündü.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare5.webp", "text": "Deniz dokuz yaşındaydı. Az konuşuyordu. İsteklerini her zaman kelimelerle anlatamıyordu.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare5.webp", "text": "Ayşe son zamanlarda bir şeyi fark etmeye başlamıştı.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare5.webp", "text": "Belki de Deniz'in bağırması bazen “İstemiyorum” ya da “Bitmesin” demenin onun bildiği yoluydu.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare5.webp", "text": "Ama bunu fark etmek, ne yapacağını bilmesine yetmiyordu.", "sec": 1}, {"t": "q", "q": "Ayşe, Deniz'in bağırmasının bir anlamı olabileceğini düşünüyor. Sizce Deniz bağırarak ne anlatıyor olabilir?", "o": ["Annesini üzmek istiyor.", "“Bitmesin, biraz daha oynamak istiyorum” demeye çalışıyor.", "Hiçbir şey anlatmıyor, sadece sinirli."], "fb": ["Bu akla gelebilir; o anlarda insan kendini hedef alınmış hisseder. Ama Deniz az konuşan bir çocuk. Sizce “istemiyorum”u başka nasıl söyleyebilirdi?", "Evet, çok önemli bir fark ediş. Konuşmakta zorlanan çocuklar, isteklerini çoğu zaman davranışla anlatır. Bağırmanın yerine geçecek bir yol öğrenebilir mi, birlikte düşüneceğiz.", "Sinirli olduğu doğru. Ama bir de şunu düşünelim: Deniz tam tablet biterken bağırdı. Belki bu sinirin bir sebebi, bir mesajı vardır."], "sec": 1, "all": false, "lb": ["Birlikte düşünelim.", "Çok güzel! Deniz'i gerçekten anlamaya çalışıyorsunuz.", "Bir de şöyle bakalım."], "bridge": {"e": "Haydi devam edelim. Ayşe bu yükü tek başına mı taşıyacak?", "n": "O akşam Ayşe bunu düşünüp durdu."}, "ov": {"i": 1, "t": "Çok güzel! Deniz'i gerçekten anlamaya çalışıyorsunuz."}}, {"t": "frame", "img": "img/m1_b1_kare6.webp", "text": "Eşi Serkan eve geldiğinde Ayşe çok yorgundu.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare6.webp", "text": "“Bugün yine tablet yüzünden çok zorlandık,” dedi.", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare6.webp", "text": "Serkan önce şunu sordu: “Tableti hiç vermesek mi?”", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare6.webp", "text": "Ayşe başını salladı. “Onu da denedik. Daha çok gerildi.”", "sec": 1}, {"t": "frame", "img": "img/m1_b1_kare6.webp", "text": "İkisi de sustu.", "sec": 1}, {"t": "think", "q": "Sizin evinizde de böyle zor anlar oluyor mu? En çok hangi saatte, hangi durumda oluyor?", "sec": 1, "bridge": {"e": "Haydi hikâyemize devam edelim. Belki de aranan cevap, hiç beklenmedik bir yerden gelecek.", "n": null}}, {"t": "section", "n": 2, "title": "2. Bölüm", "sub": "Başkasının deneyimi"}, {"t": "frame", "img": "img/m1_b2_kare1.webp", "text": "Birkaç gün sonra ailece Hatice Hanım'a misafirliğe gittiler.", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare1.webp", "text": "Hatice Hanım'ın oğlu Mert de Deniz'in okulundaydı.", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare1.webp", "text": "Çocuklar salonda oyalanırken Ayşe ile Hatice Hanım mutfakta çay hazırlıyordu.", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare1.webp", "text": "Ayşe dayanamadı. “Mert bir şeyi bırakması gerektiğinde zorlanıyor mu?” diye sordu.", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare2.webp", "text": "Hatice Hanım bir an sustu. “Çok zorlanıyordu. Özellikle telefonda.”", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare2.webp", "text": "Ayşe hemen dikkat kesildi. “Ne yaptınız?”", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare2.webp", "text": "“Önce ben de telefonu birden alıyordum. O bağırıyordu, ben de sinirleniyordum.”", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare2.webp", "text": "“Sonra öğretmeniyle konuştuk. Mert'in bir şeyin ne zaman biteceğini anlamakta zorlandığını fark ettik.”", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare3.webp", "text": "Hatice Hanım kalkıp buzdolabını gösterdi.", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare3.webp", "text": "Kapağında üç resim vardı. Telefon. Yemek. Oyuncak.", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare3.webp", "text": "“Önce ne olacak, sonra ne olacak, gösteriyoruz. Bir de bitmeden önce haber veriyoruz.”", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare4.webp", "text": "Sonra başka bir kart gösterdi. Kartın üzerinde basit bir işaret vardı.", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare4.webp", "text": "“Bu da ‘biraz daha’ kartı. Öğretmeniyle birlikte öğrettik.”", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare4.webp", "text": "“Mert bağırmak yerine bu kartı gösterirse bir dakika daha veriyoruz. Sonra gerçekten bitiyor.”", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare4.webp", "text": "Ayşe kartı uzun süre inceledi. “Peki kartı gösterince hep uzatıyor musunuz?”", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare4.webp", "text": "“Hayır. Bir dakika daha veriyoruz. Sonra bitiyor. Yoksa kartın ne anlama geldiğini de öğrenemez.”", "sec": 2}, {"t": "q", "q": "Hatice Hanım'ın anlattıklarından hangisi size en yakın geldi?", "o": ["Bitmeden önce haber vermek.", "Önce ne olacağını, sonra ne olacağını resimle göstermek.", "“Biraz daha” kartı."], "fb": ["Güzel bir seçim. Birden kesilen şey çocukları da biz büyükleri de kızdırır. Sizce sizin çocuğunuza nasıl haber verebilirsiniz?", "Güzel bir seçim. Çocuk sırayı görürse daha kolay bekler. Sizin evinizde hangi resimleri kullanabilirsiniz?", "Güzel bir seçim. Kart, çocuğa bağırmadan isteyebileceği bir yol veriyor. Ama Hatice Hanım'ın uyarısını unutmayalım: bir dakika sonra gerçekten bitmeli."], "sec": 2, "all": true, "bridge": {"e": "Haydi devam edelim. Sizce Ayşe bu fikirleri kendi evinde deneyecek mi?", "n": "Çaylar içildi, misafirlik sona erdi."}}, {"t": "frame", "img": "img/m1_b2_kare5.webp", "text": "Ayşe eve dönerken bunu düşündü.", "sec": 2}, {"t": "frame", "img": "img/m1_b2_kare5.webp", "text": "Deniz'in de “biraz daha” diyebilmek için başka bir yola ihtiyacı olabilirdi.", "sec": 2}, {"t": "think", "q": "Hatice Hanım bunları kendi oğluna göre yaptı. Sizin çocuğunuz için neyi farklı yapmanız gerekirdi? Çocuğunuz “istemiyorum”u ya da “biraz daha”yı nasıl anlatıyor?", "sec": 2, "bridge": {"e": "Haydi hikâyemize dönelim. Bakalım Ayşe'nin ilk denemesi nasıl geçecek?", "n": null}}, {"t": "section", "n": 3, "title": "3. Bölüm", "sub": "Uyarlama ve azalma"}, {"t": "frame", "img": "img/m1_b3_kare1.webp", "text": "Ertesi gün Ayşe birkaç basit resim hazırladı. Tablet. Yemek. Yapboz.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare1.webp", "text": "Bir de küçük bir “biraz daha” kartı yaptı.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare1.webp", "text": "Deniz tablete başlamadan önce sırayı gösterdi.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare1.webp", "text": "“Önce tablet. Sonra yemek. Sonra yapboz.”", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare1.webp", "text": "Deniz resimlere kısa süre baktı.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare2.webp", "text": "Ayşe tabletin biteceği zamanı da önceden söyledi. “Birazdan bitecek.”", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare2.webp", "text": "İlk gün hiçbir şey kolay olmadı.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare2.webp", "text": "Süre dolunca Deniz yine ağladı. Ayşe tableti kapattı.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare2.webp", "text": "Deniz daha çok bağırdı.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare3.webp", "text": "Ayşe tableti geri vermedi.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare3.webp", "text": "Yanında sakin bir şekilde bekledi. “Bitti. Şimdi yemek.”", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare3.webp", "text": "Deniz ağlamaya devam etti.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare3.webp", "text": "Ayşe zorlandı. Bir an tableti geri vermeyi düşündü.", "sec": 3}, {"t": "q", "q": "Deniz ağlıyor, Ayşe'nin içinden tableti geri vermek geçiyor. Siz bu annenin yerinde olsaydınız ne yapardınız?", "o": ["“İşe yaramıyor” deyip vazgeçerdim.", "Sussun diye tableti verirdim.", "Sakin kalıp yanında beklerdim."], "fb": ["Bunu düşünmek çok doğal; o an insan gerçekten çaresiz hissediyor. Ama yeni bir düzen ilk günlerde çoğu zaman daha zor geçer. Bu, işe yaramadığı anlamına gelmiyor.", "Çok anlaşılır; o ses insanın yüreğine dokunur. Ama tablet bu kez de bağırınca gelirse, Deniz ne öğrenir? Birlikte düşünelim.", "Evet, işin en zor kısmı bu. Tableti geri vermeden ama Deniz'i yalnız da bırakmadan beklemek, hem sizin hem çocuğunuzun emeği."], "sec": 3, "all": false, "lb": ["Çok anlaşılır bir duygu ama bir de şöyle bakalım.", "Birlikte düşünelim.", "Bravo! En zor ama en doğru yolu seçtiniz."], "bridge": {"e": "Haydi devam edelim. Sizce Ayşe pes edecek mi?", "n": "Deniz hâlâ ağlıyordu. Ayşe ise kararsızdı."}, "ov": {"i": 2, "t": "Bravo! En zor ama en doğru yolu seçtiniz."}}, {"t": "frame", "img": "img/m1_b3_kare4.webp", "text": "Tam o sırada Serkan geldi: “Ben masayı hallederim. Sen yanında kal.”", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare4.webp", "text": "Ayşe bunu yaptı. Ertesi gün yine denediler.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare4.webp", "text": "Birkaç gün sonra Ayşe “biraz daha” kartını göstermeye başladı. Deniz önce kartla ilgilenmedi.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare4.webp", "text": "Bir hafta sonra kartı eline aldı ama ne yapacağını anlamadı. Ayşe ona yardım etti.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare4.webp", "text": "Kartı gösterince: “Bir dakika daha,” dedi.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare4.webp", "text": "Bir dakika sonra tablet kapandı. Deniz yine ağladı. Ayşe yine tableti geri vermedi.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare4.webp", "text": "Bazı günler daha iyi geçti. Bazı günler ise sanki hiçbir şey değişmemiş gibiydi.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare5.webp", "text": "Bir akşam Ayşe acele etti. Önceden haber vermeden tableti kapattı.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare5.webp", "text": "Deniz yeniden kendini yere bıraktı.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare5.webp", "text": "Ayşe çok üzüldü. “Başa döndük,” dedi.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare5.webp", "text": "Serkan yanına oturdu.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare5.webp", "text": "“Belki de başa dönmedik. Bugün acele ettik. Yarın yine deneriz.”", "sec": 3}, {"t": "q", "q": "Ayşe “başa döndük” diyor. Sizce bu akşam neden zor geçti?", "o": ["Yöntem işe yaramıyor.", "Ayşe bu kez önceden haber vermedi.", "Deniz o gün huysuzdu."], "fb": ["Böyle bir akşamdan sonra bunu düşünmek çok doğal. Ama bir de şuna bakalım: Ayşe bu akşam neyi farklı yaptı?", "Evet. Deniz için haber almak çok önemli. Bir gerileme çoğu zaman yöntemin değil, o gün atlanan bir adımın işaretidir.", "Olabilir; yorgun olduğu günler daha zor geçiyor. Ama o akşam Ayşe de bir adımı atladı. Sizce hangisi?"], "sec": 3, "all": false, "lb": ["Bir de şöyle bakalım.", "Tebrikler, tam isabet!", "Birlikte düşünelim."], "bridge": {"e": "Haydi devam edelim. Sizce bu zor akşam her şeyin sonu mu, yoksa yeni bir başlangıç mı?", "n": "Ertesi gün yeniden denediler. Sonra bir gün daha."}, "ov": {"i": 1, "t": "Tebrikler, tam isabet!"}}, {"t": "frame", "img": "img/m1_b3_kare6.webp", "text": "Birkaç hafta sonra bir akşam Ayşe tabletin biteceğini söyledi.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare6.webp", "text": "Deniz yüzünü buruşturdu. Ayşe bağırmasını bekledi.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare6.webp", "text": "Deniz masanın üzerindeki küçük karta uzandı. “Biraz daha” kartını aldı ve annesine gösterdi.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare6.webp", "text": "Ayşe bir an durdu. Sonra gülümsedi. “Evet, Deniz. Bir dakika daha.”", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare6.webp", "text": "Deniz kartı göstermişti. Ayşe onun bunu başardığını fark etti.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare6.webp", "text": "Elini kaldırdı. Deniz beşlik vermeyi seviyordu. Annesinin eline hafifçe vurdu.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare6.webp", "text": "Bir dakika sonra tablet kapandı. O akşam da biraz huzursuzlandı. Ama kendini yere atmadı.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare7.webp", "text": "Sorun tamamen bitmedi ama eskisine göre çok azalmıştı.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare7.webp", "text": "Deniz yorgun olduğunda hâlâ zorlanıyordu. Bazen kartı kullanmadan bağırıyordu.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare7.webp", "text": "Ama artık kimse bu anları savaş gibi görmüyordu.", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare7.webp", "text": "Bir akşam Ayşe, Serkan'a şöyle dedi:", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare7.webp", "text": "“Eskiden bize karşı geldiğini düşünüyordum. Şimdi geçiş yapmakta zorlandığını düşünüyorum.”", "sec": 3}, {"t": "frame", "img": "img/m1_b3_kare7.webp", "text": "Serkan başını salladı. Deniz masada yemeğini yiyordu. Tablet odanın diğer tarafında duruyordu.", "sec": 3}, {"t": "think", "q": "Sizi evde en çok zorlayan ve değişmesini istediğiniz davranış hangisi? Bunun için neler yapabilirsiniz?", "sec": 3, "bridge": {"e": "Hikâyemizin sonuna geldik. Son sözlerimizi birlikte dinleyelim.", "n": null}, "destek": "Bu konuda okulumuzun rehberlik servisinden her zaman destek alabilirsiniz."}, {"t": "close", "lines": ["Ayşe ile Serkan'ın yaşadıkları kolay değildi. Haftalar sürdü. Bazı akşamlar başa dönmüş gibi hissettiler.", "Sorun tamamen bitmedi ama çok azaldı.", "Böyle bir değişim bir günde olmaz. Çocuğun öğrenmesi zaman alır. Anne babanın öğrenmesi de.", "Bu süreçte en belirleyici olan, sizin tutumunuzdur:", "Sakin kalmak, aynı kuralı her gün aynı şekilde uygulamak ve evdeki herkesin aynı dili konuşması.", "Zorlandığınızda yalnız değilsiniz.", "Çocuğunuzun öğretmeni ve okulumuzun rehberlik servisi her konuda yanınızda. Bize her zaman ulaşabilirsiniz."], "sec": 3}];
+const OK = ["Güzel bir fark ediş.","Birlikte düşünelim.","Bir de şöyle bakalım."];
+let i = -1; const answers = {}; let paused = false; let timer = null; let token = 0;
+const stage = document.getElementById('stage'), nav = document.getElementById('nav'), ileri = document.getElementById('ileri');
+const durBtn = document.getElementById('dur'), tekrarBtn = document.getElementById('tekrar'), basaBtn = document.getElementById('basa');
+const canSpeak = 'speechSynthesis' in window;
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function estimate(t){ return Math.max(2600, 900 + t.split(/\s+/).length * 430); }
+
+const player = new Audio(); player.preload = 'auto';
+// Adımın ses dosyası: ses/m1_s001.mp3; soru geri bildirimi: ses/m1_s013_c1.mp3
+function srcFor(k, c){ return 'ses/m1_s'+String(k+1).padStart(3,'0')+(c==null?'':'_c'+(c+1))+'.mp3'; }
+const GAP = 350;  // iki cümle arasındaki ek bekleme (ms); kayıtların kendi sonunda da kısa bir sessizlik var
+// Sonraki iki adımın ses dosyasını önceden indirir; telefonda cümleler arasında yükleme beklemesi olmaz.
+const onYuk = {};
+function preload(){ for(let k=i+1; k<=i+2 && k<STEPS.length; k++){ const s=STEPS[k]; if(s.t==='q') continue;
+  const u = srcFor(k); if(!onYuk[u]){ const a = new Audio(); a.preload = 'auto'; a.src = u; onYuk[u] = a; } } }
+// Ortam sesi: kayıttaki hafif arka plan sesinin aynısı. Hikâye akarken alttan kesintisiz çalar,
+// böylece cümle bitince ses birden kesilmiş gibi duyulmaz. Sorularda yavaşça kısılır.
+let ac = null, bedGain = null, bedOn = false;
+const BED_GAP = 0.12, BED_SPEECH = 0.08;  // ortam sesi: cümle aralarında %12, Nursel konuşurken %8
+function bedLevel(v){ try{ if(bedOn && ac && bedGain){ bedGain.gain.cancelScheduledValues(ac.currentTime); bedGain.gain.setTargetAtTime(v, ac.currentTime, 0.12); } }catch(e){} }
+function bedStart(){ try{
+  if(!ac){
+    ac = new (window.AudioContext || window.webkitAudioContext)();
+    bedGain = ac.createGain(); bedGain.gain.value = 0; bedGain.connect(ac.destination);
+    fetch('ses/ortam.wav').then(r=>r.arrayBuffer()).then(b=>new Promise((ok,no)=>ac.decodeAudioData(b,ok,no))).then(buf=>{
+      const src = ac.createBufferSource(); src.buffer = buf; src.loop = true; src.connect(bedGain); src.start();
+    }).catch(()=>{});
+  }
+  if(ac.state !== 'running') ac.resume();
+  bedGain.gain.cancelScheduledValues(ac.currentTime);
+  bedOn = true;
+  bedGain.gain.setTargetAtTime(BED_GAP, ac.currentTime, 0.25);
+}catch(e){} }
+const BED_SOFT = 0.05;  // soru ve düşünme ekranında ortam sesi
+function bedSoft(){ bedLevel(BED_SOFT); }
+function bedStop(){ bedOn = false; try{ if(ac && bedGain){ bedGain.gain.cancelScheduledValues(ac.currentTime); bedGain.gain.setTargetAtTime(0, ac.currentTime, 0.5); } }catch(e){} }
+// Önce kayıtlı ses dosyasını çalar. Dosya yoksa ya da çalınamazsa tarayıcının sesiyle okur.
+// Hiç ses yoksa okuma süresi kadar bekler. Bitince done() çağrılır.
+function say(t, done, src){
+  const my = ++token; clearTimeout(timer);
+  const finish = ()=>{ if(my!==token) return; bedLevel(BED_GAP); clearTimeout(timer); if(done) timer = setTimeout(()=>{ if(my===token && !paused) done(); }, GAP); };
+  const tts = ()=>{ if(my!==token) return; clearTimeout(timer); speakTTS(t, finish); };
+  if(src){
+    let dustu = false; const yedek = ()=>{ if(dustu || my!==token) return; dustu = true; tts(); };
+    player.onended = finish; player.onerror = yedek; player.onplaying = ()=>{ if(my===token) bedLevel(BED_SPEECH); };
+    player.src = src;
+    const pr = player.play(); if(pr && pr.catch) pr.catch(yedek);
+    timer = setTimeout(finish, estimate(t)*1.8 + 4000);  // onended gelmezse güvenlik
+    return;
+  }
+  tts();
+}
+function speakTTS(t, finish){
+  if(canSpeak){ try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(t); u.lang='tr-TR'; u.rate=0.9;
+    const v = speechSynthesis.getVoices().find(v=>v.lang && v.lang.toLowerCase().startsWith('tr')); if(v) u.voice=v;
+    u.onend = finish; u.onerror = ()=>{ clearTimeout(timer); timer = setTimeout(finish, estimate(t)); };  // okunamazsa okuma süresi kadar bekle
+    speechSynthesis.speak(u);
+    timer = setTimeout(finish, estimate(t)*1.8 + 2000);  // onend gelmezse güvenlik
+    return; }catch(e){} }
+  timer = setTimeout(finish, estimate(t));
+}
+function stopAll(){ token++; clearTimeout(timer); player.onended = player.onerror = player.onplaying = null; try{player.pause()}catch(e){}
+  if(canSpeak) try{speechSynthesis.cancel()}catch(e){} }
+
+function startScreen(){
+  const first = STEPS.find(x=>x.img);
+  stage.innerHTML = `<div class="hero"><img class="pic" src="${first.img}" alt=""><div class="over">
+    <span class="eyebrow">Modül 1 · Davranış</span><h1 class="h1">Tablet Kapanınca</h1><span>Sesli bir hikâye. Yaklaşık 11 dakika sürer.</span></div></div>
+    <div class="start"><p class="note" style="margin:0">Hikâye kendiliğinden ilerler. Sorularda durur ve sizin seçiminizi bekler. Sesi açmayı unutmayın.</p>
+    <button class="btn" id="basla">Hikâyeyi başlat</button></div>`;
+  document.getElementById('basla').onclick = ()=>{ bedStart(); i = 0; render(); };
+  durBtn.hidden = tekrarBtn.hidden = basaBtn.hidden = true; nav.hidden = true;
+}
+function next(){ if(i < STEPS.length-1){ i++; render(); } }
+
+function render(){
+  stopAll(); kopru = null;
+  const s = STEPS[i];
+  durBtn.hidden = tekrarBtn.hidden = basaBtn.hidden = false; paused = false; durBtn.textContent='Duraklat'; durBtn.setAttribute('aria-pressed','false');
+  document.getElementById('prog').style.width = ((i+1)/STEPS.length*100)+'%';
+  document.getElementById('sec').textContent = s.sec ? (s.sec+'. bölüm') : '';
+  nav.hidden = true; ileri.textContent = 'Devam';
+  if(s.t==='section'){
+    const first = STEPS.slice(i+1).find(x=>x.img);
+    stage.innerHTML = `<div class="hero"><img class="pic" src="${first.img}" alt=""><div class="over">
+      <span class="eyebrow">${esc(s.title)}</span><h1 class="h1">${esc(s.sub)}</h1></div></div>`;
+    bedStart(); say(s.title+'. '+s.sub, next, srcFor(i)); preload();
+  } else if(s.t==='frame'){
+    const prev = STEPS[i-1];
+    if(prev && prev.t==='frame' && prev.img===s.img && stage.querySelector('.text')){
+      stage.querySelector('.text').textContent = s.text;      // aynı kare: yalnızca yazı değişir
+    } else {
+      stage.innerHTML = `<img class="pic" src="${s.img}" alt=""><div class="card"><p class="text" style="margin:0">${esc(s.text)}</p></div>`;
+    }
+    bedStart(); say(s.text, next, srcFor(i)); preload();
+  } else if(s.t==='q'){
+    drawQ(s);
+    if(answers[i]===undefined) say(s.q+' '+s.o.map((o,k)=>['A','Be','Ce'][k]+' şıkkı: '+o).join(' '), bedSoft, srcFor(i)); else bedSoft();
+  } else if(s.t==='think'){
+    stage.innerHTML = ustu(`<div class="card think"><span class="pill">Biraz düşünelim</span><h2 class="h2">${esc(s.q)}</h2>${s.destek?`<p style="margin:0;font-size:19px;font-weight:800;color:var(--accent)">${esc(s.destek)}</p>`:''}
+      <p class="note" style="color:var(--muted)">${s.destek?'Doğru cevabı yok. Hazır olduğunuzda devam edin.':'Doğru cevabı yok. Bu konuda destek almak ya da düşüncelerinizi paylaşmak için çocuğunuzun sınıf öğretmenine veya rehber öğretmenimize ulaşabilirsiniz. Hazır olduğunuzda devam edin.'}</p></div>`);
+    nav.hidden = false;
+    say(s.q+(s.destek?' '+s.destek:''), bedSoft, srcFor(i));
+  } else if(s.t==='close'){
+    stage.innerHTML = `<div class="card close"><span class="eyebrow">Modülün sonu</span>${s.lines.map((l,k)=>`<p${k>=5?' style="color:var(--accent)"':''}>${esc(l)}</p>`).join('')}</div>`;
+    ileri.textContent = 'Baştan izle'; nav.hidden = false;
+    say(s.lines.join(' '), bedStop, srcFor(i));
+  }
+  window.scrollTo({top:0});
+}
+function drawQ(s){
+  const a = answers[i];
+  stage.innerHTML = ustu(`<div class="card"><span class="eyebrow">Sizce?</span><h2 class="h2" style="margin-top:6px">${esc(s.q)}</h2></div>
+    <div class="opts">${s.o.map((o,k)=>`<button class="opt ${a===undefined?'':(a===k?'on':'dim')}" data-i="${k}" aria-pressed="${a===k}"><span class="n">${"ABC"[k]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+    ${a===undefined?'<p class="note">Size en yakın geleni seçin. Doğru ya da yanlış diye bir not verilmiyor.</p>':`<div class="fb"><b>${s.lb?esc(s.lb[a]):'Güzel bir seçim.'}</b>${esc(s.fb[a])}</div>`}`);
+  stage.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    answers[i]=+b.dataset.i; drawQ(s); nav.hidden=false;
+    const f=stage.querySelector('.fb'); if(f) f.scrollIntoView({behavior:'smooth',block:'nearest'});
+    bedStart(); say(s.fb[+b.dataset.i], bedSoft, srcFor(i, +b.dataset.i));
+  });
+  nav.hidden = a===undefined;
+}
+function currentText(){ const s=STEPS[i]; if(!s) return '';
+  if(kopru) return kopru.part===1 ? s.bridge.e : s.bridge.n;
+  if(s.t==='frame') return s.text; if(s.t==='section') return s.title+'. '+s.sub; if(s.t==='think') return s.q+(s.destek?' '+s.destek:'');
+  if(s.t==='close') return s.lines.join(' ');
+  if(s.t==='q') return answers[i]===undefined ? s.q+' '+s.o.map((o,k)=>['A','Be','Ce'][k]+' şıkkı: '+o).join(' ') : s.fb[answers[i]]; }
+function currentSrc(){ const s=STEPS[i]; if(!s) return null;
+  if(kopru) return srcK(i, kopru.part);
+  return (s.t==='q' && answers[i]!==undefined) ? srcFor(i, answers[i]) : srcFor(i); }
+const autoNext = ()=>{ if(kopru) return kopruSonra(); const t=STEPS[i].t; return (t==='frame'||t==='section') ? next : (t==='close' ? bedStop : bedSoft); };
+// Hikâyeye dönüş köprüsü: son sahne geri gelir, rehber (Emrullah) merak cümlesini söyler,
+// ardından anlatıcı (Nursel) sahneyi hatırlatan cümleyi okur, sonra hikâye sürer.
+let kopru = null;
+function srcK(k, n){ return 'ses/m1_s'+String(k+1).padStart(3,'0')+'_k'+n+'.mp3'; }
+function sonSahne(k){ for(let j=k; j>=0; j--) if(STEPS[j].img) return STEPS[j].img; return STEPS.find(x=>x.img).img; }
+function ustu(html){ return `<div class="ustu"><div class="perde" style="background-image:url('${sonSahne(i)}')"></div><div class="icerik">${html}</div></div>`; }
+function kopruSonra(){ return ()=>{ if(kopru && kopru.part===1 && STEPS[i].bridge.n) kopruAdim(2); else next(); }; }
+function kopruAdim(part){
+  const s = STEPS[i]; kopru = {part};
+  const metin = part===1 ? s.bridge.e : s.bridge.n;
+  const kart = stage.querySelector('.kopru');
+  kart.classList.toggle('rehber', part===1); kart.querySelector('.text').textContent = metin;
+  bedStart(); say(metin, kopruSonra(), srcK(i, part));
+}
+function kopruBasla(){
+  stopAll(); nav.hidden = true;
+  stage.innerHTML = `<img class="pic" src="${sonSahne(i)}" alt=""><div class="card kopru"><p class="text" style="margin:0"></p></div>`;
+  window.scrollTo({top:0}); kopruAdim(1);
+}
+ileri.onclick = ()=>{ if(i===STEPS.length-1){ for(const k in answers) delete answers[k]; i=0; render(); }
+  else if(STEPS[i].bridge && !kopru) kopruBasla(); else next(); };
+durBtn.onclick = ()=>{
+  paused = !paused; durBtn.textContent = paused ? 'Devam et' : 'Duraklat'; durBtn.setAttribute('aria-pressed', paused);
+  if(paused){ stopAll(); bedStop(); } else { bedStart(); say(currentText(), autoNext(), currentSrc()); }
+};
+// Bölüm başı: bulunduğu bölümün başlık ekranına döner; zaten oradaysa bir önceki bölümün başına.
+basaBtn.onclick = ()=>{
+  let j = i; if(STEPS[j].t==='section') j--;
+  while(j>0 && STEPS[j].t!=='section') j--;
+  i = Math.max(0, j); render();
+};
+tekrarBtn.onclick = ()=>{ bedStart(); paused=false; durBtn.textContent='Duraklat'; durBtn.setAttribute('aria-pressed','false'); say(currentText(), autoNext(), currentSrc()); };
+document.addEventListener('visibilitychange', ()=>{ if(document.hidden && !paused) durBtn.click(); });
+if(canSpeak) speechSynthesis.getVoices();
+startScreen();
+[...new Set(STEPS.filter(s=>s.img).map(s=>s.img))].forEach(src=>{const im=new Image(); im.src=src;});
+</script>

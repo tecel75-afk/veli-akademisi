@@ -1,0 +1,671 @@
+[
+ {
+  "t": "section",
+  "n": 1,
+  "title": "1. Bölüm",
+  "sub": "Sorun ve çaresizlik"
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare1.webp",
+  "text": "Akşam olmuştu. Yemek hazırdı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare1.webp",
+  "text": "Deniz salonda, yerdeki minderin üzerinde oturuyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare1.webp",
+  "text": "Tablete bakıyordu. İki eliyle sıkıca tutmuştu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare2.webp",
+  "text": "Annesi Ayşe masanın yanından seslendi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare2.webp",
+  "text": "“Deniz, tableti bırak, yemeğe gel.”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare2.webp",
+  "text": "Deniz başını kaldırmadı. Ayşe biraz bekledi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare2.webp",
+  "text": "“Deniz, yemek hazır. Tableti bırakıyoruz.”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare3.webp",
+  "text": "Deniz birden bağırdı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare3.webp",
+  "text": "Tableti halıya attı. Sonra kendini yere bıraktı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare3.webp",
+  "text": "Ağlıyor, bağırıyor, ayaklarını yere vuruyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare3.webp",
+  "text": "Ayşe yemek masasının yanında kalakaldı.",
+  "sec": 1
+ },
+ {
+  "t": "q",
+  "q": "Burada ilk dikkatinizi çeken şey ne oldu?",
+  "o": [
+   "Deniz çok inatçı davrandı.",
+   "Annesi tableti bırakmasını istediğinde davranış başladı.",
+   "Deniz yemek yemeyi sevmiyor."
+  ],
+  "fb": [
+   "Evet, öyle görünebilir. Pek çok anne baba ilk anda böyle düşünür. Bir de şuna bakalım: Deniz bağırmadan hemen önce ne oldu?",
+   "Çok güzel bir noktayı yakaladınız. Davranış, tam annesi tableti bırakmasını istediğinde başladı. Bu sırayı birlikte biraz daha yakından inceleyelim.",
+   "Olabilir, bazı çocuklar yemek saatini sevmez. Ama dikkat edin: Deniz daha masaya gelmeden bağırmaya başladı. O anda ne olmuştu?"
+  ],
+  "sec": 1,
+  "all": false,
+  "lb": [
+   "Bir de şöyle bakalım.",
+   "Harika, çok dikkatli bir gözlem!",
+   "Bir de şöyle bakalım."
+  ],
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım Ayşe bu zor anda ne yapacak?",
+   "n": "Ayşe hâlâ yemek masasının yanında, Deniz'e bakıyordu."
+  },
+  "ov": {
+   "i": 1,
+   "t": "Harika, çok dikkatli bir gözlem!"
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare4.webp",
+  "text": "Ne yapacağını bilemedi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare4.webp",
+  "text": "Tableti geri verse yanlış yaptığını düşünüyordu. Vermese Deniz daha çok ağlıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare4.webp",
+  "text": "“Her akşam böyle mi olacak?” diye düşündü.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare5.webp",
+  "text": "Deniz dokuz yaşındaydı. Az konuşuyordu. İsteklerini her zaman kelimelerle anlatamıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare5.webp",
+  "text": "Ayşe son zamanlarda bir şeyi fark etmeye başlamıştı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare5.webp",
+  "text": "Belki de Deniz'in bağırması bazen “İstemiyorum” ya da “Bitmesin” demenin onun bildiği yoluydu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare5.webp",
+  "text": "Ama bunu fark etmek, ne yapacağını bilmesine yetmiyordu.",
+  "sec": 1
+ },
+ {
+  "t": "q",
+  "q": "Ayşe, Deniz'in bağırmasının bir anlamı olabileceğini düşünüyor. Sizce Deniz bağırarak ne anlatıyor olabilir?",
+  "o": [
+   "Annesini üzmek istiyor.",
+   "“Bitmesin, biraz daha oynamak istiyorum” demeye çalışıyor.",
+   "Hiçbir şey anlatmıyor, sadece sinirli."
+  ],
+  "fb": [
+   "Bu akla gelebilir; o anlarda insan kendini hedef alınmış hisseder. Ama Deniz az konuşan bir çocuk. Sizce “istemiyorum”u başka nasıl söyleyebilirdi?",
+   "Evet, çok önemli bir fark ediş. Konuşmakta zorlanan çocuklar, isteklerini çoğu zaman davranışla anlatır. Bağırmanın yerine geçecek bir yol öğrenebilir mi, birlikte düşüneceğiz.",
+   "Sinirli olduğu doğru. Ama bir de şunu düşünelim: Deniz tam tablet biterken bağırdı. Belki bu sinirin bir sebebi, bir mesajı vardır."
+  ],
+  "sec": 1,
+  "all": false,
+  "lb": [
+   "Birlikte düşünelim.",
+   "Çok güzel! Deniz'i gerçekten anlamaya çalışıyorsunuz.",
+   "Bir de şöyle bakalım."
+  ],
+  "bridge": {
+   "e": "Haydi devam edelim. Ayşe bu yükü tek başına mı taşıyacak?",
+   "n": "O akşam Ayşe bunu düşünüp durdu."
+  },
+  "ov": {
+   "i": 1,
+   "t": "Çok güzel! Deniz'i gerçekten anlamaya çalışıyorsunuz."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare6.webp",
+  "text": "Eşi Serkan eve geldiğinde Ayşe çok yorgundu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare6.webp",
+  "text": "“Bugün yine tablet yüzünden çok zorlandık,” dedi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare6.webp",
+  "text": "Serkan önce şunu sordu: “Tableti hiç vermesek mi?”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare6.webp",
+  "text": "Ayşe başını salladı. “Onu da denedik. Daha çok gerildi.”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b1_kare6.webp",
+  "text": "İkisi de sustu.",
+  "sec": 1
+ },
+ {
+  "t": "think",
+  "q": "Sizin evinizde de böyle zor anlar oluyor mu? En çok hangi saatte, hangi durumda oluyor?",
+  "sec": 1,
+  "bridge": {
+   "e": "Haydi hikâyemize devam edelim. Belki de aranan cevap, hiç beklenmedik bir yerden gelecek.",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 2,
+  "title": "2. Bölüm",
+  "sub": "Başkasının deneyimi"
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare1.webp",
+  "text": "Birkaç gün sonra ailece Hatice Hanım'a misafirliğe gittiler.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare1.webp",
+  "text": "Hatice Hanım'ın oğlu Mert de Deniz'in okulundaydı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare1.webp",
+  "text": "Çocuklar salonda oyalanırken Ayşe ile Hatice Hanım mutfakta çay hazırlıyordu.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare1.webp",
+  "text": "Ayşe dayanamadı. “Mert bir şeyi bırakması gerektiğinde zorlanıyor mu?” diye sordu.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare2.webp",
+  "text": "Hatice Hanım bir an sustu. “Çok zorlanıyordu. Özellikle telefonda.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare2.webp",
+  "text": "Ayşe hemen dikkat kesildi. “Ne yaptınız?”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare2.webp",
+  "text": "“Önce ben de telefonu birden alıyordum. O bağırıyordu, ben de sinirleniyordum.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare2.webp",
+  "text": "“Sonra öğretmeniyle konuştuk. Mert'in bir şeyin ne zaman biteceğini anlamakta zorlandığını fark ettik.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare3.webp",
+  "text": "Hatice Hanım kalkıp buzdolabını gösterdi.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare3.webp",
+  "text": "Kapağında üç resim vardı. Telefon. Yemek. Oyuncak.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare3.webp",
+  "text": "“Önce ne olacak, sonra ne olacak, gösteriyoruz. Bir de bitmeden önce haber veriyoruz.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare4.webp",
+  "text": "Sonra başka bir kart gösterdi. Kartın üzerinde basit bir işaret vardı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare4.webp",
+  "text": "“Bu da ‘biraz daha’ kartı. Öğretmeniyle birlikte öğrettik.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare4.webp",
+  "text": "“Mert bağırmak yerine bu kartı gösterirse bir dakika daha veriyoruz. Sonra gerçekten bitiyor.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare4.webp",
+  "text": "Ayşe kartı uzun süre inceledi. “Peki kartı gösterince hep uzatıyor musunuz?”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare4.webp",
+  "text": "“Hayır. Bir dakika daha veriyoruz. Sonra bitiyor. Yoksa kartın ne anlama geldiğini de öğrenemez.”",
+  "sec": 2
+ },
+ {
+  "t": "q",
+  "q": "Hatice Hanım'ın anlattıklarından hangisi size en yakın geldi?",
+  "o": [
+   "Bitmeden önce haber vermek.",
+   "Önce ne olacağını, sonra ne olacağını resimle göstermek.",
+   "“Biraz daha” kartı."
+  ],
+  "fb": [
+   "Güzel bir seçim. Birden kesilen şey çocukları da biz büyükleri de kızdırır. Sizce sizin çocuğunuza nasıl haber verebilirsiniz?",
+   "Güzel bir seçim. Çocuk sırayı görürse daha kolay bekler. Sizin evinizde hangi resimleri kullanabilirsiniz?",
+   "Güzel bir seçim. Kart, çocuğa bağırmadan isteyebileceği bir yol veriyor. Ama Hatice Hanım'ın uyarısını unutmayalım: bir dakika sonra gerçekten bitmeli."
+  ],
+  "sec": 2,
+  "all": true,
+  "bridge": {
+   "e": "Haydi devam edelim. Sizce Ayşe bu fikirleri kendi evinde deneyecek mi?",
+   "n": "Çaylar içildi, misafirlik sona erdi."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare5.webp",
+  "text": "Ayşe eve dönerken bunu düşündü.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b2_kare5.webp",
+  "text": "Deniz'in de “biraz daha” diyebilmek için başka bir yola ihtiyacı olabilirdi.",
+  "sec": 2
+ },
+ {
+  "t": "think",
+  "q": "Hatice Hanım bunları kendi oğluna göre yaptı. Sizin çocuğunuz için neyi farklı yapmanız gerekirdi? Çocuğunuz “istemiyorum”u ya da “biraz daha”yı nasıl anlatıyor?",
+  "sec": 2,
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım Ayşe'nin ilk denemesi nasıl geçecek?",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 3,
+  "title": "3. Bölüm",
+  "sub": "Uyarlama ve azalma"
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare1.webp",
+  "text": "Ertesi gün Ayşe birkaç basit resim hazırladı. Tablet. Yemek. Yapboz.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare1.webp",
+  "text": "Bir de küçük bir “biraz daha” kartı yaptı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare1.webp",
+  "text": "Deniz tablete başlamadan önce sırayı gösterdi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare1.webp",
+  "text": "“Önce tablet. Sonra yemek. Sonra yapboz.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare1.webp",
+  "text": "Deniz resimlere kısa süre baktı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare2.webp",
+  "text": "Ayşe tabletin biteceği zamanı da önceden söyledi. “Birazdan bitecek.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare2.webp",
+  "text": "İlk gün hiçbir şey kolay olmadı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare2.webp",
+  "text": "Süre dolunca Deniz yine ağladı. Ayşe tableti kapattı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare2.webp",
+  "text": "Deniz daha çok bağırdı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare3.webp",
+  "text": "Ayşe tableti geri vermedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare3.webp",
+  "text": "Yanında sakin bir şekilde bekledi. “Bitti. Şimdi yemek.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare3.webp",
+  "text": "Deniz ağlamaya devam etti.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare3.webp",
+  "text": "Ayşe zorlandı. Bir an tableti geri vermeyi düşündü.",
+  "sec": 3
+ },
+ {
+  "t": "q",
+  "q": "Deniz ağlıyor, Ayşe'nin içinden tableti geri vermek geçiyor. Siz bu annenin yerinde olsaydınız ne yapardınız?",
+  "o": [
+   "“İşe yaramıyor” deyip vazgeçerdim.",
+   "Sussun diye tableti verirdim.",
+   "Sakin kalıp yanında beklerdim."
+  ],
+  "fb": [
+   "Bunu düşünmek çok doğal; o an insan gerçekten çaresiz hissediyor. Ama yeni bir düzen ilk günlerde çoğu zaman daha zor geçer. Bu, işe yaramadığı anlamına gelmiyor.",
+   "Çok anlaşılır; o ses insanın yüreğine dokunur. Ama tablet bu kez de bağırınca gelirse, Deniz ne öğrenir? Birlikte düşünelim.",
+   "Evet, işin en zor kısmı bu. Tableti geri vermeden ama Deniz'i yalnız da bırakmadan beklemek, hem sizin hem çocuğunuzun emeği."
+  ],
+  "sec": 3,
+  "all": false,
+  "lb": [
+   "Çok anlaşılır bir duygu ama bir de şöyle bakalım.",
+   "Birlikte düşünelim.",
+   "Bravo! En zor ama en doğru yolu seçtiniz."
+  ],
+  "bridge": {
+   "e": "Haydi devam edelim. Sizce Ayşe pes edecek mi?",
+   "n": "Deniz hâlâ ağlıyordu. Ayşe ise kararsızdı."
+  },
+  "ov": {
+   "i": 2,
+   "t": "Bravo! En zor ama en doğru yolu seçtiniz."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare4.webp",
+  "text": "Tam o sırada Serkan geldi: “Ben masayı hallederim. Sen yanında kal.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare4.webp",
+  "text": "Ayşe bunu yaptı. Ertesi gün yine denediler.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare4.webp",
+  "text": "Birkaç gün sonra Ayşe “biraz daha” kartını göstermeye başladı. Deniz önce kartla ilgilenmedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare4.webp",
+  "text": "Bir hafta sonra kartı eline aldı ama ne yapacağını anlamadı. Ayşe ona yardım etti.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare4.webp",
+  "text": "Kartı gösterince: “Bir dakika daha,” dedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare4.webp",
+  "text": "Bir dakika sonra tablet kapandı. Deniz yine ağladı. Ayşe yine tableti geri vermedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare4.webp",
+  "text": "Bazı günler daha iyi geçti. Bazı günler ise sanki hiçbir şey değişmemiş gibiydi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare5.webp",
+  "text": "Bir akşam Ayşe acele etti. Önceden haber vermeden tableti kapattı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare5.webp",
+  "text": "Deniz yeniden kendini yere bıraktı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare5.webp",
+  "text": "Ayşe çok üzüldü. “Başa döndük,” dedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare5.webp",
+  "text": "Serkan yanına oturdu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare5.webp",
+  "text": "“Belki de başa dönmedik. Bugün acele ettik. Yarın yine deneriz.”",
+  "sec": 3
+ },
+ {
+  "t": "q",
+  "q": "Ayşe “başa döndük” diyor. Sizce bu akşam neden zor geçti?",
+  "o": [
+   "Yöntem işe yaramıyor.",
+   "Ayşe bu kez önceden haber vermedi.",
+   "Deniz o gün huysuzdu."
+  ],
+  "fb": [
+   "Böyle bir akşamdan sonra bunu düşünmek çok doğal. Ama bir de şuna bakalım: Ayşe bu akşam neyi farklı yaptı?",
+   "Evet. Deniz için haber almak çok önemli. Bir gerileme çoğu zaman yöntemin değil, o gün atlanan bir adımın işaretidir.",
+   "Olabilir; yorgun olduğu günler daha zor geçiyor. Ama o akşam Ayşe de bir adımı atladı. Sizce hangisi?"
+  ],
+  "sec": 3,
+  "all": false,
+  "lb": [
+   "Bir de şöyle bakalım.",
+   "Tebrikler, tam isabet!",
+   "Birlikte düşünelim."
+  ],
+  "bridge": {
+   "e": "Haydi devam edelim. Sizce bu zor akşam her şeyin sonu mu, yoksa yeni bir başlangıç mı?",
+   "n": "Ertesi gün yeniden denediler. Sonra bir gün daha."
+  },
+  "ov": {
+   "i": 1,
+   "t": "Tebrikler, tam isabet!"
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare6.webp",
+  "text": "Birkaç hafta sonra bir akşam Ayşe tabletin biteceğini söyledi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare6.webp",
+  "text": "Deniz yüzünü buruşturdu. Ayşe bağırmasını bekledi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare6.webp",
+  "text": "Deniz masanın üzerindeki küçük karta uzandı. “Biraz daha” kartını aldı ve annesine gösterdi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare6.webp",
+  "text": "Ayşe bir an durdu. Sonra gülümsedi. “Evet, Deniz. Bir dakika daha.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare6.webp",
+  "text": "Deniz kartı göstermişti. Ayşe onun bunu başardığını fark etti.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare6.webp",
+  "text": "Elini kaldırdı. Deniz beşlik vermeyi seviyordu. Annesinin eline hafifçe vurdu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare6.webp",
+  "text": "Bir dakika sonra tablet kapandı. O akşam da biraz huzursuzlandı. Ama kendini yere atmadı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare7.webp",
+  "text": "Sorun tamamen bitmedi ama eskisine göre çok azalmıştı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare7.webp",
+  "text": "Deniz yorgun olduğunda hâlâ zorlanıyordu. Bazen kartı kullanmadan bağırıyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare7.webp",
+  "text": "Ama artık kimse bu anları savaş gibi görmüyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare7.webp",
+  "text": "Bir akşam Ayşe, Serkan'a şöyle dedi:",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare7.webp",
+  "text": "“Eskiden bize karşı geldiğini düşünüyordum. Şimdi geçiş yapmakta zorlandığını düşünüyorum.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m1_b3_kare7.webp",
+  "text": "Serkan başını salladı. Deniz masada yemeğini yiyordu. Tablet odanın diğer tarafında duruyordu.",
+  "sec": 3
+ },
+ {
+  "t": "think",
+  "q": "Sizi evde en çok zorlayan ve değişmesini istediğiniz davranış hangisi? Bunun için neler yapabilirsiniz?",
+  "sec": 3,
+  "bridge": {
+   "e": "Hikâyemizin sonuna geldik. Son sözlerimizi birlikte dinleyelim.",
+   "n": null
+  },
+  "destek": "Bu konuda okulumuzun rehberlik servisinden her zaman destek alabilirsiniz."
+ },
+ {
+  "t": "close",
+  "lines": [
+   "Ayşe ile Serkan'ın yaşadıkları kolay değildi. Haftalar sürdü. Bazı akşamlar başa dönmüş gibi hissettiler.",
+   "Sorun tamamen bitmedi ama çok azaldı.",
+   "Böyle bir değişim bir günde olmaz. Çocuğun öğrenmesi zaman alır. Anne babanın öğrenmesi de.",
+   "Bu süreçte en belirleyici olan, sizin tutumunuzdur:",
+   "Sakin kalmak, aynı kuralı her gün aynı şekilde uygulamak ve evdeki herkesin aynı dili konuşması.",
+   "Zorlandığınızda yalnız değilsiniz.",
+   "Çocuğunuzun öğretmeni ve okulumuzun rehberlik servisi her konuda yanınızda. Bize her zaman ulaşabilirsiniz."
+  ],
+  "sec": 3
+ }
+]

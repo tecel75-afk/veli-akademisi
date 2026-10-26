@@ -1,0 +1,541 @@
+[
+ {
+  "t": "section",
+  "n": 1,
+  "title": "1. Bölüm",
+  "sub": "Sorun ve çaresizlik"
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare1.webp",
+  "text": "Arda on dört yaşındaydı. Down sendromu ve orta-ağır düzeyde zihinsel yetersizliği vardı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare1.webp",
+  "text": "Günlük işlerin çoğunda desteğe ihtiyaç duyuyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare1.webp",
+  "text": "Ne olacağını önceden bilmek onu rahatlatıyordu. Bazı rutinleri bozulduğunda huzursuz olabiliyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare2.webp",
+  "text": "Annesi Sibel günün büyük bölümünü Arda'nın ihtiyaçlarını düşünerek geçiriyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare2.webp",
+  "text": "Servisi takip ediyordu. Randevuları ayarlıyordu. Kıyafetlerini hazırlıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare2.webp",
+  "text": "Günlük bakımına yardım ediyordu. Gece uyandığında yanına gidiyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare3.webp",
+  "text": "Eşi Cem de Arda ile ilgileniyordu. Ama evde görünmeyen birçok iş Sibel'in üzerindeydi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare3.webp",
+  "text": "Sibel uzun süre bundan söz etmedi. “Ben annesiyim. Tabii ki yapacağım,” diyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare3.webp",
+  "text": "Ama giderek daha az uyuyordu. Arkadaşlarıyla görüşmüyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare3.webp",
+  "text": "Kendisi için bir şey yaptığında suçluluk hissediyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare4.webp",
+  "text": "Bir sabah Arda kahvaltıda bardağı devirdi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare4.webp",
+  "text": "Sibel birden bağırdı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare4.webp",
+  "text": "Arda irkildi. Ellerini kulaklarına kapattı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare4.webp",
+  "text": "Sibel hemen sustu. Oğlunun yüzünü görünce çok kötü hissetti.",
+  "sec": 1
+ },
+ {
+  "t": "q",
+  "q": "Sibel “Ben kötü bir anne olmaya başladım” diyor. Sizce ona ne oluyor?",
+  "o": [
+   "Gerçekten kötü bir anne oldu.",
+   "Çok yoruldu; yükünü uzun süre kimseyle paylaşmadı.",
+   "Sorun Arda'nın bardağı devirmesiydi."
+  ],
+  "fb": [
+   "Bu cümleyi kuran pek çok anne baba aslında kötü değil, çok yorgundur. Sibel hemen sustu ve kendini kötü hissetti; bu, ne kadar önemsediğini gösteriyor.",
+   "Evet. Yorgunluk birikince sabır azalır. Bu bir karakter sorunu değil; bakım verenin de dinlenmeye ve desteğe ihtiyacı olduğunun işaretidir.",
+   "Bardak yalnızca son damlaydı. Sibel'in tepkisi, aylardır biriken yorgunluktan geliyordu."
+  ],
+  "sec": 1,
+  "all": false,
+  "lb": [
+   "Bir de şöyle bakalım.",
+   "Sibel'in yorgunluğunu çok iyi görmüşsünüz!",
+   "Birlikte düşünelim."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Sibel'in yorgunluğunu çok iyi görmüşsünüz!"
+  },
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım Sibel bu duygusunu biriyle paylaşacak mı?",
+   "n": "O gün akşama kadar Sibel'in içi sıkıldı."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare5.webp",
+  "text": "Akşam Cem'e: “Ben kötü bir anne olmaya başladım,” dedi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare5.webp",
+  "text": "Cem şaşırdı. “Neden böyle söylüyorsun?”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare5.webp",
+  "text": "“Hiçbir şeye tahammülüm kalmadı.”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b1_kare5.webp",
+  "text": "Cem bir süre sustu. Sibel'in bu kadar yorulduğunu o da yeni yeni fark ediyordu.",
+  "sec": 1
+ },
+ {
+  "t": "think",
+  "q": "Sizin gününüzde yalnızca size ait bir an var mı? En son ne zaman kendiniz için bir şey yaptınız?",
+  "sec": 1,
+  "bridge": {
+   "e": "Haydi hikâyemize devam edelim. Belki de cevap, bir okul bahçesinde saklı.",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 2,
+  "title": "2. Bölüm",
+  "sub": "Başkasının deneyimi"
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare1.webp",
+  "text": "Bir gün okulda veli buluşması vardı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare1.webp",
+  "text": "Toplantı bitince birkaç anne bahçede çay içmeye devam etti. Sibel de yanlarına oturdu.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare1.webp",
+  "text": "Sohbet yorgunluğa geldi.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare2.webp",
+  "text": "Hacer şöyle dedi: “Geçen yıl iki gün kız kardeşime gittim.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare2.webp",
+  "text": "Sibel şaşırdı. “Çocuğun olmadan mı?” “Evet.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare2.webp",
+  "text": "“Nasıl gittin? Ben bir saat çıksam aklım evde kalıyor.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare2.webp",
+  "text": "Hacer gülümsedi. “Ben de öyleydim. Sonra çok yorulduğumu fark ettim.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare3.webp",
+  "text": "Biraz durdu.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare3.webp",
+  "text": "“Bir ara yorgunluğum çok arttı. Okulun rehber öğretmeniyle de konuştum. Birinin beni dinlemesi bile iyi geldi.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare3.webp",
+  "text": "Sibel dikkatle dinledi.",
+  "sec": 2
+ },
+ {
+  "t": "q",
+  "q": "Okul bahçesindeki annelerin anlattıklarından hangisi size en yakın geldi?",
+  "o": [
+   "Bir iki günlüğüne birine gidip dinlenmek.",
+   "Rehber öğretmenle konuşmak; birinin dinlemesi.",
+   "Haftada bir saat yalnızca kendine ayırmak."
+  ],
+  "fb": [
+   "Güzel bir seçim. Kısa bir uzaklaşma bile insanın kendini toparlamasına yardım eder; çocuk da güvendiği biriyle kalmayı öğrenir.",
+   "Güzel bir seçim. Yorgunluğu birine anlatmak yükü hafifletir. Okulumuzun rehberlik servisi bunun için de burada.",
+   "Güzel bir seçim. Dinlenmek büyük bir tatil olmak zorunda değil; küçük ve düzenli bir zaman da çok iyi gelir."
+  ],
+  "sec": 2,
+  "all": true,
+  "bridge": {
+   "e": "Haydi devam edelim. Bakalım başka bir anne neler anlatacak?",
+   "n": "Çaylar tazelendi, sohbet sürüyordu."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare4.webp",
+  "text": "Filiz de söze girdi.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare4.webp",
+  "text": "“Ben dinlenmeyi büyük bir şey sanıyordum. Tatil gibi.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare4.webp",
+  "text": "“Şimdi haftada bir saat yürümeye çıkıyorum. O sırada oğlum babasıyla kalıyor.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare5.webp",
+  "text": "Sibel hiçbir şey söylemedi.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare5.webp",
+  "text": "Eve giderken aklında tek bir şey vardı: “Bir saat.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b2_kare5.webp",
+  "text": "Bir saat bile ona çok uzun geliyordu.",
+  "sec": 2
+ },
+ {
+  "t": "think",
+  "q": "Evde sizin üzerinizde olan ama paylaşılabilecek işler hangileri? Kimden yardım isteyebilirsiniz?",
+  "sec": 2,
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım Sibel o bir saati kendine ayırabilecek mi?",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 3,
+  "title": "3. Bölüm",
+  "sub": "Uyarlama ve azalma"
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare1.webp",
+  "text": "Ertesi hafta Cem'e: “Cumartesi bir saat dışarı çıkmak istiyorum,” dedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare1.webp",
+  "text": "Cem kabul etti: “Tamam.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare1.webp",
+  "text": "Sibel şaşırdı. “Nereye gideceğimi bile bilmiyorum.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare1.webp",
+  "text": "“Yürü. Kahve iç. Ne istersen yap.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare2.webp",
+  "text": "Cumartesi geldi. Sibel son anda vazgeçmek istedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare2.webp",
+  "text": "Arda biraz huzursuz görünüyordu. Sibel “Ben kalayım,” dedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare2.webp",
+  "text": "Cem montunu uzattı. “Bir saat sonra dönersin. Bir şey olursa seni ararım.”",
+  "sec": 3
+ },
+ {
+  "t": "q",
+  "q": "Sibel son anda “Ben kalayım” dedi. Siz onun yerinde ne yapardınız?",
+  "o": [
+   "Kalırdım; Arda huzursuzken çıkamam.",
+   "Cem'e güvenip bir saatliğine çıkardım.",
+   "Çıkardım ama her beş dakikada bir telefonla arardım."
+  ],
+  "fb": [
+   "Bu duygu çok anlaşılır. Ama Arda babasıyla güvende. Hep kalmak, Sibel'in yorgunluğunu da hep aynı yerde tutar.",
+   "Evet. Bir saatlik ayrılık hem Sibel'e hem Arda'ya iyi gelir. Arda, babasıyla da güvende olduğunu öğrenir.",
+   "İlk seferde telefona sık bakmak çok doğal; Sibel de ilk yirmi dakika öyle yaptı. Ama dinlenmek için zamanla telefonu bırakmayı denemek gerekir."
+  ],
+  "sec": 3,
+  "all": false,
+  "lb": [
+   "Bu çok anlaşılır.",
+   "Kendinize de iyi bakmak, ne doğru bir seçim!",
+   "Bir de şöyle bakalım."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Kendinize de iyi bakmak, ne doğru bir seçim!"
+  },
+  "bridge": {
+   "e": "Haydi devam edelim. Sizce Sibel kapıdan çıkacak mı?",
+   "n": "Sibel montunu aldı, bir an kapıda durdu."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare3.webp",
+  "text": "Sibel çıktı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare3.webp",
+  "text": "İlk yirmi dakika telefonuna baktı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare3.webp",
+  "text": "Sonra yürümeye başladı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare4.webp",
+  "text": "Eve döndüğünde hiçbir mucize olmamıştı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare4.webp",
+  "text": "Ev işleri hâlâ duruyordu. Arda yine desteğe ihtiyaç duyuyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare4.webp",
+  "text": "Ama Sibel biraz daha sakin hissediyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare5.webp",
+  "text": "Sonraki haftalarda bazı görevleri yeniden paylaştılar.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare5.webp",
+  "text": "Cem haftada iki akşam Arda'nın akşam rutinini üstlendi. Randevuları artık ikisi de takip ediyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare5.webp",
+  "text": "Sibel'in ablası da bazı günler Arda ile vakit geçirmeye başladı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare6.webp",
+  "text": "Arda'nın babasıyla akşam rutinini tamamladığı bir gün Sibel onu fark etti.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare6.webp",
+  "text": "Arda pijamasını giymiş ve kullandığı eşyayı yerine koymuştu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare6.webp",
+  "text": "Sibel gülümsedi. “Arda, hazırlığını tamamladın. Çok güzel.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare6.webp",
+  "text": "Arda annesinin küçük alkışını bekledi. Sibel iki kez hafifçe alkışladı. Arda gülümsedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare7.webp",
+  "text": "Her şey düzenli gitmedi. Bir hafta Cem'in işi çok yoğunlaştı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare7.webp",
+  "text": "Sorumlulukların çoğu yeniden Sibel'in üzerine kaldı. Sibel eski yorgunluğunu hissetti. Daha çabuk sinirlenmeye başladı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare7.webp",
+  "text": "Bu kez sessiz kalmadı. “Ben yine çok yoruldum,” dedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare7.webp",
+  "text": "Cem savunmaya geçmedi. Şöyle sordu: “Bu hafta neyi ben alabilirim?”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare7.webp",
+  "text": "Sibel için en büyük değişikliklerden biri buydu. Yardım istemek artık başarısızlık gibi gelmiyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare8.webp",
+  "text": "Bir gün okul bahçesinde Leyla adında başka bir anneyle konuştu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare8.webp",
+  "text": "Leyla şöyle dedi: “Bazen çok bunaldığımı hissediyorum. Ama bunu söylemeye utanıyorum.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare8.webp",
+  "text": "Sibel birkaç saniye sustu. Sonra: “Ben uzun süre hiç söylemedim,” dedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare8.webp",
+  "text": "“Söylemeyince kimse ne kadar yorulduğumu bilmiyordu.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare9.webp",
+  "text": "Biraz durdu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare9.webp",
+  "text": "“Her şey düzelmedi. Hâlâ çok zorlandığım günler var.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare9.webp",
+  "text": "“Ama artık bütün yükü tek başıma taşımam gerektiğini düşünmüyorum.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m7_b3_kare9.webp",
+  "text": "Okul kapısı açıldı. Arda dışarı çıktı.",
+  "sec": 3
+ },
+ {
+  "t": "think",
+  "q": "Sizi en çok yoran ve değişmesini istediğiniz durum hangisi? Kendinize zaman ayırmak için hangi küçük adımla başlayabilirsiniz?",
+  "sec": 3,
+  "destek": "Bu konuda okulumuzun rehberlik servisinden her zaman destek alabilirsiniz.",
+  "bridge": {
+   "e": "Hikâyemizin sonuna geldik. Son sözlerimizi birlikte dinleyelim.",
+   "n": null
+  }
+ },
+ {
+  "t": "close",
+  "lines": [
+   "Sibel'in yaşadıkları kolay değildi. Yardım istemek, bir saatliğine bile evden çıkmak ona çok zor geldi.",
+   "Yorgunluk tamamen bitmedi ama Sibel artık bütün yükü tek başına taşımıyordu.",
+   "Çocuğunuza iyi bakabilmeniz için sizin de iyi olmanız gerekir. Dinlenmek bencillik değil, bakımın bir parçasıdır.",
+   "Bu süreçte en belirleyici olan, sizin tutumunuzdur:",
+   "Yorulduğunuzu söylemek, işleri paylaşmak ve kendinize küçük de olsa düzenli bir zaman ayırmak.",
+   "Zorlandığınızda yalnız değilsiniz.",
+   "Çocuğunuzun öğretmeni ve okulumuzun rehberlik servisi her konuda yanınızda. Bize her zaman ulaşabilirsiniz."
+  ],
+  "sec": 3
+ }
+]

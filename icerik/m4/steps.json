@@ -1,0 +1,505 @@
+[
+ {
+  "t": "section",
+  "n": 1,
+  "title": "1. Bölüm",
+  "sub": "Sorun ve çaresizlik"
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare1.webp",
+  "text": "Kerem on altı yaşındaydı. Otizmliydi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare1.webp",
+  "text": "Kısa ve bildiği yönergeleri iyi anlıyordu. Tanıdığı yolları ezberleyebiliyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare1.webp",
+  "text": "Ama beklenmedik bir şey olduğunda ne yapacağını bulmakta zorlanıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare2.webp",
+  "text": "Evlerinin yakınında küçük bir market vardı.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare2.webp",
+  "text": "Kerem babası Mehmet'le sık sık markete giderdi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare2.webp",
+  "text": "Yolu biliyordu. Ekmeğin nerede olduğunu biliyordu. Kasadaki kişiyi de tanıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare3.webp",
+  "text": "Bir gün ayakkabılarını giydi. Kapıyı gösterdi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare3.webp",
+  "text": "“Market,” dedi.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare3.webp",
+  "text": "Mehmet hemen: “Tek başına olmaz.”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare3.webp",
+  "text": "Kerem tekrar: “Market.”",
+  "sec": 1
+ },
+ {
+  "t": "q",
+  "q": "Kerem “Market” deyip kapıyı gösterdi. Sizce bu isteğiyle ne anlatıyor olabilir?",
+  "o": [
+   "İnat ediyor, sözümüzü dinlemiyor.",
+   "Büyüdüğünü, bir şeyi kendi yapmak istediğini.",
+   "Sadece dışarı çıkmak istiyor, marketle ilgisi yok."
+  ],
+  "fb": [
+   "Öyle görünebilir. Ama Kerem ayakkabısını giyip kapıyı gösterdi; bildiği bir işi kendi yapmak istiyordu. Bu isteği bir başlangıç olarak görebilir miyiz?",
+   "Evet. Kerem kendi yapabileceğini düşündüğü bir işi istiyor. Bu istek, bağımsızlığa doğru küçük adımlar atmak için iyi bir fırsattır.",
+   "Olabilir; çocuklar bazen istediklerini tam anlatamaz. Ama Kerem markete gitmeyi biliyor ve bunu kendi yapmak istiyor gibi. Neyi istediğini anlamak için onu gözlemlemek iyi bir yoldur."
+  ],
+  "sec": 1,
+  "all": false,
+  "lb": [
+   "Bir de şöyle bakalım.",
+   "Kerem'i çok iyi anlamışsınız!",
+   "Birlikte düşünelim."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Kerem'i çok iyi anlamışsınız!"
+  },
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım Mehmet bu isteğe nasıl bakacak?",
+   "n": "Kerem hâlâ kapının önünde, ayakkabılarıyla bekliyordu."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare4.webp",
+  "text": "Mehmet korkuyordu.",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare4.webp",
+  "text": "Ya yola çıkarsa? Ya yanlış yöne giderse? Ya korkarsa?",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare5.webp",
+  "text": "Akşam eşi Derya'ya şöyle dedi: “Onu korumamız gerekiyor. Ama hep yanında da olamayacağız.”",
+  "sec": 1
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b1_kare5.webp",
+  "text": "Derya da aynı kaygıyı taşıyordu.",
+  "sec": 1
+ },
+ {
+  "t": "think",
+  "q": "Çocuğunuzun kendi başına yapmak istediği ama sizin korktuğunuz bir şey var mı? Sizi en çok ne korkutuyor?",
+  "sec": 1,
+  "bridge": {
+   "e": "Haydi hikâyemize devam edelim. Belki de cevap, hiç beklenmedik bir sohbette saklı.",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 2,
+  "title": "2. Bölüm",
+  "sub": "Başkasının deneyimi"
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare1.webp",
+  "text": "Bayramda ailece akraba ziyaretine gittiler. Orada Nihat Dayı da vardı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare1.webp",
+  "text": "Nihat Dayı'nın yirmi yaşında bir oğlu vardı.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare1.webp",
+  "text": "Sohbet sırasında Mehmet konuyu açtı: “Kerem markete kendi gitmek istiyor. Ben korkuyorum.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare2.webp",
+  "text": "Nihat Dayı başını salladı. “Ben de oğlumu ilk kez gönderdiğimde arkasından gittim.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare2.webp",
+  "text": "Mehmet güldü. “Gizlice mi?” “Biraz öyle.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare2.webp",
+  "text": "Sonra ciddi bir sesle devam etti.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare2.webp",
+  "text": "“Bir anda yalnız bırakmadık. Önce birlikte gittik. Sonra ben birkaç metre geriden yürüdüm. Sonra kapının önünde bekledim.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare3.webp",
+  "text": "“Biz sadece yolu öğretmedik. Yardım istemeyi de çalıştık.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare3.webp",
+  "text": "“Oğlumun cebinde bir kart vardı. Adı ve bizim telefon numaramız yazıyordu.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare3.webp",
+  "text": "“Kaybolursa ya da korkarsa markette çalışan kişiye kartı göstermeyi öğrettik.”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare3.webp",
+  "text": "“Bunu gerçekten yapabildi mi?”",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare3.webp",
+  "text": "“Evde prova ettik. Sonra markette prova ettik. Ben de marketteki kişiye önceden söyledim.”",
+  "sec": 2
+ },
+ {
+  "t": "q",
+  "q": "Nihat Dayı'nın anlattıklarından hangisi size en önemli geliyor?",
+  "o": [
+   "Bir anda değil, adım adım uzaklaşmak.",
+   "Cebe yardım kartı koyup evde ve markette prova etmek.",
+   "Marketteki kişiye önceden haber vermek."
+  ],
+  "fb": [
+   "Çok önemli bir nokta. Kademeli uzaklaşmak, hem çocuğa hem anne babaya alışma zamanı verir.",
+   "Çok önemli bir nokta. Kart tek başına yetmez; prova edildiğinde gerçekten kullanılabilir hâle gelir.",
+   "Çok önemli bir nokta. Çevredeki insanların bilmesi, çocuğun etrafında küçük bir güvenlik ağı oluşturur."
+  ],
+  "sec": 2,
+  "all": true,
+  "bridge": {
+   "e": "Haydi devam edelim. Sizce Mehmet bu fikirleri kendi evinde deneyecek mi?",
+   "n": "Nihat Dayı çayını yudumlarken Mehmet bir süre sessiz kaldı."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare4.webp",
+  "text": "Bu, Mehmet'in hiç düşünmediği bir şeydi.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare4.webp",
+  "text": "Bağımsızlık sadece tek başına yürümek değildi.",
+  "sec": 2
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b2_kare4.webp",
+  "text": "Yardıma ihtiyaç duyduğunda ne yapacağını bilmek de bunun bir parçasıydı.",
+  "sec": 2
+ },
+ {
+  "t": "think",
+  "q": "Çocuğunuz kaybolsa ya da korksa yardım istemeyi biliyor mu? Bunu evde nasıl prova edebilirsiniz?",
+  "sec": 2,
+  "bridge": {
+   "e": "Haydi hikâyemize dönelim. Bakalım Kerem'in ilk adımları nasıl geçecek?",
+   "n": null
+  }
+ },
+ {
+  "t": "section",
+  "n": 3,
+  "title": "3. Bölüm",
+  "sub": "Uyarlama ve azalma"
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare1.webp",
+  "text": "Mehmet ve Derya eve dönünce küçük adımlarla başladılar.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare1.webp",
+  "text": "Önce market yolunu birlikte yürüdüler.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare1.webp",
+  "text": "Hep aynı yolu kullandılar. Aynı yerde durdular. Aynı yaya geçidinden geçtiler.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare2.webp",
+  "text": "Sonra Kerem'in cebine küçük bir kart koydular. Kartta adı ve ailesinin telefon numarası vardı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare2.webp",
+  "text": "Evde prova yaptılar. Mehmet market çalışanı gibi karşısında durdu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare2.webp",
+  "text": "“Kerem, kayboldun. Ne yapacaksın?”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare2.webp",
+  "text": "Kerem önce bekledi. Mehmet cebini işaret etti. Kerem kartı çıkardı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare2.webp",
+  "text": "Birkaç gün sonra aynı şeyi yeniden yaptılar.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare3.webp",
+  "text": "Sonra markete gittiler. Market çalışanıyla önceden konuştular.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare3.webp",
+  "text": "Kerem kartını ona gösterdi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare3.webp",
+  "text": "“Tamam Kerem. Bu kartı bana gösterebilirsin.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare3.webp",
+  "text": "Kerem bir süre yüzüne baktı. Sonra kartı cebine koydu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare4.webp",
+  "text": "Sonraki haftalarda Mehmet yürürken biraz daha geride kalmaya başladı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare4.webp",
+  "text": "Ama bir gün Kerem marketi görünce yola doğru hızlandı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare4.webp",
+  "text": "Mehmet hemen yanına koştu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare5.webp",
+  "text": "O gün Mehmet eve çok üzgün döndü. “Off, olmuyor.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare5.webp",
+  "text": "Derya cevap verdi: “Bugün yol kısmında zorlandı. Demek ki biraz daha çalışacağız.”",
+  "sec": 3
+ },
+ {
+  "t": "q",
+  "q": "Kerem yola doğru hızlandı, Mehmet “Olmuyor” dedi. Siz bu babanın yerinde ne yapardınız?",
+  "o": [
+   "Bir daha tek başına göndermeyi hiç denemezdim.",
+   "Zorlandığı kısmı, yani yolu ayrıca çalışır, sonra devam ederdim.",
+   "Hiçbir şey olmamış gibi aynı şekilde devam ederdim."
+  ],
+  "fb": [
+   "Bu korku çok anlaşılır. Ama bir zorluk, her şeyin olmadığı anlamına gelmez. Kerem yolu bilmiyor değil; yalnızca karşıdan karşıya geçerken zorlanıyor.",
+   "Evet. Zorlanılan adımı ayırıp ayrıca çalışmak, özel eğitimde en işe yarayan yollardan biridir. Bunu öğretmeniyle birlikte planlayabilirsiniz.",
+   "Aynı şekilde devam etmek riskli olabilir; yol, güvenliğin en önemli kısmı. Önce o adımı güçlendirmek, sonra devam etmek daha güvenli olur."
+  ],
+  "sec": 3,
+  "all": false,
+  "lb": [
+   "Bu korku çok anlaşılır.",
+   "Çok akıllıca bir adım!",
+   "Bir de şöyle bakalım."
+  ],
+  "ov": {
+   "i": 1,
+   "t": "Çok akıllıca bir adım!"
+  },
+  "bridge": {
+   "e": "Haydi devam edelim. Sizce Mehmet ile Derya bu zor günden sonra ne yapacak?",
+   "n": "Ertesi gün Mehmet ile Derya yeniden yola çıktılar."
+  }
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare6.webp",
+  "text": "Bir süre sadece karşıdan karşıya geçmeyi çalıştılar.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare6.webp",
+  "text": "Dur. Bak. Bekle. Sonra geç.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare7.webp",
+  "text": "Haftalar sonra Mehmet apartman kapısında kaldı. Derya da yanındaydı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare7.webp",
+  "text": "Kerem markete doğru yürüdü.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare7.webp",
+  "text": "Mehmet'in içi hiç rahat değildi. Birkaç kez arkasından gitmek istedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare7.webp",
+  "text": "Derya şöyle dedi: “Bekleyelim.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare8.webp",
+  "text": "Bir süre sonra Kerem köşeden göründü. Elinde ekmek vardı.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare8.webp",
+  "text": "Kapıya kadar yürüdü. “Ekmek,” dedi.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare8.webp",
+  "text": "Mehmet'in yüzü aydınlandı. “Kerem, markete gidip ekmeği aldın. Aferin.”",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare8.webp",
+  "text": "Kerem babasının beşlik vermesini seviyordu. Mehmet elini kaldırdı. Kerem de elini vurdu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare9.webp",
+  "text": "Her şey tamamen çözülmedi. Kerem başka yerlere tek başına gitmiyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare9.webp",
+  "text": "Kalabalık olduğunda daha çok desteğe ihtiyaç duyuyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare9.webp",
+  "text": "Bazen markete giderken babasının geride olduğunu kontrol ediyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare9.webp",
+  "text": "Ama artık aile bağımsızlığı “ya tamamen yalnız ya da tamamen bizimle” diye düşünmüyordu.",
+  "sec": 3
+ },
+ {
+  "t": "frame",
+  "img": "img/m4_b3_kare9.webp",
+  "text": "Kerem'in yapabildiği kadarını güvenli biçimde artırmaya çalışıyorlardı.",
+  "sec": 3
+ },
+ {
+  "t": "think",
+  "q": "Evde sizi en çok zorlayan ve çocuğunuzun kendi başına yapabilmesini istediğiniz iş hangisi? Bunun için hangi küçük adımla başlayabilirsiniz?",
+  "sec": 3,
+  "destek": "Bu konuda okulumuzun rehberlik servisinden her zaman destek alabilirsiniz.",
+  "bridge": {
+   "e": "Hikâyemizin sonuna geldik. Son sözlerimizi birlikte dinleyelim.",
+   "n": null
+  }
+ },
+ {
+  "t": "close",
+  "lines": [
+   "Mehmet ile Derya'nın yaşadıkları kolay değildi. Geride durmak, beklemek ve korkuyu taşımak zaman aldı.",
+   "Her şey tamamen çözülmedi ama Kerem'in tek başına yapabildikleri çok arttı.",
+   "Bağımsızlık bir günde kazanılmaz. Çocuk adım adım öğrenir. Anne baba da adım adım bırakmayı öğrenir.",
+   "Bu süreçte en belirleyici olan, sizin tutumunuzdur:",
+   "Küçük adımlarla ilerlemek, zorlanılan yeri yeniden çalışmak ve çocuğa güvenmeyi de öğrenmek.",
+   "Zorlandığınızda yalnız değilsiniz.",
+   "Çocuğunuzun öğretmeni ve okulumuzun rehberlik servisi her konuda yanınızda. Bize her zaman ulaşabilirsiniz."
+  ],
+  "sec": 3
+ }
+]

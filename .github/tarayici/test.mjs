@@ -27,16 +27,21 @@ try {
   const kayitlar = [];
   sayfa.on('response', async c => {
     const u = new URL(c.url());
-    if (u.pathname.startsWith('/api/')) {
+    if (u.pathname.startsWith('/api/') && c.request().method() === 'POST') {   // yalnızca kayıtlar
       kayitlar.push({ yol: u.pathname, durum: c.status(), veri: JSON.parse(c.request().postData() || '{}') });
     }
   });
   const kayitBekle = (yol, kosul) => sayfa.waitForResponse(
     c => new URL(c.url()).pathname === yol && kosul(JSON.parse(c.request().postData() || '{}')), { timeout: 15000 });
 
-  console.log('a) Sayfa açılıyor');
+  const durumBekle = () => sayfa.waitForResponse(c => new URL(c.url()).pathname === '/api/durum', { timeout: 15000 });
+
+  console.log('a) Sayfa açılıyor (yeni veli)');
+  let durumCevabi = durumBekle();
   await sayfa.goto(`${ADRES}/v/${KOD}/m1/`, { waitUntil: 'load' });
+  kontrol('açılışta durum soruldu ve cevap geldi', 200, (await durumCevabi).status());
   kontrol('başlat düğmesi görünüyor', true, !!(await sayfa.$('#basla')));
+  kontrol('yarım ilerleme yok: düğme yazısı değişmedi', 'Hikâyeyi başlat', await sayfa.$eval('#basla', b => b.textContent.trim()));
   kontrol('açılışta henüz kayıt gönderilmedi', 0, kayitlar.length);
 
   console.log('b) "Hikâyeyi başlat" düğmesine basılıyor');
@@ -66,6 +71,19 @@ try {
   const cevapKaydi2 = kayitBekle('/api/cevap', v => v.adim === SORU_ADIMI && v.secim === 2);
   await sayfa.click('.opt[data-i="2"]');
   kontrol('ikinci cevap kaydı kabul edildi', 204, (await cevapKaydi2).status());
+
+  console.log('f) Sayfa kapatılıp yeniden açılıyor (kaldığı yerden devam)');
+  durumCevabi = durumBekle();
+  await sayfa.goto(`${ADRES}/v/${KOD}/m1/`, { waitUntil: 'load' });
+  await durumCevabi;
+  await sayfa.waitForFunction(() => document.getElementById('basla').textContent.trim() !== 'Hikâyeyi başlat', { timeout: 5000 })
+    .catch(() => {});
+  kontrol('düğme yazısı', 'Kaldığınız yerden devam edin', await sayfa.$eval('#basla', b => b.textContent.trim()));
+  const devamKaydi = kayitBekle('/api/ilerleme', v => true);
+  await sayfa.click('#basla');
+  const dk = await devamKaydi;
+  kontrol(`dokununca doğrudan kaldığı adım (${SORU_ADIMI}) açıldı`, SORU_ADIMI, JSON.parse(dk.request().postData()).adim);
+  kontrol('açılan ekran soru ekranı (3 şık)', 3, (await sayfa.$$('.opt')).length);
 
   kontrol('sayfada yakalanmamış JavaScript hatası yok', '', sayfaHatalari.join(' | '));
   kontrol('reddedilen kayıt isteği yok', '', kayitlar.filter(k => k.durum !== 204).map(k => `${k.yol} ${k.durum}`).join(', '));

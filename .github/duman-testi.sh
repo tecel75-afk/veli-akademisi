@@ -3,6 +3,7 @@
 # Herhangi bir kontrol tutmazsa betik hata koduyla biter ve GitHub derlemesi "başarısız" olur.
 # Kullanım: .github/duman-testi.sh <derlenmiş klasör>
 set -euo pipefail
+trap 'echo "::error::Betik $LINENO. satırda beklenmedik şekilde durdu (komut: $BASH_COMMAND)"' ERR
 
 YAYIN="$1"
 GECICI="$(mktemp -d)"
@@ -13,7 +14,7 @@ ADRES="http://127.0.0.1:5080"
 
 hata=0
 kontrol() {  # kontrol "<açıklama>" <beklenen> <gerçek>
-  if [ "$2" == "$3" ]; then echo "  TAMAM  $1"; else echo "  HATA   $1 — beklenen: [$2], gelen: [$3]"; hata=1; fi
+  if [ "$2" == "$3" ]; then echo "  TAMAM  $1"; else echo "  HATA   $1 — beklenen: [$2], gelen: [$3]"; echo "::error::$1 — beklenen: [$2], gelen: [$3]"; hata=1; fi
 }
 durum() { curl -s -o /dev/null -w "%{http_code}" "$1"; }
 yonlendirme() { curl -s -o /dev/null -w "%{http_code} %{redirect_url}" "$1"; }

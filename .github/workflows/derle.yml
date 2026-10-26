@@ -24,6 +24,20 @@ jobs:
       - name: Siteyi derle (Release)
         run: dotnet publish src/VeliAkademisi/VeliAkademisi.csproj -c Release -o yayin
 
+      # Duman testi: derlenen siteyi gerçekten çalıştırır, ana sayfayı ister,
+      # veritabanı dosyasının tablolarla oluştuğunu kontrol eder. Biri tutmazsa derleme başarısız olur.
+      - name: Duman testi (siteyi çalıştır ve kontrol et)
+        env:
+          VeriTabani__Yol: ${{ runner.temp }}/deneme/veliakademisi.db
+          ASPNETCORE_URLS: http://127.0.0.1:5080
+        run: |
+          dotnet yayin/VeliAkademisi.dll > site.log 2>&1 &
+          for i in $(seq 1 30); do curl -s http://127.0.0.1:5080/ > cevap.txt && break; sleep 1; done
+          echo "Ana sayfa cevabı:"; cat cevap.txt; echo
+          grep -q "Veli Akademisi çalışıyor." cevap.txt
+          python3 -c "import sqlite3,sys; t=sorted(r[0] for r in sqlite3.connect(sys.argv[1]).execute(\"select name from sqlite_master where type='table'\")); print('Tablolar:', t); assert {'Veliler','Ilerlemeler','Cevaplar'} <= set(t)" "$VeriTabani__Yol"
+          echo "Site günlüğü:"; cat site.log
+
       - name: Derlenen çıktıyı sakla
         uses: actions/upload-artifact@v7
         with:

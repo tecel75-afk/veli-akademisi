@@ -11,7 +11,7 @@ on:
 
 jobs:
   derle:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # sunucuyla aynı sürüm; "latest" kendiliğinden değişmesin
     steps:
       - name: Kodu indir
         uses: actions/checkout@v7

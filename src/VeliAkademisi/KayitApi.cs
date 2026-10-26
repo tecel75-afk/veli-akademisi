@@ -10,11 +10,39 @@ public record CevapIstegi(string? Kod, string? Hikaye, int Adim, int Secim);
 // Kayıt uçları:
 //   POST /api/ilerleme  {kod, hikaye, adim}         → velinin bulunduğu adımı kaydeder
 //   POST /api/cevap     {kod, hikaye, adim, secim}  → sorudaki seçimi kaydeder (0=A, 1=B, 2=C)
-// Başarılıysa 204 (içeriksiz) döner. Hatalı veri 400, bilinmeyen kod 404, hız sınırı aşımı 429.
+//   GET  /api/durum?kod=..&hikaye=..                → sayfanın açılışta sorduğu bilgiler (bkz. aşağıda)
+// Başarılıysa 204 (içeriksiz) ya da 200 döner. Hatalı veri 400, kilitli hikâye 403,
+// bilinmeyen kod 404, hız sınırı aşımı 429.
 public static class KayitApi
 {
     public static void Ekle(WebApplication app)
     {
+        // Sayfa açılırken: bu hikâyede nereden başlanacağı ve 8 hikâyenin durumu (Modüller listesi için).
+        app.MapGet("/api/durum", async (string? kod, string? hikaye, VeriTabani db, HizSiniri hiz) =>
+        {
+            var (veli, hata) = await Denetle(db, hiz, kod, hikaye);
+            if (hata is not null) return hata;
+            var durum = await VeliDurumu.Hesapla(db, veli!.Id);
+            var (adim, yarim) = durum.Baslangic(hikaye!);
+            return Results.Ok(new
+            {
+                hikaye,
+                baslangicAdimi = adim,     // yarım kaldıysa son bulunulan adım, değilse 0
+                yarimKaldi = yarim,        // true ise düğme "Kaldığınız yerden devam edin" olur
+                hikayeler = Hikayeler.Tanimlar.Select(t => new
+                {
+                    kod = t.Kod, modul = t.Modul, ad = t.Ad,
+                    durum = durum.Durum(t.Kod) switch
+                    {
+                        HikayeDurumu.Tamamlandi => "tamamlandi",
+                        HikayeDurumu.DevamEdiyor => "devam",
+                        HikayeDurumu.Baslanmadi => "baslanmadi",
+                        _ => "kilitli",
+                    },
+                }),
+            });
+        });
+
         app.MapPost("/api/ilerleme", async (IlerlemeIstegi istek, VeriTabani db, HikayeVerisi hv, HizSiniri hiz) =>
         {
             var (veli, hata) = await Denetle(db, hiz, istek.Kod, istek.Hikaye);
@@ -56,8 +84,8 @@ public static class KayitApi
         });
     }
 
-    // Ortak denetim: hikâye geçerli mi, kod geçerli bir veliye ait mi, hız sınırı aşıldı mı?
-    // Not: kilit denetimi (16.2) 2. Günde eklenecek.
+    // Ortak denetim: hikâye geçerli mi, kod geçerli bir veliye ait mi, hız sınırı aşıldı mı,
+    // hikâye bu veli için açık mı (kilitli hikâyeye kayıt yapılmaz, 16.2)?
     static async Task<(Veli? Veli, IResult? Hata)> Denetle(VeriTabani db, HizSiniri hiz, string? kod, string? hikaye)
     {
         if (hikaye is null || !Hikayeler.GecerliMi(hikaye)) return (null, Results.BadRequest());
@@ -65,6 +93,7 @@ public static class KayitApi
         var veli = await db.Veliler.FirstOrDefaultAsync(x => x.Kod == kod);
         if (veli is null) return (null, Results.NotFound());
         if (!hiz.IzinVarMi(kod)) return (null, Results.StatusCode(429));
+        if (!(await VeliDurumu.Hesapla(db, veli.Id)).AcikMi(hikaye)) return (null, Results.StatusCode(403));
         return (veli, null);
     }
 }

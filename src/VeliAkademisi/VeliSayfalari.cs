@@ -23,15 +23,16 @@ public static partial class VeliSayfalari
     {
         var v = app.MapGroup("/v/{kod}");
 
-        // Velinin bağlantısı. Şimdilik her zaman Modül 1'e gider;
-        // "kaldığı yerden devam" 2. Günde eklenecek.
+        // Velinin bağlantısı: velinin açacağı hikâyeye yönlendirir
+        // (tamamlanmamış en ileri hikâye; hepsi bitmişse en son bakılan).
         v.MapGet("/", async (string kod, VeriTabani db) =>
         {
             var veli = await VeliBul(db, kod);
             if (veli is null) return Gecersiz();
             veli.SonGiris = DateTime.UtcNow;
             await db.SaveChangesAsync();
-            return Results.Redirect($"/v/{kod}/{Hikayeler.Sira[0]}/");
+            var durum = await VeliDurumu.Hesapla(db, veli.Id);
+            return Results.Redirect($"/v/{kod}/{durum.AcilacakHikaye()}/");
         });
 
         // Hikâye sayfası. Adres "/" ile bitmezse "/" eklenmiş hâline yönlendirilir,
@@ -40,9 +41,11 @@ public static partial class VeliSayfalari
         v.MapGet("/{hikaye}", async (string kod, string hikaye, HttpContext http, VeriTabani db) =>
         {
             if (!Hikayeler.GecerliMi(hikaye)) return Results.NotFound();
-            if (await VeliBul(db, kod) is null) return Gecersiz();
+            var veli = await VeliBul(db, kod);
+            if (veli is null) return Gecersiz();
+            // Kilitli hikâyenin adresi elle yazılırsa açılmaz; veli kendi bağlantısına yönlendirilir (16.2).
+            if (!(await VeliDurumu.Hesapla(db, veli.Id)).AcikMi(hikaye)) return Results.Redirect($"/v/{kod}");
             if (!http.Request.Path.Value!.EndsWith('/')) return Results.Redirect($"/v/{kod}/{hikaye}/");
-            // Not: kilit denetimi (16.2) 2. Günde eklenecek.
             // Onaylı sayfa olduğu gibi okunur; yalnızca en sonuna kayıt kancası eklenir.
             var sayfa = await File.ReadAllTextAsync(Path.Combine(icerikYolu, hikaye, "index.html"));
             return Results.Content(sayfa + KancaEtiketi, "text/html; charset=utf-8");
@@ -52,19 +55,26 @@ public static partial class VeliSayfalari
         v.MapGet("/{hikaye}/img/{dosya}", async (string kod, string hikaye, string dosya, VeriTabani db) =>
         {
             if (!Hikayeler.GecerliMi(hikaye) || !DosyaAdiGuvenliMi(dosya)) return Results.NotFound();
-            if (await VeliBul(db, kod) is null) return Results.NotFound();
+            if (!await AcikHikayeMi(db, kod, hikaye)) return Results.NotFound();
             return Dosya(Path.Combine(icerikYolu, hikaye, "img", dosya));
         });
         v.MapGet("/{hikaye}/ses/{dosya}", async (string kod, string hikaye, string dosya, VeriTabani db) =>
         {
             if (!Hikayeler.GecerliMi(hikaye) || !DosyaAdiGuvenliMi(dosya)) return Results.NotFound();
-            if (await VeliBul(db, kod) is null) return Results.NotFound();
+            if (!await AcikHikayeMi(db, kod, hikaye)) return Results.NotFound();
             return Dosya(Path.Combine(sesYolu, hikaye, dosya));
         });
     }
 
+    // Kod geçerli bir veliye ait mi ve bu hikâye o veli için açık mı? (Görseller ve sesler için.)
+    static async Task<bool> AcikHikayeMi(VeriTabani db, string kod, string hikaye)
+    {
+        var veli = await VeliBul(db, kod);
+        return veli is not null && (await VeliDurumu.Hesapla(db, veli.Id)).AcikMi(hikaye);
+    }
+
     // Kodu önce biçimce, sonra veritabanında denetler. Bulamazsa null döner.
-    static async Task<Veli?> VeliBul(VeriTabani db, string kod)
+    internal static async Task<Veli?> VeliBul(VeriTabani db, string kod)
     {
         if (!KodUretici.BicimDogruMu(kod)) return null;
         return await db.Veliler.FirstOrDefaultAsync(x => x.Kod == kod);

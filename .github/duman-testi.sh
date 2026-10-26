@@ -46,8 +46,9 @@ kontrol "veritabanı tabloları" "Cevaplar,Ilerlemeler,Veliler" "$TABLOLAR"
 
 kontrol "/v/{kod} → Modül 1'e yönlendirme" "302 $ADRES/v/$KOD/m1/" "$(yonlendirme "$ADRES/v/$KOD")"
 kontrol "/v/{kod}/m1 → sonuna / eklenerek yönlendirme" "302 $ADRES/v/$KOD/m1/" "$(yonlendirme "$ADRES/v/$KOD/m1")"
-for h in m1 m2a m2b m3 m4 m5 m6 m7; do
-  kontrol "hikâye sayfası açılıyor: $h" 200 "$(durum "$ADRES/v/$KOD/$h/")"
+kontrol "yeni velide m1 sayfası açılıyor" 200 "$(durum "$ADRES/v/$KOD/m1/")"
+for h in m2a m2b m3 m4 m5 m6 m7; do
+  kontrol "yeni velide kilitli hikâye açılmaz, bağlantıya döner: $h" "302 $ADRES/v/$KOD" "$(yonlendirme "$ADRES/v/$KOD/$h/")"
 done
 grep -q "Tablet Kapanınca" <(curl -s "$ADRES/v/$KOD/m1/") && kontrol "m1 sayfasının içeriği doğru" evet evet || kontrol "m1 sayfasının içeriği doğru" evet hayır
 
@@ -114,7 +115,42 @@ kontrol "cevap: geçersiz kod → 404" 404 "$(post /api/cevap "{\"kod\":\"$GECER
 RED=0; for n in $(seq 1 130); do [ "$(post /api/ilerleme "{\"kod\":\"$KOD\",\"hikaye\":\"m1\",\"adim\":1}")" == 429 ] && RED=$((RED+1)) || true; done
 kontrol "hız sınırı: dakikada 120'den sonrası reddedilir (429)" evet "$([ $RED -gt 0 ] && echo evet || echo hayır)"
 
-echo "6) Tarayıcı testi (gerçek Chrome ile kayıt kancası)"
+echo "6) Kaldığı yerden devam ve sıralı açılma"
+KOD3="$(dotnet "$YAYIN/VeliAkademisi.dll" veli-ekle "Sıra Deneme" "1-C" | sed -n 's/^Kod: //p')"
+# /api/durum cevabından istenen alanları "a|b|c" biçiminde çıkarır.
+dur() { curl -s "$ADRES/api/durum?kod=$KOD3&hikaye=$1" | python3 -c "
+import json,sys; d=json.load(sys.stdin); s={h['kod']:h['durum'] for h in d['hikayeler']}
+print(f\"{d['baslangicAdimi']}|{str(d['yarimKaldi']).lower()}|{s['m1']}|{s['m2a']}|{s['m2b']}\")"; }
+ilr() { post /api/ilerleme "{\"kod\":\"$KOD3\",\"hikaye\":\"$1\",\"adim\":$2}"; }
+toplam() { python3 -c "import json,sys; print(len(json.load(open(sys.argv[1],encoding='utf-8'))))" "$YAYIN/icerik/$1/steps.json"; }
+
+kontrol "ilk durum: m1 baştan, yarım değil; m1 başlanmadı, m2a ve m2b kilitli" "0|false|baslanmadi|kilitli|kilitli" "$(dur m1)"
+kontrol "bağlantı m1'e gider" "302 $ADRES/v/$KOD3/m1/" "$(yonlendirme "$ADRES/v/$KOD3")"
+kontrol "kilitli hikâyenin durumu sorulamaz (403)" 403 "$(durum "$ADRES/api/durum?kod=$KOD3&hikaye=m2a")"
+kontrol "kilitli hikâyeye ilerleme kaydedilmez (403)" 403 "$(ilr m2a 1)"
+kontrol "kilitli hikâyeye cevap kaydedilmez (403)" 403 "$(post /api/cevap "{\"kod\":\"$KOD3\",\"hikaye\":\"m2a\",\"adim\":1,\"secim\":0}")"
+kontrol "kilitli hikâyenin görseli verilmez (404)" 404 "$(durum "$ADRES/v/$KOD3/m2a/img/$(ls "$YAYIN/icerik/m2a/img" | head -1)")"
+
+ilr m1 7 > /dev/null
+kontrol "m1 adım 7'de bırakıldı: oradan devam, yarım kaldı" "7|true|devam|kilitli|kilitli" "$(dur m1)"
+kontrol "bağlantı yine m1'e gider" "302 $ADRES/v/$KOD3/m1/" "$(yonlendirme "$ADRES/v/$KOD3")"
+
+ilr m1 $(( $(toplam m1) - 1 )) > /dev/null
+kontrol "m1 bitti: m1 tamamlandı (yeniden açılırsa baştan), m2a açıldı" "0|false|tamamlandi|baslanmadi|kilitli" "$(dur m1)"
+kontrol "bağlantı artık m2a'ya gider" "302 $ADRES/v/$KOD3/m2a/" "$(yonlendirme "$ADRES/v/$KOD3")"
+kontrol "m2a sayfası açılıyor" 200 "$(durum "$ADRES/v/$KOD3/m2a/")"
+kontrol "m2b hâlâ kilitli" "302 $ADRES/v/$KOD3" "$(yonlendirme "$ADRES/v/$KOD3/m2b/")"
+kontrol "bitmiş m1'e geri dönülebilir" 200 "$(durum "$ADRES/v/$KOD3/m1/")"
+
+ilr m1 3 > /dev/null   # bitmiş m1 tekrar izleniyor
+kontrol "bitmiş hikâye tekrar izlense de tamamlandı kalır, bağlantı m2a'ya gider" "302 $ADRES/v/$KOD3/m2a/" "$(yonlendirme "$ADRES/v/$KOD3")"
+
+for h in m2a m2b m3 m4 m5 m6 m7; do ilr $h $(( $(toplam $h) - 1 )) > /dev/null; done
+kontrol "hepsi bitti: bağlantı en son bakılan hikâyeye (m7) gider" "302 $ADRES/v/$KOD3/m7/" "$(yonlendirme "$ADRES/v/$KOD3")"
+sleep 1; ilr m3 2 > /dev/null
+kontrol "hepsi bitti, m3 tekrar izlendi: bağlantı m3'e gider" "302 $ADRES/v/$KOD3/m3/" "$(yonlendirme "$ADRES/v/$KOD3")"
+
+echo "7) Tarayıcı testi (gerçek Chrome ile kayıt kancası)"
 # Ayrı bir deneme velisi: önceki velinin hız sınırı bu dakika dolmuş olabilir.
 KOD2="$(dotnet "$YAYIN/VeliAkademisi.dll" veli-ekle "Tarayıcı Deneme" "1-B" | sed -n 's/^Kod: //p')"
 if node "$KLASOR/tarayici/test.mjs" "$ADRES" "$KOD2" "$SORU"; then
@@ -127,7 +163,7 @@ VELI2="(select Id from Veliler where Kod='$KOD2')"
 kontrol "  veritabanında: m1 ilerlemesi soru adımında" "$SORU" "$(satir "select SonAdim from Ilerlemeler where VeliId=$VELI2 and Hikaye='m1'")"
 kontrol "  veritabanında: iki seçim, sırayla B sonra C" "1,2" "$(satir "select group_concat(Secim) from (select Secim from Cevaplar where VeliId=$VELI2 and Adim=$SORU order by Id)")"
 
-echo "7) Site günlüğü"
+echo "8) Site günlüğü"
 sed 's/^/     /' "$GECICI/site.log"
 
 if [ $hata -ne 0 ]; then echo "SONUÇ: kontrollerden en az biri tutmadı."; exit 1; fi

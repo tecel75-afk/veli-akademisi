@@ -18,8 +18,8 @@ hiçbir şey kaydetmez. Site:
 - Kodu Claude yazar. Codex bu işte kullanılmaz.
 - Adım adım: önce yalnızca okuma/teşhis, sonra en dar değişiklik. Her adımın çıktısı görülmeden
   sonrakine geçilmez. Doğrulanmayan şeye "doğrulandı" denmez.
-- Yönetici günde yaklaşık 2 saat ayırır; bunun yaklaşık 1 saati o günün kodunu birlikte okumaktır.
-  Kodda kısa Türkçe yorumlar bulunur.
+- Yönetici günde yaklaşık 2 saat ayırır. Kodu birlikte okuma, bütün iş bittikten sonra, tercihen
+  hafta sonu ve geniş bir zaman ayrılarak yapılır (26 Ekim kararı). Kodda kısa Türkçe yorumlar bulunur.
 - Sunucu komutlarını yönetici çalıştırır (SSH ile, kendi bilgisayarından); çıktıyı paylaşır.
   Şifreler ve anahtarlar sohbete yazılmaz.
 - Her adım ayrı bir kayıt (commit); açıklamalar Türkçe.
@@ -188,7 +188,7 @@ Sayfanın betiğine küçük çağrılar eklenir. Çağrı başarısız olursa s
 3. Gün: yönetim sayfası, Excel'e aktarma, yedek indirme.
 4. Gün: PWA, yazı tipleri, yapay zekâ notu, materyaller ekranı.
 5. Gün: kabul testleri (bölüm 14).
-Her gün sonunda ~1 saat o günün kodunu birlikte okuma.
+Kod okuma: bütün iş bittikten sonra, tercihen hafta sonu (26 Ekim kararı).
 
 ## 14. Kabul ölçütleri
 1. Yönetici veli ekler → bağlantı oluşur → telefonda açılır; tek dokunuşla Modül 1'in başı gelir;

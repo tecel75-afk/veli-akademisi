@@ -16,6 +16,9 @@ public static partial class VeliSayfalari
 
     static readonly FileExtensionContentTypeProvider Turler = new();
 
+    // Hikâye sayfasının sonuna eklenen tek satır: kayıt kancası (wwwroot/kanca.js).
+    const string KancaEtiketi = "\n<script src=\"/kanca.js\"></script>\n";
+
     public static void Ekle(WebApplication app, string icerikYolu, string sesYolu)
     {
         var v = app.MapGroup("/v/{kod}");
@@ -40,7 +43,9 @@ public static partial class VeliSayfalari
             if (await VeliBul(db, kod) is null) return Gecersiz();
             if (!http.Request.Path.Value!.EndsWith('/')) return Results.Redirect($"/v/{kod}/{hikaye}/");
             // Not: kilit denetimi (16.2) 2. Günde eklenecek.
-            return Dosya(Path.Combine(icerikYolu, hikaye, "index.html"));
+            // Onaylı sayfa olduğu gibi okunur; yalnızca en sonuna kayıt kancası eklenir.
+            var sayfa = await File.ReadAllTextAsync(Path.Combine(icerikYolu, hikaye, "index.html"));
+            return Results.Content(sayfa + KancaEtiketi, "text/html; charset=utf-8");
         });
 
         // Görseller ve sesler.

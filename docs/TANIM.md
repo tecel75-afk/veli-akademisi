@@ -225,5 +225,7 @@ Veli için ek özellikler (profil, mesajlaşma, bildirim), veli şifresi, SMS/Wh
 - Okul müdürünün onayı: uygulama adı ve simgesi; veli onam metni.
 - `materyaller.json` dosyalarının içerikleri.
 - Yapay zekâ notunun yeri.
-- ElevenLabs'in "devlet kurumu kullanımı" maddesinin bu çalışmaya uygulanıp uygulanmadığı şirkete
-  yazılı soruldu (26 Ekim 2026); cevap bekleniyor. Aboneliğin iptal tarihi: 13 Kasım 2026.
+- ElevenLabs'in "devlet kurumu kullanımı" maddesi şirkete yazılı soruldu (26 Ekim 2026). Şirket yorum
+  yapmadı; risk yönetici tarafından 26 Ekim 2026'da kabul edildi. Abonelik sırasında üretilen içeriğin
+  ticari lisansı abonelik bittikten sonra da süresiz geçerlidir (ElevenLabs yardım sayfası). Abonelik
+  sonrası üretilecek seslerde atıf gerekir; eksik ses kalmaması için iptal tarihi: 13 Kasım 2026.

@@ -28,6 +28,8 @@ var sesYolu = Yol("Ses:Yol", "ses");                              // ses dosyala
 Directory.CreateDirectory(Path.GetDirectoryName(dbYolu)!);
 
 builder.Services.AddDbContext<VeriTabani>(o => o.UseSqlite($"Data Source={dbYolu}"));
+builder.Services.AddSingleton(new HikayeVerisi(icerikYolu));   // 8 hikâyenin steps.json bilgileri
+builder.Services.AddSingleton(new HizSiniri(120));             // kayıt uçları: dakikada 120 istek/kod
 
 var app = builder.Build();
 
@@ -66,7 +68,11 @@ app.Use(async (http, sonraki) =>
 // "/" adresine gelen isteğe düz bir yazıyla cevap ver (geçici).
 app.MapGet("/", () => "Veli Akademisi çalışıyor.");
 
+// wwwroot klasöründeki dosyalar (şimdilik yalnızca kanca.js) doğrudan sunulur.
+app.UseStaticFiles();
+
 VeliSayfalari.Ekle(app, icerikYolu, sesYolu);
+KayitApi.Ekle(app);
 
 app.Run();
 return 0;

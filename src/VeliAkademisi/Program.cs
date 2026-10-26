@@ -12,7 +12,13 @@ using VeliAkademisi.Veri;
 var komut = args.Length > 0 && args[0] == "veli-ekle";
 
 // Komut biçiminde, komutun kendi bilgileri site ayarı sanılmasın diye siteye iletilmez.
-var builder = WebApplication.CreateBuilder(komut ? Array.Empty<string>() : args);
+// Kök klasör, komutun çalıştırıldığı yer değil, sitenin kendi klasörüdür; böylece wwwroot ve icerik
+// her zaman derlenmiş paketin içinden okunur.
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = komut ? Array.Empty<string>() : args,
+    ContentRootPath = AppContext.BaseDirectory,
+});
 var kok = builder.Environment.ContentRootPath;
 
 // Yollar yapılandırmadan okunur; verilmezse uygulama klasörünün içi kullanılır.

@@ -5,8 +5,11 @@
 set -euo pipefail
 trap 'echo "::error::Betik $LINENO. satırda beklenmedik şekilde durdu (komut: $BASH_COMMAND)"' ERR
 
-YAYIN="$1"
+YAYIN="$(cd "$1" && pwd)"
 GECICI="$(mktemp -d)"
+# Site, deponun klasöründen değil başka bir klasörden çalıştırılır; böylece dosyaları
+# gerçekten derlenmiş paketin içinden okuduğu sınanır.
+cd "$GECICI"
 export VeriTabani__Yol="$GECICI/veri/veliakademisi.db"
 export Ses__Yol="$GECICI/ses"
 export ASPNETCORE_URLS="http://127.0.0.1:5080"

@@ -74,7 +74,8 @@ kontrol "bağlantı açılınca SonGiris dolduruldu" 1 "$SONGIRIS"
 echo "5) Kayıt kancası ve kayıt uçları"
 kontrol "kanca.js veriliyor" "200 javascript" "$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$ADRES/kanca.js" | sed -E 's/ .*javascript.*/ javascript/')"
 SAYFA="$GECICI/m1_sunulan.html"; curl -s "$ADRES/v/$KOD/m1/" > "$SAYFA"
-kontrol "sayfanın sonunda kanca etiketi var" '<script src="/kanca.js"></script>' "$(tail -n 1 "$SAYFA")"
+kontrol "sayfanın sonunda kanca ve Modüller etiketleri var" '<script src="/kanca.js"></script>|<script src="/moduller.js"></script>' "$(tail -n 2 "$SAYFA" | paste -sd'|')"
+kontrol "moduller.js veriliyor" "200 javascript" "$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$ADRES/moduller.js" | sed -E 's/ .*javascript.*/ javascript/')"
 # Kanca etiketinden önceki kısım, depodaki onaylı dosyayla birebir aynı olmalı.
 head -c "$(stat -c %s "$YAYIN/icerik/m1/index.html")" "$SAYFA" | cmp -s - "$YAYIN/icerik/m1/index.html" \
   && kontrol "onaylı sayfa değişmeden sunuluyor" evet evet || kontrol "onaylı sayfa değişmeden sunuluyor" evet hayır

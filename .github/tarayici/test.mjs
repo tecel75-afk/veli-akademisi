@@ -85,6 +85,27 @@ try {
   kontrol(`dokununca doğrudan kaldığı adım (${SORU_ADIMI}) açıldı`, SORU_ADIMI, JSON.parse(dk.request().postData()).adim);
   kontrol('açılan ekran soru ekranı (3 şık)', 3, (await sayfa.$$('.opt')).length);
 
+  console.log('g) Modüller listesi');
+  kontrol('Modüller düğmesi üst çubukta', true, !!(await sayfa.$('.top #moduller')));
+  await sayfa.click('#moduller');
+  await sayfa.waitForSelector('.va-satir', { timeout: 10000 });
+  const satirlar = await sayfa.$$eval('.va-satir', s => s.map(x => x.dataset.hikaye + ':' + x.querySelector('.va-durum').textContent
+    + (x.getAttribute('aria-disabled') === 'true' ? ':kapalı' : '')));
+  kontrol('listede 8 hikâye var', 8, satirlar.length);
+  kontrol('m1 "Devam ediyor", tıklanabilir', 'm1:Devam ediyor', satirlar[0]);
+  kontrol('m2a "Kilitli", tıklanamaz', 'm2a:Kilitli:kapalı', satirlar[1]);
+  kontrol('bulunulan hikâye işaretli', 'm1', await sayfa.$eval('.va-satir.su-an', x => x.dataset.hikaye));
+  kontrol('liste açılınca hikâye duraklatıldı', 'Devam et', await sayfa.$eval('#dur', b => b.textContent.trim()));
+  await sayfa.click('.va-satir[data-hikaye="m2a"]');
+  await new Promise(r => setTimeout(r, 500));
+  kontrol('kilitli hikâyeye dokununca sayfa değişmedi', `/v/${KOD}/m1/`, new URL(sayfa.url()).pathname);
+  await sayfa.click('#va-kapat');
+  kontrol('Kapat ile liste kapandı', false, !!(await sayfa.$('.va-perde')));
+  await sayfa.click('#moduller');
+  await sayfa.waitForSelector('.va-satir', { timeout: 10000 });
+  await Promise.all([sayfa.waitForNavigation({ waitUntil: 'load' }), sayfa.click('.va-satir[data-hikaye="m1"]')]);
+  kontrol('açık hikâyeye dokununca o hikâye açıldı', `/v/${KOD}/m1/`, new URL(sayfa.url()).pathname);
+
   kontrol('sayfada yakalanmamış JavaScript hatası yok', '', sayfaHatalari.join(' | '));
   kontrol('reddedilen kayıt isteği yok', '', kayitlar.filter(k => k.durum !== 204).map(k => `${k.yol} ${k.durum}`).join(', '));
 } catch (h) {

@@ -16,8 +16,8 @@ public static partial class VeliSayfalari
 
     static readonly FileExtensionContentTypeProvider Turler = new();
 
-    // Hikâye sayfasının sonuna eklenen tek satır: kayıt kancası (wwwroot/kanca.js).
-    const string KancaEtiketi = "\n<script src=\"/kanca.js\"></script>\n";
+    // Hikâye sayfasının sonuna eklenen satırlar: kayıt kancası ve Modüller düğmesi (wwwroot klasöründen).
+    const string KancaEtiketi = "\n<script src=\"/kanca.js\"></script>\n<script src=\"/moduller.js\"></script>\n";
 
     public static void Ekle(WebApplication app, string icerikYolu, string sesYolu)
     {

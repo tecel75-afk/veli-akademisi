@@ -461,6 +461,10 @@ kontrol "5 hatadan sonra doğru şifre kabul edilmez" "200 " "$(giris "$DENEME_S
 grep -q "Çok fazla hatalı deneme" "$GECICI/giris.html" && kontrol "  kilit mesajı" evet evet || kontrol "  kilit mesajı" evet hayır
 kontrol "anahtarlar veritabanının yanında saklanıyor" evet "$(ls "$GECICI/veri/anahtarlar"/*.xml >/dev/null 2>&1 && echo evet || echo hayır)"
 
+echo "8e) Uygulama günlüğü (KVKK): veli kodları ve istek adresleri yazılmıyor"
+kontrol "günlükte hiçbir veli kodu geçmiyor" yok "$(grep -qE "$KOD|$KOD3|$YENIKOD" "$GECICI/site.log" && echo var || echo yok)"
+kontrol "günlükte istek adresleri yazılmıyor" yok "$(grep -q 'Request starting' "$GECICI/site.log" && echo var || echo yok)"
+
 echo "9) Site günlüğü"
 sed 's/^/     /' "$GECICI/site.log"
 

@@ -1,0 +1,84 @@
+@page "/yonetim/veli-ekle"
+@model VeliAkademisi.Pages.Yonetim.VeliEkleModel
+@{
+    ViewData["Baslik"] = "Veli ekle";
+}
+<div class="ust">
+  <span class="marka">Veli Akademisi · Yönetim</span>
+  <a class="sag" href="/yonetim">← Yönetim</a>
+</div>
+
+<h1>Veli ekle</h1>
+
+@if (Model.SiteAdresi is null)
+{
+  <p class="hata" role="alert">Site adresi ayarlanmamış ("Site:Adres"). Aşağıdaki bağlantılar tam adres değil; veliye göndermeyin.</p>
+}
+
+@if (Model.Hatalar.Count > 0)
+{
+  <div class="kart" role="alert" style="margin-bottom:16px">
+    @foreach (var h in Model.Hatalar)
+    {
+      <p class="hata" style="margin:4px 0">@h</p>
+    }
+  </div>
+}
+
+@if (Model.EklenenVeliler.Count > 0)
+{
+  <div class="kart" style="margin-bottom:16px">
+    <h2 style="margin:0 0 8px;font-size:20px">Eklendi (@Model.EklenenVeliler.Count)</h2>
+    <p class="not" style="margin:0 0 12px">Her bağlantıyı yalnızca ilgili veliye gönderin. Bağlantı, velinin tek giriş yoludur.</p>
+    @foreach (var u in Model.Uyarilar)
+    {
+      <p class="hata" style="margin:0 0 8px">@u</p>
+    }
+    <div style="display:flex;flex-direction:column;gap:12px">
+      @foreach (var v in Model.EklenenVeliler)
+      {
+        <div class="eklenen">
+          <div style="font-weight:800">@v.Ad <span class="not">(@v.Sinif)</span></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input type="text" readonly value="@Model.Baglanti(v)" class="baglanti" aria-label="@v.Ad bağlantısı">
+            <button type="button" class="btn kopyala">Kopyala</button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}
+
+<div class="kart" style="margin-bottom:16px">
+  <h2 style="margin:0 0 12px;font-size:20px">Tek veli</h2>
+  <form method="post" asp-page-handler="Tek">
+    <label for="Ad">Ad (ör. Ayşe Hanım)</label>
+    <input asp-for="Ad" type="text" maxlength="100" autocomplete="off">
+    <label for="Sinif" style="margin-top:10px">Sınıf (ör. 4-A)</label>
+    <input asp-for="Sinif" type="text" maxlength="20" autocomplete="off">
+    <p style="margin:14px 0 0"><button class="btn" type="submit">Ekle</button></p>
+  </form>
+</div>
+
+<div class="kart">
+  <h2 style="margin:0 0 12px;font-size:20px">Toplu ekleme</h2>
+  <form method="post" asp-page-handler="Toplu">
+    <label for="Toplu">Her satıra bir veli: <code>Ad;Sınıf</code></label>
+    <textarea asp-for="Toplu" rows="8" placeholder="Ayşe Hanım;4-A&#10;Mehmet Bey;3-B"></textarea>
+    <p class="not" style="margin:6px 0 0">Bir satır bile hatalıysa hiçbir veli eklenmez; hatalı satırlar numaralarıyla gösterilir.</p>
+    <p style="margin:14px 0 0"><button class="btn" type="submit">Hepsini ekle</button></p>
+  </form>
+</div>
+
+<script>
+  // "Kopyala": bağlantıyı panoya kopyalar (WhatsApp'a yapıştırmak için).
+  document.querySelectorAll('.kopyala').forEach(function (d) {
+    d.onclick = function () {
+      var kutu = d.parentElement.querySelector('.baglanti');
+      function oldu() { d.textContent = 'Kopyalandı'; setTimeout(function () { d.textContent = 'Kopyala'; }, 2000); }
+      function eskiYol() { kutu.select(); try { document.execCommand('copy'); oldu(); } catch (e) {} }
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(kutu.value).then(oldu, eskiYol);
+      else eskiYol();
+    };
+  });
+</script>

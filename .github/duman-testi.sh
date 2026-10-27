@@ -41,6 +41,7 @@ OZET="$(echo "$DENEME_SIFRE" | dotnet "$YAYIN/VeliAkademisi.dll" sifre-hash 2>/d
 kontrol "özet biçimi doğru" "pbkdf2-sha256" "${OZET%%\$*}"
 kontrol "kısa şifre reddedilir" 1 "$(echo kisa | dotnet "$YAYIN/VeliAkademisi.dll" sifre-hash >/dev/null 2>&1; echo $?)"
 export Yonetim__SifreHash="$OZET"
+export Site__Adres="http://127.0.0.1:5080/"   # sondaki "/" bilerek: site bunu atmalı
 
 echo "3) Site başlatılıyor"
 dotnet "$YAYIN/VeliAkademisi.dll" > "$GECICI/site.log" 2>&1 &
@@ -198,6 +199,56 @@ for b in "path=/yonetim" "httponly" "samesite=strict"; do
 done
 kontrol "giriş sonrası yönetim sayfası açılıyor" 200 "$(curl -s -o "$GECICI/yonetim.html" -w '%{http_code}' -b "$CEREZ" "$ADRES/yonetim")"
 grep -q "Giriş yapıldı" "$GECICI/yonetim.html" && kontrol "  yönetim sayfasının içeriği" evet evet || kontrol "  yönetim sayfasının içeriği" evet hayır
+
+echo "8b) Veli ekleme"
+sayfa_belirteci() {  # sayfa_belirteci <adres> → o sayfadaki formun güvenlik belirteci (oturumlu)
+  curl -s -c "$CEREZ" -b "$CEREZ" "$1" | python3 -c "
+import re,sys; m=re.search(r'<input[^>]*name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"', sys.stdin.read()); print(m.group(1) if m else '')"; }
+ekle() {  # ekle <handler> <alan=değer>... → "<durum> <yönlendirme>"; sayfa $GECICI/ekle.html
+  local h="$1"; shift; local T; T="$(sayfa_belirteci "$ADRES/yonetim/veli-ekle")"
+  local veri=(); for a in "$@"; do veri+=(--data-urlencode "$a"); done
+  curl -s -o "$GECICI/ekle.html" -w "%{http_code} %{redirect_url}" -c "$CEREZ" -b "$CEREZ" -X POST \
+    --data-urlencode "__RequestVerificationToken=$T" "${veri[@]}" "$ADRES/yonetim/veli-ekle?handler=$h"; }
+icerir() { grep -qF -- "$2" "$1" && echo evet || echo hayır; }
+veli_sayisi() { satir "select count(*) from Veliler"; }
+
+kontrol "yönetim sayfasında 'Veli ekle' bağlantısı" evet "$(icerir "$GECICI/yonetim.html" 'href="/yonetim/veli-ekle"')"
+kontrol "veli ekleme sayfası açılıyor" 200 "$(durum_c() { curl -s -o /dev/null -w '%{http_code}' -b "$CEREZ" "$1"; }; durum_c "$ADRES/yonetim/veli-ekle")"
+ONCE="$(veli_sayisi)"
+Y="$(ekle tek "Ad=Ayşe Hanım" "Sinif=4-A")"
+kontrol "tek veli eklendi, sonuç sayfasına yönlendirildi" "302 $ADRES/yonetim/veli-ekle?eklenen=" "${Y%%=*}="
+curl -s -b "$CEREZ" "${Y#* }" > "$GECICI/ekle.html"
+kontrol "  sonuç sayfasında ad ve sınıf (Türkçe harfler doğru)" evet "$(icerir "$GECICI/ekle.html" 'Ayşe Hanım')"
+BAG="$(grep -o 'value="http://127.0.0.1:5080/v/[A-Za-z0-9_-]\{22\}"' "$GECICI/ekle.html" | head -1 | sed 's/^value="//; s/"$//')"
+kontrol "  tam bağlantı gösteriliyor (adresin sonundaki / atılmış)" evet "$([ -n "$BAG" ] && echo evet || echo hayır)"
+kontrol "  Kopyala düğmesi var" evet "$(icerir "$GECICI/ekle.html" 'class="btn kopyala"')"
+kontrol "  bağlantı çalışıyor (Modül 1'e gider)" "302 $BAG/m1/" "$(yonlendirme "$BAG")"
+kontrol "  veritabanında 1 veli arttı" "$((ONCE+1))" "$(veli_sayisi)"
+
+kontrol "adı boş veli eklenmez" "200 " "$(ekle tek "Ad=  " "Sinif=4-A")"
+kontrol "  'Ad boş olamaz.' mesajı" evet "$(icerir "$GECICI/ekle.html" 'Ad boş olamaz.')"
+kontrol "  veritabanı değişmedi" "$((ONCE+1))" "$(veli_sayisi)"
+
+Y="$(ekle toplu "Toplu=Mehmet Bey;3-B
+Fatma Hanım ; 5-A
+
+Ayşe Hanım;4-A")"
+kontrol "toplu: 3 veli eklendi" "302" "${Y%% *}"
+kontrol "  veritabanında 3 veli arttı" "$((ONCE+4))" "$(veli_sayisi)"
+kontrol "  boşluklar temizlendi" "Fatma Hanım|5-A" "$(satir "select Ad,Sinif from Veliler where Ad like 'Fatma%'")"
+curl -s -b "$CEREZ" "${Y#* }" > "$GECICI/ekle.html"
+kontrol "  sonuç sayfasında 3 bağlantı" 3 "$(grep -c 'class="baglanti"' "$GECICI/ekle.html")"
+kontrol "  aynı ad ve sınıf için uyarı (Ayşe Hanım, 4-A)" evet "$(icerir "$GECICI/ekle.html" 'adıyla birden fazla veli var')"
+
+kontrol "toplu: hatalı satır varsa hiçbiri eklenmez" "200 " "$(ekle toplu "Toplu=Hasan Bey;2-A
+Hasan Bey
+Zehra Hanım;")"
+kontrol "  2. satır hatası gösterildi" evet "$(icerir "$GECICI/ekle.html" '2. satır')"
+kontrol "  3. satır hatası gösterildi" evet "$(icerir "$GECICI/ekle.html" '3. satır: Sınıf boş olamaz.')"
+kontrol "  veritabanı değişmedi" "$((ONCE+4))" "$(veli_sayisi)"
+
+kontrol "girişsiz veli ekleme isteği kabul edilmez" "302" "$(curl -s -o /dev/null -w '%{http_code}' -X POST --data-urlencode "Ad=X" --data-urlencode "Sinif=1" "$ADRES/yonetim/veli-ekle?handler=tek")"
+kontrol "  veritabanı değişmedi" "$((ONCE+4))" "$(veli_sayisi)"
 
 T="$(python3 -c "
 import re,sys; m=re.search(r'<input[^>]*name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"', open(sys.argv[1],encoding='utf-8').read()); print(m.group(1) if m else '')" "$GECICI/yonetim.html")"

@@ -35,6 +35,13 @@
 
   var basla = document.getElementById('basla');
   if (basla) {
+    // Yapay zekâ notu (4b): başlat düğmesinin hemen altında küçük ve soluk bir satır.
+    var yzNotu = document.createElement('p');
+    yzNotu.className = 'va-yz-notu';
+    yzNotu.textContent = 'Seslendirme ve görseller yapay zekâ ile hazırlanmıştır.';
+    yzNotu.style.cssText = 'margin:0;font-size:14px;font-weight:500;color:var(--muted);text-align:center';
+    basla.insertAdjacentElement('afterend', yzNotu);
+
     durumSozu.then(function (d) {
       if (d && d.yarimKaldi) basla.textContent = 'Kaldığınız yerden devam edin';
     });

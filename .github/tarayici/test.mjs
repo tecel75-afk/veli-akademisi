@@ -47,6 +47,8 @@ try {
   kontrol('başlat düğmesi görünüyor', true, !!(await sayfa.$('#basla')));
   kontrol('yarım ilerleme yok: düğme yazısı değişmedi', 'Hikâyeyi başlat', await sayfa.$eval('#basla', b => b.textContent.trim()));
   kontrol('açılışta henüz kayıt gönderilmedi', 0, kayitlar.length);
+  kontrol('yapay zekâ notu, başlat düğmesinin hemen altında', 'Seslendirme ve görseller yapay zekâ ile hazırlanmıştır.',
+    await sayfa.$eval('#basla', b => b.nextElementSibling && b.nextElementSibling.textContent));
   // Yazı tipleri sitenin kendi sunucusundan yüklendi mi ve Türkçe harfleri (ğ ş İ ı ç ö ü) kapsıyor mu?
   const yazitipi = await sayfa.evaluate(async () => {
     await Promise.all([document.fonts.load('700 32px "Baloo 2"', 'ğşİıçöü'), document.fonts.load('800 18px "Nunito"', 'ğşİıçöü'),

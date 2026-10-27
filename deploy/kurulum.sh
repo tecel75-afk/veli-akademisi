@@ -70,7 +70,8 @@ adim_hazirlik() {
   "$d" --list-runtimes | grep -q '^Microsoft.AspNetCore.App 10\.' || dur "ASP.NET Core 10 çalışma ortamı bulunamadı."
   "$d" --list-runtimes | grep '^Microsoft.AspNetCore.App 10\.' | sed 's/^/         /'
   tamam "ASP.NET Core 10 çalışma ortamı var"
-  systemctl is-active --quiet nginx && tamam "nginx çalışıyor" || dur "nginx çalışmıyor."
+  systemctl is-active --quiet nginx || systemctl enable --now nginx   # kapalıysa açılır ve açılışta başlar
+  systemctl is-active --quiet nginx && tamam "nginx çalışıyor" || dur "nginx çalışmıyor (başlatılamadı)."
 }
 
 adim_uygulama() {

@@ -62,6 +62,9 @@
   // Adım değişince: önce sayfanın kendi render'ı, sonra kayıt. Kapanış ekranındaysa hikâye sonu eklenir (4c).
   var asilRender = render;
   render = function () {
+    // Önceki kapanıştan kalan "Sonraki modüle geç" düğmesi (alt çubukta) kaldırılır.
+    var eskiSonraki = document.getElementById('va-sonraki');
+    if (eskiSonraki) eskiSonraki.remove();
     asilRender.apply(this, arguments);
     try { if (i >= 0) sonIlerleme = gonder('/api/ilerleme', { kod: kod, hikaye: hikaye, adim: i }); } catch (e) {}
     try { if (STEPS[i] && STEPS[i].t === 'close') durumSozu.then(hikayeSonu); } catch (e) {}
@@ -94,7 +97,7 @@
 
   function hikayeSonu(d) {
     // Kapanış ekranında değilsek ya da zaten eklendiyse bir şey yapma.
-    if (!d || !STEPS[i] || STEPS[i].t !== 'close' || stage.querySelector('.va-son')) return;
+    if (!d || !STEPS[i] || STEPS[i].t !== 'close' || stage.querySelector('.va-son') || document.getElementById('va-sonraki')) return;
     var son = oge('div', 'va-son');
     var mat = d.materyaller || { gorseller: [] };
 
@@ -125,6 +128,8 @@
       son.appendChild(kart);
     }
 
+    // "Sonraki modüle geç", alttaki sabit çubukta "Baştan izle"nin solunda durur.
+    // (Sayfanın içine konduğunda, kaydırırken bu çubuğun altında kalıyor ve dokunuş "Baştan izle"ye gidiyordu.)
     if (d.sonraki) {
       var sonraki = oge('button', 'btn', 'Sonraki modüle geç');
       sonraki.id = 'va-sonraki';
@@ -133,7 +138,7 @@
         // Kapanışın kaydı sunucuya ulaşmadan geçilirse sıradaki hikâye henüz açılmamış olabilir; önce o beklenir.
         sonIlerleme.then(function () { location.href = '/v/' + kod + '/' + d.sonraki + '/'; });
       };
-      son.appendChild(sonraki);
+      nav.insertBefore(sonraki, ileri);
     }
     if (son.children.length) stage.appendChild(son);
   }

@@ -159,10 +159,12 @@ try {
       const r = b.getBoundingClientRect(); const ust = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
       return ust === b || b.contains(ust) ? 'açık' : 'kapalı: ' + (ust ? (ust.id || ust.className || ust.tagName) : 'ekran dışında');
     });
-    await sayfa.$eval('#va-sonraki', b => b.scrollIntoView({ block: 'end' }));
-    console.log('::notice::Teşhis — Sonraki düğmesi ekranın altına kaydırıldığında: ' + await ustuKapali());
-    await sayfa.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
-    kontrol('sayfa en alta kaydırılınca düğmenin üstü açık', 'açık', await ustuKapali());
+    kontrol('"Sonraki modüle geç" alt çubukta, "Baştan izle"nin solunda', 'va-sonraki,ileri',
+      await sayfa.$$eval('#nav > button', l => l.map(x => x.id).join(',')));
+    for (const konum of ['start', 'end']) {   // sayfa başta da sonda da: düğmenin üstü hiçbir şeyle kapalı olmamalı
+      await sayfa.evaluate(k => window.scrollTo(0, k === 'start' ? 0 : document.documentElement.scrollHeight), konum);
+      kontrol(`sayfa ${konum === 'start' ? 'başındayken' : 'sonundayken'} düğmenin üstü açık`, 'açık', await ustuKapali());
+    }
     await Promise.all([sayfa.waitForNavigation({ waitUntil: 'load', timeout: 15000 }), sayfa.click('#va-sonraki')]);
     kontrol('"Sonraki modüle geç" → m2a açıldı', `/v/${KOD_MATERYAL}/m2a/`, new URL(sayfa.url()).pathname);
 
@@ -175,6 +177,9 @@ try {
     kontrol('m7 kapanışı: "Sonraki modüle geç" yok, materyal kartı yok', 'false|false',
       `${!!(await sayfa.$('#va-sonraki'))}|${!!(await sayfa.$('.va-materyaller'))}`);
     kontrol('m7 kapanışı: "Baştan izle" düğmesi yerinde', 'Baştan izle', await sayfa.$eval('#ileri', b => b.textContent.trim()));
+    await sayfa.click('#ileri');   // Baştan izle
+    kontrol('"Baştan izle"den sonra alt çubukta yalnızca kendi düğmesi kalır', 'ileri',
+      await sayfa.$$eval('#nav > button', l => l.map(x => x.id).join(',')));
   }
 
   kontrol('dışarıdaki hiçbir sunucuya istek gitmedi (Google dahil)', '', [...new Set(disIstekler)].join(', '));

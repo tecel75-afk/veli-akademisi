@@ -26,7 +26,7 @@ Bu betikler, sunucudaki adımların aynısıyla GitHub'ın Ubuntu 24.04 makinesi
 
 | Ad (host) | Tür | Değer |
 |---|---|---|
-| `veliakademisi` | A | sunucunun IP adresi |
+| `veliakademisi` | A | `109.232.220.177` (VPS'in adresi; Turhost'ta doğrulandı) |
 
 Turhost panelindeki menünün adını bilmiyorum. Bulamazsanız ekranın görüntüsünü gönderin, birlikte bakalım.
 Kaydın internete yayılması birkaç dakika ile birkaç saat sürebilir. Bu yüzden DNS kaydı ilk iş yapılır.
@@ -34,10 +34,10 @@ HTTPS adımı (6. adım) kaydın yayılmasını bekler. Diğer adımlar beklemez
 
 ## 2) Sunucuya bağlanma
 
-PowerShell'de (IP yerine sunucunun adresini yazın):
+PowerShell'de (bu sunucuda SSH 22 değil **23422** numaralı kapıyı kullanıyor; Turhost "Erişim Bilgileri"):
 
 ```
-ssh root@IP
+ssh -p 23422 root@109.232.220.177
 ```
 
 İlk bağlantıda `Are you sure you want to continue connecting` diye sorar: `yes` yazıp Enter'a basın.
@@ -71,7 +71,7 @@ Her satırı ayrı çalıştırın; çıktısını gönderin.
 Dosyanın yerini kendi bilgisayarınıza göre yazın (örnek):
 
 ```
-scp "C:\Users\KULLANICI\Downloads\Veli_Akademisi_8_Hikaye_Sesli.zip" root@IP:/root/
+scp -P 23422 "C:\Users\KULLANICI\Downloads\Veli_Akademisi_8_Hikaye_Sesli.zip" root@109.232.220.177:/root/
 ```
 
 Yükleme bitince sunucuya bağlı pencerede:
@@ -96,7 +96,9 @@ DNS kaydı henüz görünmüyorsa betik bunu söyler ve durur. O durumda bir sü
 sudo bash kurulum.sh guvenlik-duvari
 ```
 
-Yalnızca SSH (22), HTTP (80) ve HTTPS (443) açık kalır. SSH kapısı önce açıldığı için bağlantınız kopmaz.
+Yalnızca SSH, HTTP (80) ve HTTPS (443) açık kalır. Betik SSH'nin gerçekte kullandığı kapıyı (bu sunucuda 23422)
+sunucuya sorar ve önce onu açar; bulamazsa güvenlik duvarını hiç açmadan durur. Çıktıda `SSH kapısı: 23422`
+satırını mutlaka görün.
 Yine de bir sorun olursa Turhost'un VNC konsolundan sunucuya her zaman girilebilir.
 
 ## 8) Deneme

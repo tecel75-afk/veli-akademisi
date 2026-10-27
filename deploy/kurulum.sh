@@ -198,11 +198,21 @@ adim_yedek() {
 adim_guvenlik_duvari() {
   baslik "8) Güvenlik duvarı"
   command -v ufw >/dev/null || DEBIAN_FRONTEND=noninteractive apt-get install -y -q ufw
-  ufw allow OpenSSH >/dev/null
+  # SSH'nin gerçekte dinlediği kapı(lar) sunucuya sorulur (bu sunucuda 22 değil; ör. 23422).
+  # Bulunamazsa güvenlik duvarı HİÇ açılmaz: yanlış kapı açılırsa SSH ile bir daha bağlanılamaz.
+  local ssh_kapilari
+  ssh_kapilari="$( { sshd -T 2>/dev/null | awk '$1=="port"{print $2}';
+                     ss -ltnpH 2>/dev/null | grep '"sshd"' | awk '{print $4}' | sed 's/.*://'
+                     ss -tnpH state established 2>/dev/null | grep '"sshd' | awk '{print $3}' | sed 's/.*://'; } \
+                   | grep -E '^[0-9]+$' | sort -un | tr '\n' ' ')"
+  [ -n "$(echo "$ssh_kapilari" | tr -d ' ')" ] || dur "SSH'nin kullandığı kapı bulunamadı; güvenlik duvarı açılmadı."
+  echo "         SSH kapısı: $ssh_kapilari"
+  local k
+  for k in $ssh_kapilari; do ufw allow "$k/tcp" >/dev/null; done
   ufw allow 'Nginx Full' >/dev/null
   ufw --force enable >/dev/null
   ufw status | sed 's/^/         /'
-  tamam "yalnızca SSH (22), HTTP (80) ve HTTPS (443) açık"
+  tamam "yalnızca SSH ($ssh_kapilari), HTTP (80) ve HTTPS (443) açık"
 }
 
 adim_durum() {

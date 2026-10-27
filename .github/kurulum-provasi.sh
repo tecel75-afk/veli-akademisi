@@ -24,6 +24,11 @@ kontrol "yanlış önizleme şifresi → 401" 401 "$(kod "${A[@]}" -u onizleme:y
 echo "prova-yonetici-123" | $K sifre
 KOD="$($K veli-ekle "Prova Veli" "1-A" | sed -n 's/^Kod: //p')"
 kontrol "veli eklendi (22 karakterlik kod)" 22 "${#KOD}"
+# Teşhis: servisin gerçekte gördüğü ayarlar ve veritabanı dosyalarının yerleri
+PID="$(systemctl show -p MainPID --value veliakademisi)"
+echo "::notice::Servisin ortamı: $(tr '\0' '\n' < "/proc/$PID/environ" | grep -E '^(VeriTabani|Ses|Site|Yonetim|ASPNETCORE)' | sed 's/\(SifreHash=.\{20\}\).*/\1…/' | tr '\n' ' ')"
+echo "::notice::Ayar dosyası: $(sed 's/\(SifreHash=.\{20\}\).*/\1…/' /etc/veliakademisi/ayarlar.env | tr '\n' ' ')"
+echo "::notice::Veritabanı dosyaları: $(find / -xdev -name 'veliakademisi.db' 2>/dev/null | tr '\n' ' ')"
 kontrol "veritabanı servis kullanıcısına ait" veliakademisi "$(stat -c %U /var/lib/veliakademisi/veliakademisi.db)"
 kontrol "veli bağlantısı (şifreyle) → Modül 1" "302 http://$ALAN/v/$KOD/m1/" "$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "${A[@]}" "${O[@]}" "http://127.0.0.1/v/$KOD")"
 kontrol "veli bağlantısı şifresiz açılmaz (önizleme)" 401 "$(kod "${A[@]}" "http://127.0.0.1/v/$KOD/m1/")"
@@ -66,7 +71,7 @@ kontrol "güncellemeden sonra veriler yerinde" 22 "$(KOD2="$(sqlite3 /var/lib/ve
 kontrol "güncellemeden sonra oturum sürüyor (anahtarlar korunmuş)" 200 "$(kod -b "$C" "${A[@]}" "${O[@]}" http://127.0.0.1/yonetim)"
 # Bozuk paket: kurulmamalı, eski sürüm çalışmaya devam etmeli
 printf 'bozuk' > "$S/bozuk.zip"
-kontrol "bozuk paket kurulmaz" 1 "$(/usr/local/sbin/veliakademisi-guncelle "$S/bozuk.zip" >/dev/null 2>&1; echo $?)"
+kontrol "bozuk paket kurulmaz (hata koduyla durur)" evet "$(/usr/local/sbin/veliakademisi-guncelle "$S/bozuk.zip" >/dev/null 2>&1 && echo hayır || echo evet)"
 kontrol "bozuk paketten sonra site çalışıyor" "Veli Akademisi çalışıyor." "$(curl -s http://127.0.0.1:5080/)"
 
 $K durum

@@ -110,7 +110,10 @@ kok, adres, kod = sys.argv[1:4]
 sorun = []
 for h in sys.argv[4:]:
     asil = open(f"{kok}/{h}/index.html", encoding="utf-8").read()
-    asil = asil.replace("</title>\n", '</title>\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n', 1)
+    asil = asil.replace("</title>\n", '</title>\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+        f'<link rel="manifest" href="/v/{kod}/manifest.webmanifest">\n<meta name="theme-color" content="#1E6B66">\n'
+        '<link rel="apple-touch-icon" href="/simge/simge-180.png">\n<meta name="apple-mobile-web-app-capable" content="yes">\n'
+        '<meta name="mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-title" content="Veli Akademisi">\n', 1)
     beklenen = (asil.replace('<link rel="preconnect" href="https://fonts.googleapis.com">\n', "")
                     .replace('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito:wght@500;700;800&display=swap">',
                              '<link rel="stylesheet" href="/yazitipleri/yazitipleri.css">')
@@ -129,6 +132,21 @@ kontrol "durum: m1 materyalleri ve sıradaki hikâye" "1|Önce–sonra kartı (d
   "$(curl -s "$ADRES/api/durum?kod=$KOD&hikaye=m1" | python3 -c "
 import json,sys; d=json.load(sys.stdin); m=d['materyaller']
 print(f\"{len(m['gorseller'])}|{m['gorseller'][0]['baslik']}|{m['baglanti']['adres']}|{d['sonraki']}\")")"
+echo "5b) Ana ekrana ekleme (uygulama tanımı ve simgeler)"
+MANIFEST="$(curl -s -D "$GECICI/manifest.baslik" "$ADRES/v/$KOD/manifest.webmanifest")"
+kontrol "uygulama tanımı veriliyor (türü doğru)" "application/manifest+json" "$(tr -d '\r' < "$GECICI/manifest.baslik" | grep -i '^content-type:' | sed 's/^[^:]*: //; s/;.*//')"
+kontrol "uygulama tanımı velinin kendi bağlantısını açar" "/v/$KOD/|/v/$KOD/|/v/$KOD/|standalone|Veli Akademisi|tr" \
+  "$(echo "$MANIFEST" | python3 -c "import json,sys; m=json.load(sys.stdin); print(m['start_url'],m['scope'],m['id'],m['display'],m['name'],m['lang'],sep='|')")"
+SIMGELER="$(echo "$MANIFEST" | python3 -c "
+import json,sys,struct,urllib.request
+m=json.load(sys.stdin); sonuc=[]
+for s in m['icons'] + [{'src':'/simge/simge-180.png','sizes':'180x180'}]:
+    v=urllib.request.urlopen(sys.argv[1]+s['src']).read()
+    w,h=struct.unpack('>II', v[16:24]) if v[:8]==b'\x89PNG\r\n\x1a\n' else (0,0)
+    sonuc.append('tamam' if f'{w}x{h}'==s['sizes'] else f\"{s['src']}:{w}x{h}\")
+print(','.join(sorted(set(sonuc))))" "$ADRES")"
+kontrol "simgeler var, PNG ve boyutları doğru (192, 512, maskable 512, iPhone 180)" "tamam" "$SIMGELER"
+kontrol "geçersiz kodla uygulama tanımı → 404" 404 "$(durum "$ADRES/v/$GECERSIZ/manifest.webmanifest")"
 kontrol "yazı tipi dosyası veriliyor" "200" "$(durum "$ADRES/yazitipleri/yazitipleri.css")"
 for f in baloo-2-latin-700-normal nunito-latin-ext-800-normal; do
   kontrol "  $f.woff2" "200 font/woff2" "$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$ADRES/yazitipleri/$f.woff2")"

@@ -32,17 +32,55 @@ public static partial class VeliSayfalari
     const string Baslik = "</title>\n";
     const string EkranSatiri = "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n";
 
+    // Ana ekrana ekleme (4d, tanım 6b): her veliye kendi uygulama tanımı (manifest) verilir; simge velinin kendi
+    // bağlantısını açar. iPhone için ayrıca simge ve ad satırları. Uygulama adı yapılandırmadan gelir ("Uygulama:Ad").
+    public const string TemaRengi = "#1E6B66";
+    static string AnaEkranSatirlari(string kod, string ad) =>
+        $"<link rel=\"manifest\" href=\"/v/{kod}/manifest.webmanifest\">\n" +
+        $"<meta name=\"theme-color\" content=\"{TemaRengi}\">\n" +
+        "<link rel=\"apple-touch-icon\" href=\"/simge/simge-180.png\">\n" +
+        "<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">\n" +
+        "<meta name=\"mobile-web-app-capable\" content=\"yes\">\n" +
+        $"<meta name=\"apple-mobile-web-app-title\" content=\"{System.Net.WebUtility.HtmlEncode(ad)}\">\n";
+
     // Onaylı sayfaya, veliye gönderilmeden önce yapılan eklerin tamamı (tanım belgesi bölüm 7) burada toplanır.
-    internal static string SayfayiHazirla(string sayfa)
+    internal static string SayfayiHazirla(string sayfa, string kod, string uygulamaAdi)
     {
         int b = sayfa.IndexOf(Baslik, StringComparison.Ordinal);
-        if (b >= 0) sayfa = sayfa.Insert(b + Baslik.Length, EkranSatiri);
+        if (b >= 0) sayfa = sayfa.Insert(b + Baslik.Length, EkranSatiri + AnaEkranSatirlari(kod, uygulamaAdi));
         return sayfa.Replace(GoogleOnBaglanti, "").Replace(GoogleYaziTipi, KendiYaziTipi) + KancaEtiketi;
     }
+
+    // Velinin kendi uygulama tanımı: /v/{kod}/manifest.webmanifest
+    static string UygulamaTanimi(string kod, string ad) => System.Text.Json.JsonSerializer.Serialize(new
+    {
+        id = $"/v/{kod}/",
+        name = ad,
+        short_name = ad,
+        lang = "tr",
+        start_url = $"/v/{kod}/",      // simgeye dokununca velinin bağlantısı açılır → kaldığı hikâyeye gider
+        scope = $"/v/{kod}/",
+        display = "standalone",
+        background_color = "#EEF2F1",
+        theme_color = TemaRengi,
+        icons = new object[]
+        {
+            new { src = "/simge/simge-192.png", sizes = "192x192", type = "image/png", purpose = "any" },
+            new { src = "/simge/simge-512.png", sizes = "512x512", type = "image/png", purpose = "any" },
+            new { src = "/simge/simge-maskable-512.png", sizes = "512x512", type = "image/png", purpose = "maskable" },
+        },
+    });
 
     public static void Ekle(WebApplication app, string icerikYolu, string sesYolu)
     {
         var v = app.MapGroup("/v/{kod}");
+        var uygulamaAdi = app.Configuration["Uygulama:Ad"] is { Length: > 0 } a ? a : "Veli Akademisi";
+
+        // Velinin kendi uygulama tanımı (ana ekrana ekleme).
+        v.MapGet("/manifest.webmanifest", async (string kod, VeriTabani db) =>
+            await VeliBul(db, kod) is null
+                ? Results.NotFound()
+                : Results.Text(UygulamaTanimi(kod, uygulamaAdi), "application/manifest+json; charset=utf-8"));
 
         // Velinin bağlantısı: velinin açacağı hikâyeye yönlendirir
         // (tamamlanmamış en ileri hikâye; hepsi bitmişse en son bakılan).
@@ -69,7 +107,7 @@ public static partial class VeliSayfalari
             if (!http.Request.Path.Value!.EndsWith('/')) return Results.Redirect($"/v/{kod}/{hikaye}/");
             // Onaylı sayfa okunur; bölüm 7'deki ekler yapılarak sunulur (bkz. SayfayiHazirla).
             var sayfa = await File.ReadAllTextAsync(Path.Combine(icerikYolu, hikaye, "index.html"));
-            return Results.Content(SayfayiHazirla(sayfa), "text/html; charset=utf-8");
+            return Results.Content(SayfayiHazirla(sayfa, kod, uygulamaAdi), "text/html; charset=utf-8");
         });
 
         // Görseller ve sesler.

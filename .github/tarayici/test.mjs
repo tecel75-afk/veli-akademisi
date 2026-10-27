@@ -182,6 +182,21 @@ try {
       await sayfa.$$eval('#nav > button', l => l.map(x => x.id).join(',')));
   }
 
+  console.log('j) Ana ekrana eklenebilirlik (Chrome\'un kendi denetimi)');
+  {
+    const p2 = await tarayici.newPage();
+    await p2.goto(`${ADRES}/v/${KOD}/m1/`, { waitUntil: 'load' });
+    kontrol('sayfada velinin kendi uygulama tanımı', `/v/${KOD}/manifest.webmanifest`,
+      await p2.$eval('link[rel=manifest]', l => l.getAttribute('href')));
+    const oturum = await p2.createCDPSession();
+    const sonuc = await oturum.send('Page.getInstallabilityErrors');
+    kontrol('Chrome ana ekrana eklemeye engel bir sorun bulmadı', '',
+      sonuc.installabilityErrors.map(h => h.errorId).join(', '));
+    const tanim = await oturum.send('Page.getAppManifest');
+    kontrol('Chrome uygulama tanımını hatasız okudu', '', (tanim.errors || []).map(h => h.message).join(' | '));
+    await p2.close();
+  }
+
   kontrol('dışarıdaki hiçbir sunucuya istek gitmedi (Google dahil)', '', [...new Set(disIstekler)].join(', '));
   kontrol('sayfada yakalanmamış JavaScript hatası yok', '', sayfaHatalari.join(' | '));
   kontrol('reddedilen kayıt isteği yok', '', kayitlar.filter(k => k.durum !== 204).map(k => `${k.yol} ${k.durum}`).join(', '));

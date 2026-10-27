@@ -10,6 +10,7 @@ namespace VeliAkademisi;
 //   /v/{kod}/{hikaye}/            → hikâye sayfası (icerik/{hikaye}/index.html)
 //   /v/{kod}/{hikaye}/img/{dosya} → hikâyenin görselleri (depodaki icerik klasöründen)
 //   /v/{kod}/{hikaye}/ses/{dosya} → hikâyenin sesleri (sunucudaki ayrı ses klasöründen)
+//   /v/{kod}/{hikaye}/materyal/{dosya} → hikâye sonundaki materyal görselleri (icerik klasöründen)
 public static partial class VeliSayfalari
 {
     const string GecersizMesaj = "Bu bağlantı artık geçerli değil. Lütfen rehber öğretmeninizle iletişime geçin.";
@@ -77,6 +78,12 @@ public static partial class VeliSayfalari
             if (!Hikayeler.GecerliMi(hikaye) || !DosyaAdiGuvenliMi(dosya)) return Results.NotFound();
             if (!await AcikHikayeMi(db, kod, hikaye)) return Results.NotFound();
             return Dosya(Path.Combine(icerikYolu, hikaye, "img", dosya));
+        });
+        v.MapGet("/{hikaye}/materyal/{dosya}", async (string kod, string hikaye, string dosya, VeriTabani db) =>
+        {
+            if (!Hikayeler.GecerliMi(hikaye) || !DosyaAdiGuvenliMi(dosya)) return Results.NotFound();
+            if (!await AcikHikayeMi(db, kod, hikaye)) return Results.NotFound();
+            return Dosya(Path.Combine(icerikYolu, hikaye, "materyal", dosya));
         });
         v.MapGet("/{hikaye}/ses/{dosya}", async (string kod, string hikaye, string dosya, VeriTabani db) =>
         {

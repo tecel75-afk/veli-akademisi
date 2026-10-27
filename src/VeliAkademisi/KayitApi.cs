@@ -18,14 +18,23 @@ public static class KayitApi
     public static void Ekle(WebApplication app)
     {
         // Sayfa açılırken: bu hikâyede nereden başlanacağı ve 8 hikâyenin durumu (Modüller listesi için).
-        app.MapGet("/api/durum", async (string? kod, string? hikaye, VeriTabani db, HizSiniri hiz) =>
+        app.MapGet("/api/durum", async (string? kod, string? hikaye, VeriTabani db, HikayeVerisi hv, HizSiniri hiz) =>
         {
             var (veli, hata) = await Denetle(db, hiz, kod, hikaye);
             if (hata is not null) return hata;
             var durum = await VeliDurumu.Hesapla(db, veli!.Id);
             var (adim, yarim) = durum.Baslangic(hikaye!);
+            var m = hv.Bilgi(hikaye!).Materyaller;
+            int sira = Hikayeler.SiraNo(hikaye!);
             return Results.Ok(new
             {
+                // Hikâye sonu: materyaller ve sıradaki hikâye (son hikâyede null).
+                materyaller = new
+                {
+                    gorseller = m.Gorseller.Select(g => new { dosya = g.Dosya, baslik = g.Baslik }),
+                    baglanti = m.Baglanti is null ? null : new { adres = m.Baglanti.Adres, yazi = m.Baglanti.Yazi },
+                },
+                sonraki = sira + 1 < Hikayeler.Sira.Count ? Hikayeler.Sira[sira + 1] : null,
                 hikaye,
                 baslangicAdimi = adim,     // yarım kaldıysa son bulunulan adım, değilse 0
                 yarimKaldi = yarim,        // true ise düğme "Kaldığınız yerden devam edin" olur

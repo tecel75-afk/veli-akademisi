@@ -3,7 +3,7 @@
 // Bir kontrol tutmazsa hata koduyla biter.
 import puppeteer from 'puppeteer';
 
-const [ADRES, KOD, SORU] = process.argv.slice(2);
+const [ADRES, KOD, SORU, KOD_HEPSI, KOD_MATERYAL] = process.argv.slice(2);   // KOD_HEPSI: 8 hikâyeyi bitirmiş veli
 const SORU_ADIMI = Number(SORU);
 let hata = 0;
 function kontrol(aciklama, beklenen, gelen) {
@@ -131,6 +131,41 @@ try {
     kontrol('sayfa ekran genişliğinde (390 px) çiziliyor', 390, olcu.genislik);
     kontrol('sayfa yana kaymıyor', false, olcu.yatayKayma);
     await telefon.close();
+  }
+
+  console.log('i) Hikâye sonu: materyaller ve "Sonraki modüle geç"');
+  {
+    const durumGeldi = durumBekle();
+    await sayfa.goto(`${ADRES}/v/${KOD_MATERYAL}/m1/`, { waitUntil: 'load' });
+    await durumGeldi;
+    await sayfa.click('#basla');
+    await sayfa.evaluate('i = STEPS.length - 1; render();');   // kapanış ekranına geç
+    await sayfa.waitForSelector('.va-son', { timeout: 10000 });
+    kontrol('kapanış yazısı ekranda', true, !!(await sayfa.$('.close')));
+    const kucukler = await sayfa.$$eval('.va-materyaller .va-kucuk img', l => l.map(x => x.getAttribute('src')));
+    kontrol('materyaller kartında 1 görsel', 'materyal/kart-deneme.webp', kucukler.join(','));
+    await sayfa.waitForFunction(() => { const r = document.querySelector('.va-kucuk img'); return r && r.complete && r.naturalWidth > 0; },
+      { timeout: 10000 }).then(() => kontrol('görsel yüklendi', true, true), () => kontrol('görsel yüklendi', true, false));
+    await sayfa.click('.va-kucuk');
+    kontrol('dokununca büyük görünüm açıldı', true, !!(await sayfa.$('.va-buyuk')));
+    kontrol('İndir düğmesi: dosya ve indirme özelliği', 'materyal/kart-deneme.webp|kart-deneme.webp',
+      await sayfa.$eval('#va-indir', a => a.getAttribute('href') + '|' + a.getAttribute('download')));
+    await sayfa.click('#va-buyuk-kapat');
+    kontrol('Kapat ile büyük görünüm kapandı', false, !!(await sayfa.$('.va-buyuk')));
+    kontrol('Tohum bağlantısı: yeni sekmede, adres bilgisi taşımadan', 'https://www.tohumotizm.org.tr/|_blank|noopener noreferrer',
+      await sayfa.$eval('.va-dis', a => [a.getAttribute('href'), a.target, a.rel].join('|')));
+    await Promise.all([sayfa.waitForNavigation({ waitUntil: 'load', timeout: 15000 }), sayfa.click('#va-sonraki')]);
+    kontrol('"Sonraki modüle geç" → m2a açıldı', `/v/${KOD_MATERYAL}/m2a/`, new URL(sayfa.url()).pathname);
+
+    // Son hikâyede (m7) "Sonraki modüle geç" yok; materyali olmayan hikâyede kart yok.
+    const durum7 = durumBekle();
+    await sayfa.goto(`${ADRES}/v/${KOD_HEPSI}/m7/`, { waitUntil: 'load' });
+    await durum7;
+    await sayfa.evaluate('i = STEPS.length - 1; render();');
+    await new Promise(r => setTimeout(r, 1000));
+    kontrol('m7 kapanışı: "Sonraki modüle geç" yok, materyal kartı yok', 'false|false',
+      `${!!(await sayfa.$('#va-sonraki'))}|${!!(await sayfa.$('.va-materyaller'))}`);
+    kontrol('m7 kapanışı: "Baştan izle" düğmesi yerinde', 'Baştan izle', await sayfa.$eval('#ileri', b => b.textContent.trim()));
   }
 
   kontrol('dışarıdaki hiçbir sunucuya istek gitmedi (Google dahil)', '', [...new Set(disIstekler)].join(', '));

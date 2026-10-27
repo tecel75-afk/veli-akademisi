@@ -43,6 +43,21 @@ kontrol "kısa şifre reddedilir" 1 "$(echo kisa | dotnet "$YAYIN/VeliAkademisi.
 export Yonetim__SifreHash="$OZET"
 export Site__Adres="http://127.0.0.1:5080/"   # sondaki "/" bilerek: site bunu atmalı
 
+echo "2c) Deneme materyali (içeriğin geçici kopyasına; yayın paketi değişmez)"
+cp -r "$YAYIN/icerik" "$GECICI/icerik"
+mkdir -p "$GECICI/icerik/m1/materyal"
+cp "$YAYIN/icerik/m1/img/m1_b2_kare3.webp" "$GECICI/icerik/m1/materyal/kart-deneme.webp"
+cat > "$GECICI/icerik/m1/materyaller.json" <<'JSON'
+{ "gorseller": [ { "dosya": "kart-deneme.webp", "baslik": "Önce–sonra kartı (deneme)" } ],
+  "baglanti": { "adres": "https://www.tohumotizm.org.tr/", "yazi": "Tohum Otizm Vakfı" } }
+JSON
+export Icerik__Yol="$GECICI/icerik"
+# Hatalı bir materyaller.json sessizce atlanmamalı: site açılmamalı ve hatanın yeri yazılmalı.
+cp -r "$GECICI/icerik" "$GECICI/icerik-hatali"
+sed -i 's|https://www.tohumotizm.org.tr/|http://www.tohumotizm.org.tr/|' "$GECICI/icerik-hatali/m1/materyaller.json"
+HATA_CIKTI="$(Icerik__Yol="$GECICI/icerik-hatali" VeriTabani__Yol="$GECICI/hatali.db" dotnet "$YAYIN/VeliAkademisi.dll" veli-ekle X 1 2>&1 || true)"
+kontrol "hatalı materyaller.json: site açılmaz, hatanın yeri yazılır" evet "$(echo "$HATA_CIKTI" | grep -q 'm1/materyaller.json: bağlantı adresi https:// ile başlamalı' && echo evet || echo hayır)"
+
 echo "3) Site başlatılıyor"
 dotnet "$YAYIN/VeliAkademisi.dll" > "$GECICI/site.log" 2>&1 &
 for i in $(seq 1 30); do curl -s "$ADRES/" > /dev/null && break; sleep 1; done
@@ -104,6 +119,13 @@ print(",".join(sorun) or "yok")
 PY
 kontrol "m1: sunulan sayfa = onaylı sayfa + yalnızca belgelenmiş ekler; Google bağlantısı yok" "yok" \
   "$(python3 "$GECICI/sayfa_denetle.py" "$YAYIN/icerik" "$ADRES" "$KOD" m1)"
+kontrol "materyal görseli veriliyor" "200 image/webp" "$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$ADRES/v/$KOD/m1/materyal/kart-deneme.webp")"
+kontrol "olmayan materyal → 404" 404 "$(durum "$ADRES/v/$KOD/m1/materyal/yok.webp")"
+kontrol "materyalde klasör atlama → 404" 404 "$(durum "$ADRES/v/$KOD/m1/materyal/..%2Fsteps.json")"
+kontrol "durum: m1 materyalleri ve sıradaki hikâye" "1|Önce–sonra kartı (deneme)|https://www.tohumotizm.org.tr/|m2a" \
+  "$(curl -s "$ADRES/api/durum?kod=$KOD&hikaye=m1" | python3 -c "
+import json,sys; d=json.load(sys.stdin); m=d['materyaller']
+print(f\"{len(m['gorseller'])}|{m['gorseller'][0]['baslik']}|{m['baglanti']['adres']}|{d['sonraki']}\")")"
 kontrol "yazı tipi dosyası veriliyor" "200" "$(durum "$ADRES/yazitipleri/yazitipleri.css")"
 for f in baloo-2-latin-700-normal nunito-latin-ext-800-normal; do
   kontrol "  $f.woff2" "200 font/woff2" "$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$ADRES/yazitipleri/$f.woff2")"
@@ -179,13 +201,17 @@ for h in m2a m2b m3 m4 m5 m6 m7; do ilr $h $(( $(toplam $h) - 1 )) > /dev/null; 
 kontrol "hepsi bitti: bağlantı en son bakılan hikâyeye (m7) gider" "302 $ADRES/v/$KOD3/m7/" "$(yonlendirme "$ADRES/v/$KOD3")"
 sleep 1; ilr m3 2 > /dev/null
 kontrol "hepsi bitti, m3 tekrar izlendi: bağlantı m3'e gider" "302 $ADRES/v/$KOD3/m3/" "$(yonlendirme "$ADRES/v/$KOD3")"
+kontrol "durum: m7 son hikâye (sıradaki yok), materyali yok" "None|0|True" \
+  "$(curl -s "$ADRES/api/durum?kod=$KOD3&hikaye=m7" | python3 -c "
+import json,sys; d=json.load(sys.stdin); m=d['materyaller']; print(d['sonraki'], len(m['gorseller']), m['baglanti'] is None, sep='|')")"
 kontrol "8 sayfanın hepsi: onaylı sayfa + yalnızca belgelenmiş ekler; Google bağlantısı yok" "yok" \
   "$(python3 "$GECICI/sayfa_denetle.py" "$YAYIN/icerik" "$ADRES" "$KOD3" m1 m2a m2b m3 m4 m5 m6 m7)"
 
 echo "7) Tarayıcı testi (gerçek Chrome ile kayıt kancası)"
 # Ayrı bir deneme velisi: önceki velinin hız sınırı bu dakika dolmuş olabilir.
 KOD2="$(dotnet "$YAYIN/VeliAkademisi.dll" veli-ekle "Tarayıcı Deneme" "1-B" | sed -n 's/^Kod: //p')"
-if node "$KLASOR/tarayici/test.mjs" "$ADRES" "$KOD2" "$SORU"; then
+KOD4="$(dotnet "$YAYIN/VeliAkademisi.dll" veli-ekle "Materyal Deneme" "1-D" | sed -n 's/^Kod: //p')"
+if node "$KLASOR/tarayici/test.mjs" "$ADRES" "$KOD2" "$SORU" "$KOD3" "$KOD4"; then
   kontrol "tarayıcı testi" tamam tamam
 else
   kontrol "tarayıcı testi" tamam başarısız

@@ -73,7 +73,7 @@ adim_hazirlik() {
   systemctl is-active --quiet nginx || systemctl enable --now nginx   # kapalıysa açılır ve açılışta başlar
   systemctl is-active --quiet nginx && tamam "nginx çalışıyor" || dur "nginx çalışmıyor (başlatılamadı)."
   # 80 numaralı kapıyı (HTTP) nginx'ten başka bir program tutuyorsa site ona gider; kurulum burada durur.
-  local kapi; kapi="$(ss -ltnpH '( sport = :80 )' 2>/dev/null | grep -o 'users:(("[^"]*"' | sed 's/users:(("//' | sort -u | tr '\n' ' ')"
+  local kapi; kapi="$(ss -ltnpH '( sport = :80 )' 2>/dev/null | grep -o '("[^"]*"' | tr -d '("' | sort -u | tr '\n' ' ')"
   [ "$(echo "$kapi" | tr -d ' ')" = "nginx" ] && tamam "80 numaralı kapıyı yalnızca nginx kullanıyor" \
     || dur "80 numaralı kapıyı kullanan programlar: '${kapi:-hiçbiri}' (yalnızca nginx olmalı)."
 }

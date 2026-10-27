@@ -12,6 +12,8 @@ O=(-u "onizleme:prova-onizleme-1")    # önizleme şifresi
 hata=0
 kontrol() { if [ "$2" == "$3" ]; then echo "  TAMAM  $1"; else echo "  HATA   $1 — beklenen: [$2], gelen: [$3]"; echo "::error::Kurulum: $1 — beklenen: [$2], gelen: [$3]"; hata=1; fi; }
 kod() { curl -s -o /dev/null -w '%{http_code}' "$@"; }
+# yon <curl seçenekleri> → "<durum kodu> <Location başlığı>" (site göreli adresle yönlendirir; tarayıcı kendi alan adını ekler)
+yon() { curl -s -o /dev/null -D - "$@" | tr -d '\r' | awk 'NR==1{k=$2} tolower($1)=="location:"{l=$2} END{print k" "l}'; }
 
 $K hazirlik
 $K uygulama "$PAKET"
@@ -30,7 +32,7 @@ echo "::notice::Servisin ortamı: $(tr '\0' '\n' < "/proc/$PID/environ" | grep -
 echo "::notice::Ayar dosyası: $(sed 's/\(SifreHash=.\{20\}\).*/\1…/' /etc/veliakademisi/ayarlar.env | tr '\n' ' ')"
 echo "::notice::Veritabanı dosyaları: $(find / -xdev -name 'veliakademisi.db' 2>/dev/null | tr '\n' ' ')"
 kontrol "veritabanı servis kullanıcısına ait" veliakademisi "$(stat -c %U /var/lib/veliakademisi/veliakademisi.db)"
-kontrol "veli bağlantısı (şifreyle) → Modül 1" "302 http://$ALAN/v/$KOD/m1/" "$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "${A[@]}" "${O[@]}" "http://127.0.0.1/v/$KOD")"
+kontrol "veli bağlantısı (şifreyle) → Modül 1" "302 /v/$KOD/m1/" "$(yon "${A[@]}" "${O[@]}" "http://127.0.0.1/v/$KOD")"
 kontrol "veli bağlantısı şifresiz açılmaz (önizleme)" 401 "$(kod "${A[@]}" "http://127.0.0.1/v/$KOD/m1/")"
 kontrol "uygulama tanımı şifresiz alınabiliyor (ana ekrana ekleme için)" 200 "$(kod "${A[@]}" "http://127.0.0.1/v/$KOD/manifest.webmanifest")"
 kontrol "simge şifresiz alınabiliyor" 200 "$(kod "${A[@]}" http://127.0.0.1/simge/simge-192.png)"
@@ -39,8 +41,8 @@ kontrol "simge şifresiz alınabiliyor" 200 "$(kod "${A[@]}" http://127.0.0.1/si
 C="$(mktemp)"
 T="$(curl -s -c "$C" -b "$C" "${A[@]}" "${O[@]}" http://127.0.0.1/yonetim/giris | python3 -c "
 import re,sys; m=re.search(r'name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"', sys.stdin.read()); print(m.group(1) if m else '')")"
-kontrol "yönetici girişi (servisin ayar dosyasındaki şifre özetiyle)" "302 http://$ALAN/yonetim" \
-  "$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' -c "$C" -b "$C" "${A[@]}" "${O[@]}" -X POST \
+kontrol "yönetici girişi (servisin ayar dosyasındaki şifre özetiyle)" "302 /yonetim" \
+  "$(yon -c "$C" -b "$C" "${A[@]}" "${O[@]}" -X POST \
      --data-urlencode "Sifre=prova-yonetici-123" --data-urlencode "__RequestVerificationToken=$T" http://127.0.0.1/yonetim/giris)"
 kontrol "giriş sonrası takip tablosu" 200 "$(kod -b "$C" "${A[@]}" "${O[@]}" http://127.0.0.1/yonetim)"
 

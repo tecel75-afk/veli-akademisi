@@ -46,6 +46,7 @@ builder.Services.AddDbContext<VeriTabani>(o => o.UseSqlite($"Data Source={dbYolu
 builder.Services.AddSingleton(new HikayeVerisi(icerikYolu));   // 8 hikâyenin steps.json bilgileri
 builder.Services.AddSingleton(new HizSiniri(120));             // kayıt uçları: dakikada 120 istek/kod
 builder.Services.AddSingleton<GirisKilidi>();                  // yönetici girişi: 5 hatada 15 dk kilit
+builder.Services.AddSingleton(new VeriYolu(dbYolu));           // yedek indirme için
 
 // Oturum çerezlerini şifreleyen anahtarlar veritabanının yanında saklanır;
 // böylece site yeniden başlayınca yöneticinin oturumu düşmez.

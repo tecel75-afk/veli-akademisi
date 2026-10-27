@@ -88,6 +88,18 @@
   </form>
 </div>
 
+<div class="kart" style="margin-top:16px">
+  <h2 style="margin:0 0 8px;font-size:19px">Veliyi sil</h2>
+  <p style="margin:0 0 10px">Veli, ilerlemesi ve bütün cevaplarıyla birlikte <b>kalıcı olarak</b> silinir; bağlantısı çalışmaz. Geri alınamaz.</p>
+  <form method="post" asp-page-handler="Sil" asp-route-id="@Model.Veli.Id">
+    <label style="font-weight:400;display:flex;gap:8px;align-items:flex-start">
+      <input type="checkbox" name="SilAnladim" value="true" style="margin-top:5px">
+      <span>Bu velinin bütün kayıtlarının kalıcı olarak silineceğini anladım.</span>
+    </label>
+    <p style="margin:12px 0 0"><button class="btn sil" type="submit">Veliyi sil</button></p>
+  </form>
+</div>
+
 <script>
   document.querySelectorAll('.kopyala').forEach(function (d) {
     d.onclick = function () {

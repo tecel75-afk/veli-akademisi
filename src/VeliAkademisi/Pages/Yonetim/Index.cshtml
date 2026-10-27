@@ -13,6 +13,8 @@
 <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px">
   <h1 style="margin:0;flex:1">Takip tablosu</h1>
   <a class="btn" href="/yonetim/veli-ekle">Veli ekle</a>
+  <a class="btn ikincil" href="/yonetim?handler=excel">Excel'e aktar</a>
+  <a class="btn ikincil" href="/yonetim?handler=yedek">Yedeği indir</a>
 </div>
 
 <form method="get" class="kart suzgec" style="margin-bottom:12px">
@@ -70,3 +72,6 @@ else
     </table>
   </div>
 }
+
+<p class="not" style="margin:16px 0 0">Yedeği haftada bir indirip bilgisayarınıza kaydedin; sunucuya bir şey olursa veriler o dosyadan geri yüklenir.
+  Yıl sonunda bütün kayıtları silmek için: <a href="/yonetim/yil-sonu">Yıl sonu silme</a>.</p>

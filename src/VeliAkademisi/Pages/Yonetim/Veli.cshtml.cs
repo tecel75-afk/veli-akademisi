@@ -28,6 +28,7 @@ public class VeliModel : PageModel
     public bool KodYenilendi { get; private set; }
 
     [BindProperty] public bool Anladim { get; set; }
+    [BindProperty] public bool SilAnladim { get; set; }
 
     public string? SiteAdresi => _ayarlar["Site:Adres"]?.Trim().TrimEnd('/') is { Length: > 0 } a ? a : null;
     public string Baglanti => $"{SiteAdresi}/v/{Veli.Kod}";
@@ -53,6 +54,22 @@ public class VeliModel : PageModel
         veli.Kod = KodUretici.Uret();
         await _db.SaveChangesAsync();
         return Redirect($"/yonetim/veli/{id}?yenilendi=true");
+    }
+
+    // Veliyi bütün ilerleme ve cevaplarıyla siler (veritabanı kuralı: veli silinince kayıtları da silinir).
+    public async Task<IActionResult> OnPostSilAsync(int id)
+    {
+        var veli = await _db.Veliler.FindAsync(id);
+        if (veli is null) return NotFound();
+        if (!SilAnladim)
+        {
+            await Yukle(id);
+            Hata = "Veli silinmedi: önce silme onay kutusunu işaretleyin.";
+            return Page();
+        }
+        _db.Veliler.Remove(veli);
+        await _db.SaveChangesAsync();
+        return Redirect("/yonetim");
     }
 
     async Task<bool> Yukle(int id)

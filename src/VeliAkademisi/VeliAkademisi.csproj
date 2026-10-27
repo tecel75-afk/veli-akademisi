@@ -11,6 +11,8 @@
   <ItemGroup>
     <!-- Veritabanı: SQLite, EF Core ile -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.14" />
+    <!-- Excel dosyası üretmek için -->
+    <PackageReference Include="ClosedXML" Version="0.105.1" />
   </ItemGroup>
 
   <ItemGroup>

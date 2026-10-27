@@ -14,12 +14,25 @@ public class IndexModel : PageModel
 {
     readonly VeriTabani _db;
     readonly HikayeVerisi _hv;
+    readonly VeriYolu _yol;
 
-    public IndexModel(VeriTabani db, HikayeVerisi hv)
+    public IndexModel(VeriTabani db, HikayeVerisi hv, VeriYolu yol)
     {
         _db = db;
         _hv = hv;
+        _yol = yol;
     }
+
+    static string Damga() => (DateTime.UtcNow + TimeSpan.FromHours(3)).ToString("yyyy-MM-dd-HHmm");
+
+    // /yonetim?handler=excel → iki sayfalık Excel dosyası (Takip, Cevaplar)
+    public async Task<IActionResult> OnGetExcelAsync() =>
+        File(await ExcelRaporu.Olustur(_db, _hv),
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"veli-akademisi-{Damga()}.xlsx");
+
+    // /yonetim?handler=yedek → veritabanının o anki kopyası. Haftada bir indirip bilgisayarınıza kaydedin.
+    public IActionResult OnGetYedek() =>
+        File(Yedek.Al(_yol.Db), "application/vnd.sqlite3", $"veli-akademisi-yedek-{Damga()}.db");
 
     [BindProperty(SupportsGet = true)] public string? Sinif { get; set; }
     [BindProperty(SupportsGet = true)] public string? Ara { get; set; }

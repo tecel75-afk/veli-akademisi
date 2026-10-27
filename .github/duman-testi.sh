@@ -306,6 +306,75 @@ kontrol "  eski bağlantı artık geçersiz" 404 "$(durum "$ADRES/v/$KOD2")"
 kontrol "  yeni bağlantı çalışıyor" 302 "$(curl -s -o /dev/null -w '%{http_code}' "$ADRES/v/$YENIKOD")"
 kontrol "  ilerleme ve cevaplar silinmedi" "2" "$(satir "select count(*) from Cevaplar where VeliId=$VID")"
 
+echo "8d) Excel, yedek, silme"
+indir() { curl -s -o "$2" -D "$2.baslik" -w '%{http_code}' -b "$CEREZ" "$1"; }   # indir <adres> <dosya>
+dosya_adi() { tr -d '\r' < "$1.baslik" | grep -i '^content-disposition:' | grep -o 'filename=[^;]*' | head -1 | sed 's/filename=//; s/"//g'; }
+
+# İdeal şıkkı olmayan (bütün şıkları eşit) bir soruya bir cevap: Excel'de "ideal" sütunu boş kalmalı.
+ESIT="$(python3 -c "import json,sys; s=json.load(open(sys.argv[1],encoding='utf-8')); print(next(k for k,x in enumerate(s) if x['t']=='q' and x.get('all')))" "$YAYIN/icerik/m1/steps.json")"
+kontrol "eşit şıklı soruya cevap kaydedildi" 204 "$(post /api/cevap "{\"kod\":\"$KOD3\",\"hikaye\":\"m1\",\"adim\":$ESIT,\"secim\":0}")"
+
+kontrol "Excel indiriliyor" 200 "$(indir "$ADRES/yonetim?handler=excel" "$GECICI/rapor.xlsx")"
+kontrol "  dosya adı" evet "$(dosya_adi "$GECICI/rapor.xlsx" | grep -qE '^veli-akademisi-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{4}\.xlsx$' && echo evet || echo hayır)"
+IDEAL1="$(python3 -c "import json,sys; s=json.load(open(sys.argv[1],encoding='utf-8')); print('ABC'[next(x for x in s if x['t']=='q')['ov']['i']])" "$YAYIN/icerik/m1/steps.json")"
+EXCEL="$(python3 - "$GECICI/rapor.xlsx" "$IDEAL1" <<'PY'
+import sys, datetime, openpyxl
+k = openpyxl.load_workbook(sys.argv[1]); ideal1 = sys.argv[2]
+t, c = k["Takip"], k["Cevaplar"]
+sonuc = [",".join(k.sheetnames), str(t.max_row - 1)]
+takip = {r[0].value: [x.value for x in r] for r in t.iter_rows(min_row=2)}
+sonuc.append(takip.get("Ayşe Hanım", ["yok"]*3)[2])                      # Türkçe harfler ve "Başlanmadı"
+sonuc.append(takip.get("Sıra Deneme", ["yok"]*10)[9])                    # M7 sütunu
+satirlar = [[x.value for x in r] for r in c.iter_rows(min_row=2)]
+tar = next((r for r in satirlar if r[0] == "Tarayıcı Deneme" and r[2].startswith("M1") and r[3] == 1), None)
+sonuc.append("yok" if tar is None else f"{tar[5]}>{tar[8]}|ideal:{tar[11]}|tarih:{isinstance(tar[7], datetime.datetime)}")
+sonuc.append("Hayır" if ideal1 != "C" else "Evet")                       # beklenen ideal sonucu (son seçim C)
+esit = [r for r in satirlar if r[0] == "Sıra Deneme" and r[2].startswith("M1")]
+sonuc.append("esit-bos" if esit and esit[0][11] in (None, "") else "esit-dolu")
+print("#".join(str(x) for x in sonuc))
+PY
+)"
+IFS='#' read -r SAYFALAR TAKIPSATIR AYSE SIRA7 TARAYICI BEKIDEAL ESITSONUC <<< "$EXCEL"
+kontrol "  iki sayfa: Takip, Cevaplar" "Takip,Cevaplar" "$SAYFALAR"
+kontrol "  Takip: her veli bir satır" "$(veli_sayisi)" "$TAKIPSATIR"
+kontrol "  Takip: 'Ayşe Hanım' M1 Başlanmadı (Türkçe harfler doğru)" "Başlanmadı" "$AYSE"
+kontrol "  Takip: 'Sıra Deneme' M7 Tamamlandı" "Tamamlandı" "$SIRA7"
+kontrol "  Cevaplar: ilk B, son C, ideal sütunu, tarih hücresi" "B>C|ideal:$BEKIDEAL|tarih:True" "$TARAYICI"
+kontrol "  Cevaplar: eşit şıklı soruda ideal sütunu boş" "esit-bos" "$ESITSONUC"
+
+kontrol "yedek indiriliyor" 200 "$(indir "$ADRES/yonetim?handler=yedek" "$GECICI/yedek.db")"
+kontrol "  dosya adı" evet "$(dosya_adi "$GECICI/yedek.db" | grep -qE '^veli-akademisi-yedek-[0-9-]+\.db$' && echo evet || echo hayır)"
+kontrol "  geçerli bir SQLite dosyası, veli sayısı aynı" "$(veli_sayisi)" "$(python3 -c "import sqlite3,sys; print(sqlite3.connect(sys.argv[1]).execute('select count(*) from Veliler').fetchone()[0])" "$GECICI/yedek.db")"
+kontrol "girişsiz Excel indirilemez" 302 "$(curl -s -o /dev/null -w '%{http_code}' "$ADRES/yonetim?handler=excel")"
+kontrol "girişsiz yedek indirilemez" 302 "$(curl -s -o /dev/null -w '%{http_code}' "$ADRES/yonetim?handler=yedek")"
+
+veli_sil() {  # veli_sil <id> [SilAnladim=true]
+  local T; T="$(sayfa_belirteci "$ADRES/yonetim/veli/$1")"
+  local ek=(); [ -n "${2:-}" ] && ek=(--data-urlencode "$2")
+  curl -s -o "$GECICI/veli.html" -w "%{http_code} %{redirect_url}" -c "$CEREZ" -b "$CEREZ" -X POST \
+    --data-urlencode "__RequestVerificationToken=$T" "${ek[@]}" "$ADRES/yonetim/veli/$1?handler=sil"; }
+ONCE="$(veli_sayisi)"
+kontrol "tek veli silme: onaysız silinmez" "200 " "$(veli_sil "$VID")"
+kontrol "  veli yerinde" "$ONCE" "$(veli_sayisi)"
+kontrol "tek veli silme: onaylı" "302 $ADRES/yonetim" "$(veli_sil "$VID" "SilAnladim=true")"
+kontrol "  veli silindi" "$((ONCE-1))" "$(veli_sayisi)"
+kontrol "  cevapları ve ilerlemesi de silindi" "0|0" "$(satir "select (select count(*) from Cevaplar where VeliId=$VID),(select count(*) from Ilerlemeler where VeliId=$VID)")"
+kontrol "  bağlantısı artık geçersiz" 404 "$(durum "$ADRES/v/$YENIKOD")"
+
+yil_sonu() {  # yil_sonu <Yazi> [Anladim=true]
+  local T; T="$(sayfa_belirteci "$ADRES/yonetim/yil-sonu")"
+  local ek=(); [ -n "${2:-}" ] && ek=(--data-urlencode "$2")
+  curl -s -o "$GECICI/yilsonu.html" -w "%{http_code} %{redirect_url}" -c "$CEREZ" -b "$CEREZ" -X POST \
+    --data-urlencode "__RequestVerificationToken=$T" --data-urlencode "Yazi=$1" "${ek[@]}" "$ADRES/yonetim/yil-sonu"; }
+ONCE="$(veli_sayisi)"
+kontrol "yıl sonu: yazı doğru ama kutu işaretsiz → silinmez" "200 " "$(yil_sonu "TÜMÜNÜ SİL")"
+kontrol "yıl sonu: kutu işaretli ama yazı yanlış → silinmez" "200 " "$(yil_sonu "sil" "Anladim=true")"
+kontrol "  'Hiçbir şey silinmedi' mesajı" evet "$(icerir "$GECICI/yilsonu.html" 'Hiçbir şey silinmedi')"
+kontrol "  veriler yerinde" "$ONCE" "$(veli_sayisi)"
+kontrol "yıl sonu: iki onay (küçük harfle 'tümünü sil')" "302 $ADRES/yonetim/yil-sonu?silindi=true" "$(yil_sonu "tümünü sil" "Anladim=true")"
+kontrol "  bütün tablolar boş" "0|0|0" "$(satir "select (select count(*) from Veliler),(select count(*) from Ilerlemeler),(select count(*) from Cevaplar)")"
+kontrol "  eski bağlantılar geçersiz" 404 "$(durum "$ADRES/v/$KOD3")"
+
 T="$(python3 -c "
 import re,sys; m=re.search(r'<input[^>]*name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"', open(sys.argv[1],encoding='utf-8').read()); print(m.group(1) if m else '')" "$GECICI/yonetim.html")"
 kontrol "Çıkış: giriş sayfasına döner" "302 $ADRES/yonetim/giris" "$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' -c "$CEREZ" -b "$CEREZ" -X POST --data-urlencode "__RequestVerificationToken=$T" "$ADRES/yonetim?handler=cikis")"

@@ -198,7 +198,7 @@ for b in "path=/yonetim" "httponly" "samesite=strict"; do
   kontrol "  oturum çerezi: $b" evet "$(echo "$SC" | grep -q "$b" && echo evet || echo hayır)"
 done
 kontrol "giriş sonrası yönetim sayfası açılıyor" 200 "$(curl -s -o "$GECICI/yonetim.html" -w '%{http_code}' -b "$CEREZ" "$ADRES/yonetim")"
-grep -q "Giriş yapıldı" "$GECICI/yonetim.html" && kontrol "  yönetim sayfasının içeriği" evet evet || kontrol "  yönetim sayfasının içeriği" evet hayır
+grep -q "Takip tablosu" "$GECICI/yonetim.html" && kontrol "  yönetim sayfasının içeriği" evet evet || kontrol "  yönetim sayfasının içeriği" evet hayır
 
 echo "8b) Veli ekleme"
 sayfa_belirteci() {  # sayfa_belirteci <adres> → o sayfadaki formun güvenlik belirteci (oturumlu)

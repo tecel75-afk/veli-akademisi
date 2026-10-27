@@ -121,7 +121,8 @@ try {
   console.log('h) Telefon ekranı (iPhone 13 taklidi)');
   {
     const telefon = await tarayici.newPage();
-    await telefon.emulate(puppeteer.KnownDevices['iPhone 13']);
+    // iPhone 13 ekranı: 390×844, mobil tarayıcı (isMobile: sayfadaki ekran satırını dikkate alır)
+    await telefon.setViewport({ width: 390, height: 844, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
     await telefon.goto(`${ADRES}/v/${KOD}/m1/`, { waitUntil: 'load' });
     const olcu = await telefon.evaluate(() => ({ genislik: window.innerWidth,
       yatayKayma: document.documentElement.scrollWidth > window.innerWidth }));

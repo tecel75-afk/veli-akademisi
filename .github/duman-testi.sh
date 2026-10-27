@@ -33,7 +33,10 @@ echo "2) Sahte bir ses dosyası konuyor (ses klasöründen sunulduğunu görmek 
 mkdir -p "$Ses__Yol/m1" && printf 'ID3deneme' > "$Ses__Yol/m1/m1_s001.mp3"
 # Sunucuda her hikâyede bulunan ortam sesinin yerine geçerli, 1 saniyelik sessiz bir WAV.
 # (Bu dosya yoksa onaylı sayfa açılışta "ses verisi çözülemedi" hatası verir; gerçekte dosya var.)
-python3 -c "import wave,sys; w=wave.open(sys.argv[1],'wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(8000); w.writeframes(b'\0\0'*8000); w.close()" "$Ses__Yol/m1/ortam.wav"
+for h in m1 m2a m2b m3 m4 m5 m6 m7; do
+  mkdir -p "$Ses__Yol/$h"
+  python3 -c "import wave,sys; w=wave.open(sys.argv[1],'wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(8000); w.writeframes(b'\0\0'*8000); w.close()" "$Ses__Yol/$h/ortam.wav"
+done
 
 echo "2b) Deneme yönetici şifresinin özeti üretiliyor (sifre-hash komutu)"
 DENEME_SIFRE="deneme-sifre-2026"

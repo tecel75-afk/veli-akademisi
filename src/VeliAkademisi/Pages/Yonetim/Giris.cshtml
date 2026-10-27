@@ -1,0 +1,20 @@
+@page
+@model VeliAkademisi.Pages.Yonetim.GirisModel
+@{
+    ViewData["Baslik"] = "Giriş";
+}
+<div class="ust"><span class="marka">Veli Akademisi · Yönetim</span></div>
+
+<div class="kart" style="max-width:420px">
+  <h1>Giriş</h1>
+  @if (Model.Hata is not null)
+  {
+    <p class="hata" role="alert">@Model.Hata</p>
+  }
+  <form method="post">
+    <label for="Sifre">Şifre</label>
+    <input asp-for="Sifre" type="password" autocomplete="current-password" autofocus required>
+    <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl">
+    <p style="margin:14px 0 0"><button class="btn" type="submit">Giriş yap</button></p>
+  </form>
+</div>

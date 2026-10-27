@@ -1,0 +1,16 @@
+@page
+@model VeliAkademisi.Pages.Yonetim.IndexModel
+@{
+    ViewData["Baslik"] = "Yönetim";
+}
+<div class="ust">
+  <span class="marka">Veli Akademisi · Yönetim</span>
+  <form class="sag" method="post" asp-page-handler="Cikis">
+    <button class="btn ikincil" type="submit">Çıkış</button>
+  </form>
+</div>
+
+<h1>Yönetim</h1>
+<div class="kart">
+  <p style="margin:0">Giriş yapıldı. Veli ekleme, takip tablosu ve Excel bu sayfaya sonraki adımlarda eklenecek.</p>
+</div>

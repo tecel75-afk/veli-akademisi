@@ -35,6 +35,13 @@ mkdir -p "$Ses__Yol/m1" && printf 'ID3deneme' > "$Ses__Yol/m1/m1_s001.mp3"
 # (Bu dosya yoksa onaylı sayfa açılışta "ses verisi çözülemedi" hatası verir; gerçekte dosya var.)
 python3 -c "import wave,sys; w=wave.open(sys.argv[1],'wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(8000); w.writeframes(b'\0\0'*8000); w.close()" "$Ses__Yol/m1/ortam.wav"
 
+echo "2b) Deneme yönetici şifresinin özeti üretiliyor (sifre-hash komutu)"
+DENEME_SIFRE="deneme-sifre-2026"
+OZET="$(echo "$DENEME_SIFRE" | dotnet "$YAYIN/VeliAkademisi.dll" sifre-hash 2>/dev/null)"
+kontrol "özet biçimi doğru" "pbkdf2-sha256" "${OZET%%\$*}"
+kontrol "kısa şifre reddedilir" 1 "$(echo kisa | dotnet "$YAYIN/VeliAkademisi.dll" sifre-hash >/dev/null 2>&1; echo $?)"
+export Yonetim__SifreHash="$OZET"
+
 echo "3) Site başlatılıyor"
 dotnet "$YAYIN/VeliAkademisi.dll" > "$GECICI/site.log" 2>&1 &
 for i in $(seq 1 30); do curl -s "$ADRES/" > /dev/null && break; sleep 1; done
@@ -164,7 +171,48 @@ VELI2="(select Id from Veliler where Kod='$KOD2')"
 kontrol "  veritabanında: m1 ilerlemesi soru adımında" "$SORU" "$(satir "select SonAdim from Ilerlemeler where VeliId=$VELI2 and Hikaye='m1'")"
 kontrol "  veritabanında: iki seçim, sırayla B sonra C" "1,2" "$(satir "select group_concat(Secim) from (select Secim from Cevaplar where VeliId=$VELI2 and Adim=$SORU order by Id)")"
 
-echo "8) Site günlüğü"
+echo "8) Yönetici girişi"
+CEREZ="$GECICI/cerez.txt"
+belirtec() {  # giriş sayfasındaki formun güvenlik belirtecini (antiforgery) alır
+  curl -s -c "$CEREZ" -b "$CEREZ" "$ADRES/yonetim/giris" | python3 -c "
+import re,sys; m=re.search(r'<input[^>]*name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"', sys.stdin.read()); print(m.group(1) if m else '')"; }
+giris() {  # giris "<şifre>" → "<durum kodu> <yönlendirme>" ; sayfa $GECICI/giris.html'e yazılır
+  local T; T="$(belirtec)"
+  curl -s -o "$GECICI/giris.html" -D "$GECICI/giris.baslik" -w "%{http_code} %{redirect_url}" -c "$CEREZ" -b "$CEREZ" \
+    -X POST --data-urlencode "Sifre=$1" --data-urlencode "__RequestVerificationToken=$T" "$ADRES/yonetim/giris"; }
+
+rm -f "$CEREZ"
+Y="$(yonlendirme "$ADRES/yonetim")"
+kontrol "/yonetim girişsiz açılmaz, giriş sayfasına gider" "302 $ADRES/yonetim/giris" "${Y%%\?*}"
+kontrol "giriş sayfası açılıyor" 200 "$(durum "$ADRES/yonetim/giris")"
+kontrol "giriş sayfası arama motorlarına kapalı" "x-robots-tag: noindex, nofollow" "$(curl -s -D - -o /dev/null "$ADRES/yonetim/giris" | tr -d '\r' | grep -i '^x-robots-tag:' | tr 'A-Z' 'a-z')"
+kontrol "giriş formunda güvenlik belirteci var" evet "$([ -n "$(belirtec)" ] && echo evet || echo hayır)"
+kontrol "belirteçsiz giriş isteği reddedilir (400)" 400 "$(curl -s -o /dev/null -w '%{http_code}' -X POST --data-urlencode "Sifre=$DENEME_SIFRE" "$ADRES/yonetim/giris")"
+
+kontrol "yanlış şifre: sayfa yeniden gelir" "200 " "$(giris yanlis-sifre-123)"
+grep -q "Şifre yanlış." "$GECICI/giris.html" && kontrol "  'Şifre yanlış.' mesajı" evet evet || kontrol "  'Şifre yanlış.' mesajı" evet hayır
+kontrol "doğru şifre: yönetim sayfasına gider" "302 $ADRES/yonetim" "$(giris "$DENEME_SIFRE")"
+SC="$(tr -d '\r' < "$GECICI/giris.baslik" | grep -i '^set-cookie: va_yonetim=' | tr 'A-Z' 'a-z')"
+for b in "path=/yonetim" "httponly" "samesite=strict"; do
+  kontrol "  oturum çerezi: $b" evet "$(echo "$SC" | grep -q "$b" && echo evet || echo hayır)"
+done
+kontrol "giriş sonrası yönetim sayfası açılıyor" 200 "$(curl -s -o "$GECICI/yonetim.html" -w '%{http_code}' -b "$CEREZ" "$ADRES/yonetim")"
+grep -q "Giriş yapıldı" "$GECICI/yonetim.html" && kontrol "  yönetim sayfasının içeriği" evet evet || kontrol "  yönetim sayfasının içeriği" evet hayır
+
+T="$(python3 -c "
+import re,sys; m=re.search(r'<input[^>]*name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"', open(sys.argv[1],encoding='utf-8').read()); print(m.group(1) if m else '')" "$GECICI/yonetim.html")"
+kontrol "Çıkış: giriş sayfasına döner" "302 $ADRES/yonetim/giris" "$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' -c "$CEREZ" -b "$CEREZ" -X POST --data-urlencode "__RequestVerificationToken=$T" "$ADRES/yonetim?handler=cikis")"
+Y="$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' -b "$CEREZ" "$ADRES/yonetim")"
+kontrol "çıkıştan sonra yönetim sayfası açılmaz" "302 $ADRES/yonetim/giris" "${Y%%\?*}"
+
+# Kilit: 5 hatalı denemeden sonra doğru şifre de kabul edilmez. (Testin sonunda; çünkü kilit 15 dk sürer.)
+rm -f "$CEREZ"
+for n in 1 2 3 4 5; do giris "yanlis-$n-sifre" > /dev/null; done
+kontrol "5 hatadan sonra doğru şifre kabul edilmez" "200 " "$(giris "$DENEME_SIFRE")"
+grep -q "Çok fazla hatalı deneme" "$GECICI/giris.html" && kontrol "  kilit mesajı" evet evet || kontrol "  kilit mesajı" evet hayır
+kontrol "anahtarlar veritabanının yanında saklanıyor" evet "$(ls "$GECICI/veri/anahtarlar"/*.xml >/dev/null 2>&1 && echo evet || echo hayır)"
+
+echo "9) Site günlüğü"
 sed 's/^/     /' "$GECICI/site.log"
 
 if [ $hata -ne 0 ]; then echo "SONUÇ: kontrollerden en az biri tutmadı."; exit 1; fi

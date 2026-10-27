@@ -160,7 +160,7 @@ try {
       return ust === b || b.contains(ust) ? 'açık' : 'kapalı: ' + (ust ? (ust.id || ust.className || ust.tagName) : 'ekran dışında');
     });
     await sayfa.$eval('#va-sonraki', b => b.scrollIntoView({ block: 'end' }));
-    console.log('     (düğme ekranın altına kaydırıldığında: ' + await ustuKapali() + ')');
+    console.log('::notice::Teşhis — Sonraki düğmesi ekranın altına kaydırıldığında: ' + await ustuKapali());
     await sayfa.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
     kontrol('sayfa en alta kaydırılınca düğmenin üstü açık', 'açık', await ustuKapali());
     await Promise.all([sayfa.waitForNavigation({ waitUntil: 'load', timeout: 15000 }), sayfa.click('#va-sonraki')]);

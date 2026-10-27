@@ -42,6 +42,7 @@ public static class ExcelRaporu
             r++;
         }
         Genislikler(takip, new[] { 24, 10 }.Concat(Enumerable.Repeat(16, Hikayeler.Sira.Count)).Append(17).ToArray());
+        takip.Cells().Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;   // aynı satırdaki bilgiler aynı hizada başlar
 
         // --- 2) Cevaplar ---
         var sayfa = kitap.Worksheets.Add("Cevaplar");
@@ -71,6 +72,11 @@ public static class ExcelRaporu
         sayfa.Column(5).Style.Alignment.WrapText = true;
         sayfa.Column(7).Style.Alignment.WrapText = true;
         sayfa.Column(10).Style.Alignment.WrapText = true;
+        // Okunabilirlik: bütün hücreler üste hizalı (uzun soru birkaç satıra bölünse de satırın bilgileri aynı hizada başlar);
+        // soru numarası ve harf sütunları ortalı (numara, yanındaki soru metnine yapışık görünmez).
+        sayfa.Cells().Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+        foreach (var sutun in new[] { 4, 6, 9, 12 })
+            sayfa.Column(sutun).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
         using var akis = new MemoryStream();
         kitap.SaveAs(akis);

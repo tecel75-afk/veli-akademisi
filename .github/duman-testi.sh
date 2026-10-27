@@ -402,18 +402,21 @@ satirlar = [[x.value for x in r] for r in c.iter_rows(min_row=2)]
 tar = next((r for r in satirlar if r[0] == "Tarayıcı Deneme" and r[2].startswith("M1") and r[3] == 1), None)
 sonuc.append("yok" if tar is None else f"{tar[5]}>{tar[8]}|ideal:{tar[11]}|tarih:{isinstance(tar[7], datetime.datetime)}")
 sonuc.append("Hayır" if ideal1 != "C" else "Evet")                       # beklenen ideal sonucu (son seçim C)
+hiza = c.cell(row=2, column=5).alignment.vertical == "top" and all(c.cell(row=2, column=k).alignment.horizontal == "center" for k in (4, 6, 9, 12))
 esit = [r for r in satirlar if r[0] == "Sıra Deneme" and r[2].startswith("M1")]
 sonuc.append("esit-bos" if esit and esit[0][11] in (None, "") else "esit-dolu")
+sonuc.append("hiza-tamam" if hiza else "hiza-yanlis")
 print("#".join(str(x) for x in sonuc))
 PY
 )"
-IFS='#' read -r SAYFALAR TAKIPSATIR AYSE SIRA7 TARAYICI BEKIDEAL ESITSONUC <<< "$EXCEL"
+IFS='#' read -r SAYFALAR TAKIPSATIR AYSE SIRA7 TARAYICI BEKIDEAL ESITSONUC HIZA <<< "$EXCEL"
 kontrol "  iki sayfa: Takip, Cevaplar" "Takip,Cevaplar" "$SAYFALAR"
 kontrol "  Takip: her veli bir satır" "$(veli_sayisi)" "$TAKIPSATIR"
 kontrol "  Takip: 'Ayşe Hanım' M1 Başlanmadı (Türkçe harfler doğru)" "Başlanmadı" "$AYSE"
 kontrol "  Takip: 'Sıra Deneme' M7 Tamamlandı" "Tamamlandı" "$SIRA7"
 kontrol "  Cevaplar: ilk B, son C, ideal sütunu, tarih hücresi" "B>C|ideal:$BEKIDEAL|tarih:True" "$TARAYICI"
 kontrol "  Cevaplar: eşit şıklı soruda ideal sütunu boş" "esit-bos" "$ESITSONUC"
+kontrol "  Cevaplar: hücreler üste hizalı, numara ve harf sütunları ortalı" "hiza-tamam" "$HIZA"
 
 kontrol "yedek indiriliyor" 200 "$(indir "$ADRES/yonetim?handler=yedek" "$GECICI/yedek.db")"
 kontrol "  dosya adı" evet "$(dosya_adi "$GECICI/yedek.db" | grep -qE '^veli-akademisi-yedek-[0-9-]+\.db$' && echo evet || echo hayır)"

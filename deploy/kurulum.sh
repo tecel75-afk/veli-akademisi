@@ -52,9 +52,11 @@ ayar_yaz() {  # ayar_yaz ANAHTAR DEĞER → ayarlar.env içinde satırı ekler y
   install -m 640 -o root -g "$KULLANICI" "$t" "$f"; rm -f "$t"
 }
 
-saglik() {  # site yerelde cevap veriyor mu? (en çok 30 sn bekler)
+saglik() {  # site yerelde cevap veriyor mu ve cevabı gerçekten bu servis mi veriyor? (en çok 30 sn bekler)
   for _ in $(seq 1 30); do
-    if [ "$(curl -s http://127.0.0.1:5080/ || true)" = "Veli Akademisi çalışıyor." ]; then return 0; fi
+    local pid; pid="$(systemctl show -p MainPID --value "$SERVIS")"
+    if [ "$pid" != "0" ] && ss -ltnpH '( sport = :5080 )' | grep -q "pid=$pid," \
+       && [ "$(curl -s http://127.0.0.1:5080/ || true)" = "Veli Akademisi çalışıyor." ]; then return 0; fi
     sleep 1
   done
   return 1

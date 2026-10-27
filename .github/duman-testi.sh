@@ -63,6 +63,9 @@ kontrol "hatalı materyaller.json: site açılmaz, hatanın yeri yazılır" evet
 
 echo "3) Site başlatılıyor"
 dotnet "$YAYIN/VeliAkademisi.dll" > "$GECICI/site.log" 2>&1 &
+SITE_PID=$!
+# Test bitince (başarılı ya da değil) deneme sitesi kapatılır; 5080 numaralı kapı sonraki adımlara boş kalır.
+trap 'kill "$SITE_PID" 2>/dev/null || true; wait "$SITE_PID" 2>/dev/null || true' EXIT
 for i in $(seq 1 30); do curl -s "$ADRES/" > /dev/null && break; sleep 1; done
 
 echo "4) Kontroller"

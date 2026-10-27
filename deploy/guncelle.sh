@@ -11,13 +11,23 @@ SERVIS="veliakademisi"
 
 [ "$(id -u)" -eq 0 ] || { echo "Yönetici (root) olarak çalışmalı: başına sudo yazın." >&2; exit 1; }
 
+# Site cevap veriyor mu ve cevabı gerçekten bu servis mi veriyor? (5080'i başka bir program tutuyorsa yanıltmasın.)
 saglik() {
   for _ in $(seq 1 30); do
-    [ "$(curl -s http://127.0.0.1:5080/ || true)" = "Veli Akademisi çalışıyor." ] && return 0
+    local pid; pid="$(systemctl show -p MainPID --value "$SERVIS")"
+    if [ "$pid" != "0" ] && ss -ltnpH '( sport = :5080 )' | grep -q "pid=$pid," \
+       && [ "$(curl -s http://127.0.0.1:5080/ || true)" = "Veli Akademisi çalışıyor." ]; then return 0; fi
     sleep 1
   done
   return 1
 }
+
+# 5080 numaralı kapı başka bir program tarafından tutuluyorsa durulur.
+dolu="$(ss -ltnpH '( sport = :5080 )' || true)"
+if [ -n "$dolu" ] && ! systemctl is-active --quiet "$SERVIS"; then
+  echo "  HATA   5080 numaralı kapıyı başka bir program kullanıyor: $dolu" >&2
+  exit 1
+fi
 
 g="$(mktemp -d)"; trap 'rm -rf "$g"' EXIT
 if [ -n "${1:-}" ]; then

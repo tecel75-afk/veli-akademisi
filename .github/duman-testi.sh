@@ -92,6 +92,7 @@ kok, adres, kod = sys.argv[1:4]
 sorun = []
 for h in sys.argv[4:]:
     asil = open(f"{kok}/{h}/index.html", encoding="utf-8").read()
+    asil = asil.replace("</title>\n", '</title>\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n', 1)
     beklenen = (asil.replace('<link rel="preconnect" href="https://fonts.googleapis.com">\n', "")
                     .replace('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito:wght@500;700;800&display=swap">',
                              '<link rel="stylesheet" href="/yazitipleri/yazitipleri.css">')

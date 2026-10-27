@@ -127,6 +127,9 @@ Hikâye sayfalarının görünümü, metni, akışı ve sesi **değiştirilmez**
 5. Uygulama tanımı (manifest) bağlantısı ve simgeler (bölüm 6b).
 6. Yazı tipleri Google'dan değil sitenin kendi sunucusundan verilir (aynı yazı tipleri; görünüm değişmez).
 7. Yapay zekâ notu.
+8. Telefon ekranı satırı (`<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">`).
+   Onaylı sayfalarda yoktur; olmadan telefon sayfayı 980 px çizip küçültür (ölçüldü: yazı 6,4 px görünür).
+   27 Ekim 2026'da yönetici onayıyla eklendi.
 Bu listede olmayan bir değişiklik gerekirse önce yöneticiye sorulur.
 
 ## 8. Kayıt kancası

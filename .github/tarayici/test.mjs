@@ -118,6 +118,18 @@ try {
   await Promise.all([sayfa.waitForNavigation({ waitUntil: 'load' }), sayfa.click('.va-satir[data-hikaye="m1"]')]);
   kontrol('açık hikâyeye dokununca o hikâye açıldı', `/v/${KOD}/m1/`, new URL(sayfa.url()).pathname);
 
+  console.log('h) Telefon ekranı (iPhone 13 taklidi)');
+  {
+    const telefon = await tarayici.newPage();
+    await telefon.emulate(puppeteer.KnownDevices['iPhone 13']);
+    await telefon.goto(`${ADRES}/v/${KOD}/m1/`, { waitUntil: 'load' });
+    const olcu = await telefon.evaluate(() => ({ genislik: window.innerWidth,
+      yatayKayma: document.documentElement.scrollWidth > window.innerWidth }));
+    kontrol('sayfa ekran genişliğinde (390 px) çiziliyor', 390, olcu.genislik);
+    kontrol('sayfa yana kaymıyor', false, olcu.yatayKayma);
+    await telefon.close();
+  }
+
   kontrol('dışarıdaki hiçbir sunucuya istek gitmedi (Google dahil)', '', [...new Set(disIstekler)].join(', '));
   kontrol('sayfada yakalanmamış JavaScript hatası yok', '', sayfaHatalari.join(' | '));
   kontrol('reddedilen kayıt isteği yok', '', kayitlar.filter(k => k.durum !== 204).map(k => `${k.yol} ${k.durum}`).join(', '));

@@ -26,9 +26,18 @@ public static partial class VeliSayfalari
     const string GoogleYaziTipi = "<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito:wght@500;700;800&display=swap\">";
     const string KendiYaziTipi = "<link rel=\"stylesheet\" href=\"/yazitipleri/yazitipleri.css\">";
 
+    // Telefon ekranı (27 Ekim kararı, tanım 7.8): onaylı sayfalarda bu satır yok; olmayınca telefon sayfayı
+    // 980 px genişliğinde çizip küçültür ve yazılar okunamaz. Başlıktan (</title>) hemen sonra eklenir.
+    const string Baslik = "</title>\n";
+    const string EkranSatiri = "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n";
+
     // Onaylı sayfaya, veliye gönderilmeden önce yapılan eklerin tamamı (tanım belgesi bölüm 7) burada toplanır.
-    internal static string SayfayiHazirla(string sayfa) =>
-        sayfa.Replace(GoogleOnBaglanti, "").Replace(GoogleYaziTipi, KendiYaziTipi) + KancaEtiketi;
+    internal static string SayfayiHazirla(string sayfa)
+    {
+        int b = sayfa.IndexOf(Baslik, StringComparison.Ordinal);
+        if (b >= 0) sayfa = sayfa.Insert(b + Baslik.Length, EkranSatiri);
+        return sayfa.Replace(GoogleOnBaglanti, "").Replace(GoogleYaziTipi, KendiYaziTipi) + KancaEtiketi;
+    }
 
     public static void Ekle(WebApplication app, string icerikYolu, string sesYolu)
     {

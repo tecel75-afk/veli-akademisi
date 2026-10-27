@@ -127,7 +127,12 @@ adim_nginx() {
   nginx -t >/dev/null 2>&1 || dur "nginx ayarında hata var."
   systemctl reload nginx
   tamam "nginx yeniden yüklendi"
-  local k; k="$(curl -s -o /dev/null -w '%{http_code}' -H "Host: $ALAN" http://127.0.0.1/)"
+  # "reload" beklemeden döner; nginx yeni ayarı birkaç saniye içinde yükler. En çok 10 sn denenir.
+  local k=""
+  for _ in $(seq 1 10); do
+    k="$(curl -s -o /dev/null -w '%{http_code}' -H "Host: $ALAN" http://127.0.0.1/)"
+    [ "$k" = "401" ] && break; sleep 1
+  done
   [ "$k" = "401" ] && tamam "site şifre istiyor (401)" || dur "site şifre istemedi (gelen: $k; cevap: $(curl -s -H "Host: $ALAN" http://127.0.0.1/ | head -c 120 | tr '\n' ' '); etkin siteler: $(ls /etc/nginx/sites-enabled | tr '\n' ' '); nginx.conf içerir: $(grep -E '^\s*include' /etc/nginx/nginx.conf | tr -s ' ' | tr '\n' ' '))."
 }
 

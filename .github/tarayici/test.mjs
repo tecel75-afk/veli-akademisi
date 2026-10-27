@@ -154,6 +154,15 @@ try {
     kontrol('Kapat ile büyük görünüm kapandı', false, !!(await sayfa.$('.va-buyuk')));
     kontrol('Tohum bağlantısı: yeni sekmede, adres bilgisi taşımadan', 'https://www.tohumotizm.org.tr/|_blank|noopener noreferrer',
       await sayfa.$eval('.va-dis', a => [a.getAttribute('href'), a.target, a.rel].join('|')));
+    // Teşhis: düğmenin üstü başka bir şeyle (ör. alttaki yapışık "Baştan izle" çubuğu) kapalı mı?
+    const ustuKapali = async () => sayfa.$eval('#va-sonraki', b => {
+      const r = b.getBoundingClientRect(); const ust = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+      return ust === b || b.contains(ust) ? 'açık' : 'kapalı: ' + (ust ? (ust.id || ust.className || ust.tagName) : 'ekran dışında');
+    });
+    await sayfa.$eval('#va-sonraki', b => b.scrollIntoView({ block: 'end' }));
+    console.log('     (düğme ekranın altına kaydırıldığında: ' + await ustuKapali() + ')');
+    await sayfa.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    kontrol('sayfa en alta kaydırılınca düğmenin üstü açık', 'açık', await ustuKapali());
     await Promise.all([sayfa.waitForNavigation({ waitUntil: 'load', timeout: 15000 }), sayfa.click('#va-sonraki')]);
     kontrol('"Sonraki modüle geç" → m2a açıldı', `/v/${KOD_MATERYAL}/m2a/`, new URL(sayfa.url()).pathname);
 

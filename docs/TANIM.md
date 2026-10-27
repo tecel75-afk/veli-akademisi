@@ -89,10 +89,11 @@ Veli tarafı olabildiğince sadedir: veli hikâyeleri izler ve sorulara cevap ve
   açılır. Açılmış hikâyeler açık kalır.
 - **Modüller düğmesi:** üst çubukta. Liste: 8 hikâye; her birinde "Tamamlandı / Devam ediyor / Kilitli".
   Kilitliler tıklanamaz. Tamamlanmış bir hikâye listeden açılırsa baştan başlar.
-- **Hikâye sonu:** kapanış ekranından sonra materyaller ekranı (6a), ardından "Sonraki modüle geç"
-  (son hikâyede yoktur).
-- **Yapay zekâ notu:** veli tarafında "Seslendirme ve görseller yapay zekâ ile hazırlanmıştır." notu
-  görünür. Yeri kodlama sırasında yöneticiyle belirlenir.
+- **Hikâye sonu:** materyaller kapanış ekranının altında, ayrı bir ekran olmadan gösterilir (6a).
+  "Sonraki modüle geç" alttaki sabit çubukta, "Baştan izle"nin solundadır (son hikâyede yoktur).
+  (27 Ekim: sayfa içine konduğunda kaydırırken çubuğun altında kaldığı ölçüldü; bu yüzden çubuğa alındı.)
+- **Yapay zekâ notu:** "Seslendirme ve görseller yapay zekâ ile hazırlanmıştır." Hikâyenin başlangıç
+  ekranında, başlat düğmesinin hemen altında küçük ve soluk bir satır (27 Ekim kararı).
 - Geçersiz ya da silinmiş kod: "Bu bağlantı artık geçerli değil. Lütfen rehber öğretmeninizle iletişime
   geçin." Hata ayrıntısı gösterilmez.
 - Tüm veli sayfaları `noindex`.
@@ -100,8 +101,10 @@ Veli tarafı olabildiğince sadedir: veli hikâyeleri izler ve sorulara cevap ve
 ### 6a. Materyaller ekranı
 - Hikâyeye ait birkaç görsel; dokununca büyür, "İndir" ile telefona kaydedilir.
 - Altında Tohum Otizm Vakfı'nın ilgili sayfasına bağlantı (yeni sekmede).
-- Tanım: `icerik/<kod>/materyaller.json` (görsel dosya adları, kısa başlıklar, dış bağlantı).
-  Sonradan doldurulur; dosya yoksa ya da boşsa materyaller ekranı atlanır.
+- Tanım: `icerik/<kod>/materyaller.json`; görseller `icerik/<kod>/materyal/` klasöründe. Biçim:
+  `{ "gorseller": [ { "dosya": "kart1.webp", "baslik": "..." } ], "baglanti": { "adres": "https://...", "yazi": "..." } }`
+  Sonradan doldurulur; dosya yoksa ya da boşsa materyal kartı gösterilmez. Dosya hatalıysa (olmayan görsel,
+  https olmayan adres) site açılmaz ve hatanın yeri yazılır.
 
 ### 6b. Ana ekrana ekleme (PWA)
 - Site telefonun ana ekranına eklenebilir. Mağaza uygulaması yapılmaz. Ekleme isteğe bağlıdır;
@@ -111,7 +114,9 @@ Veli tarafı olabildiğince sadedir: veli hikâyeleri izler ve sorulara cevap ve
 - Kimlik yalnızca adresteki koddadır, çerezde değil (iPhone'da ana ekran uygulaması Safari'nin
   kayıtlarını görmez).
 - İlk sürümde bildirim ve çevrimdışı çalışma yoktur.
-- Uygulama adı ve simgesi okul müdürünün onayından sonra belirlenir.
+- Uygulama adı ve simgesi okul müdürünün onayından sonra belirlenir. O zamana kadar ad "Veli Akademisi",
+  simge geçici bir simgedir (`wwwroot/simge/`). Ad yapılandırmadan okunur (`Uygulama:Ad`); onaylanınca
+  yalnızca bu ayar ve simge dosyaları değişir.
 - Bilinen kısıtlar:
   - WhatsApp'ın kendi tarayıcısında "Ana ekrana ekle" yoktur; veli önce sayfayı Safari'de (iPhone)
     ya da Chrome'da (Android) açmalıdır. Velilere verilecek anlatım bu adımla başlar.
@@ -180,7 +185,10 @@ Sayfanın betiğine küçük çağrılar eklenir. Çağrı başarısız olursa s
 - `deploy/` altında: systemd birim dosyası, nginx site yapılandırması, `KURULUM.md`.
 - Sunucu komutları SSH ile çalıştırılır. Ses dosyaları sunucuya SFTP ile (ör. WinSCP) yüklenir.
 - Günlük yedek: `cron` ile, son 14 gün tutulur (yöntem: 16.4).
-- Yapılandırma `appsettings.Production.json` + ortam değişkenleri; gizli bilgiler depoya girmez.
+- Yapılandırma `appsettings.Production.json` + ortam değişkenleri; gizli bilgiler depoya girmez. Ayarlar:
+  `Site:Adres` (bağlantıların başı, ör. https://veliakademisi.bep-uda-projeler.com), `Yonetim:SifreHash`
+  (`sifre-hash` komutuyla üretilir), `VeriTabani:Yol`, `Icerik:Yol`, `Ses:Yol`, `Uygulama:Ad`.
+- Her hikâyenin ses klasöründe `ortam.wav` bulunmalıdır (yoksa sayfa açılışta hata verir; 26 Ekim testi).
 - Kurulumdan önce: `apt update`; `bepadmin` kullanıcısının durumu; eski SSL sertifikaları;
   güvenlik duvarı; root'a şifreyle SSH girişinin kapatılması.
 

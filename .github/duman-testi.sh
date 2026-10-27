@@ -250,6 +250,62 @@ kontrol "  veritabanı değişmedi" "$((ONCE+4))" "$(veli_sayisi)"
 kontrol "girişsiz veli ekleme isteği kabul edilmez" "302" "$(curl -s -o /dev/null -w '%{http_code}' -X POST --data-urlencode "Ad=X" --data-urlencode "Sinif=1" "$ADRES/yonetim/veli-ekle?handler=tek")"
 kontrol "  veritabanı değişmedi" "$((ONCE+4))" "$(veli_sayisi)"
 
+echo "8c) Takip tablosu ve veli ayrıntısı"
+sayfa_al() { curl -s -b "$CEREZ" "$1" > "$2"; }
+hucre() {  # hucre <html> <veli adı> <hikâye> → o velinin satırındaki hücre yazısı
+  python3 -c "
+import re,sys,html
+s=open(sys.argv[1],encoding='utf-8').read()
+for tr in re.findall(r'<tr data-veli=.*?</tr>', s, re.S):
+    if '>'+sys.argv[2]+'</a>' in tr:
+        m=re.search(r'data-hikaye=\"'+sys.argv[3]+r'\"[^>]*>([^<]*)<', tr); print(html.unescape(m.group(1)) if m else 'yok'); break
+else: print('satır yok')" "$1" "$2" "$3"; }
+satir_sayisi() { grep -c '<tr data-veli=' "$1" || true; }
+
+sayfa_al "$ADRES/yonetim" "$GECICI/takip.html"
+kontrol "takip tablosunda bütün veliler" "$(veli_sayisi)" "$(satir_sayisi "$GECICI/takip.html")"
+kontrol "  'Sıra Deneme' m1: Tamamlandı" "Tamamlandı" "$(hucre "$GECICI/takip.html" "Sıra Deneme" m1)"
+kontrol "  'Sıra Deneme' m7: Tamamlandı" "Tamamlandı" "$(hucre "$GECICI/takip.html" "Sıra Deneme" m7)"
+BEKLENEN="%$(python3 -c "import sqlite3,sys,json; e=sqlite3.connect(sys.argv[1]).execute(\"select EnIleriAdim from Ilerlemeler i join Veliler v on v.Id=i.VeliId where v.Ad='Tarayıcı Deneme' and i.Hikaye='m1'\").fetchone()[0]; t=len(json.load(open(sys.argv[2],encoding='utf-8'))); print(min(99,(e+1)*100//t))" "$VeriTabani__Yol" "$YAYIN/icerik/m1/steps.json")"
+kontrol "  'Tarayıcı Deneme' m1: en ileri adıma göre yüzde" "$BEKLENEN" "$(hucre "$GECICI/takip.html" "Tarayıcı Deneme" m1)"
+kontrol "  'Tarayıcı Deneme' m2a: Başlanmadı" "Başlanmadı" "$(hucre "$GECICI/takip.html" "Tarayıcı Deneme" m2a)"
+kontrol "  'Mehmet Bey' m1: Başlanmadı" "Başlanmadı" "$(hucre "$GECICI/takip.html" "Mehmet Bey" m1)"
+
+sayfa_al "$ADRES/yonetim?sinif=1-C" "$GECICI/takip.html"
+kontrol "sınıf süzme (1-C): yalnızca 1 veli" 1 "$(satir_sayisi "$GECICI/takip.html")"
+kontrol "  o veli 'Sıra Deneme'" "Tamamlandı" "$(hucre "$GECICI/takip.html" "Sıra Deneme" m1)"
+sayfa_al "$ADRES/yonetim?ara=AY%C5%9EE" "$GECICI/takip.html"
+kontrol "arama 'AYŞE' (büyük harf): iki 'Ayşe Hanım'" 2 "$(satir_sayisi "$GECICI/takip.html")"
+sayfa_al "$ADRES/yonetim?ara=fatma%20han%C4%B1m" "$GECICI/takip.html"
+kontrol "arama 'fatma hanım' (küçük harf, ı): 1 veli" 1 "$(satir_sayisi "$GECICI/takip.html")"
+sayfa_al "$ADRES/yonetim?ara=yok-boyle-veli" "$GECICI/takip.html"
+kontrol "sonuçsuz arama: boş tablo mesajı" evet "$(icerir "$GECICI/takip.html" 'Gösterilecek veli yok.')"
+
+VID="$(satir "select Id from Veliler where Ad='Tarayıcı Deneme'")"
+sayfa_al "$ADRES/yonetim/veli/$VID" "$GECICI/veli.html"
+kontrol "veli ayrıntısı açılıyor" evet "$(icerir "$GECICI/veli.html" 'Tarayıcı Deneme')"
+ILK_SORU="$(python3 -c "import json,sys,html; s=json.load(open(sys.argv[1],encoding='utf-8')); print(next(x['q'] for x in s if x['t']=='q'))" "$YAYIN/icerik/m1/steps.json")"
+kontrol "  m1 1. sorunun metni" evet "$(icerir "$GECICI/veli.html" "$ILK_SORU")"
+kontrol "  1. soru: ilk seçim B, son seçim C" 'data-ilk="B" data-son="C"' "$(grep -o 'data-soru="1" data-ilk="[A-C]*" data-son="[A-C]*"' "$GECICI/veli.html" | head -1 | sed 's/data-soru="1" //')"
+kontrol "  bağlantı ve Kopyala düğmesi" evet "$(icerir "$GECICI/veli.html" "value=\"http://127.0.0.1:5080/v/$KOD2\"")"
+kontrol "olmayan veli → 404" 404 "$(curl -s -o /dev/null -w '%{http_code}' -b "$CEREZ" "$ADRES/yonetim/veli/99999")"
+kontrol "veli ayrıntısı girişsiz açılmaz" 302 "$(curl -s -o /dev/null -w '%{http_code}' "$ADRES/yonetim/veli/$VID")"
+
+yeni_kod() {  # yeni_kod <veli id> [Anladim=true] → "<durum> <yönlendirme>"
+  local T; T="$(sayfa_belirteci "$ADRES/yonetim/veli/$1")"
+  local ek=(); [ -n "${2:-}" ] && ek=(--data-urlencode "$2")
+  curl -s -o "$GECICI/veli.html" -w "%{http_code} %{redirect_url}" -c "$CEREZ" -b "$CEREZ" -X POST \
+    --data-urlencode "__RequestVerificationToken=$T" "${ek[@]}" "$ADRES/yonetim/veli/$1?handler=yenikod"; }
+kontrol "yeni kod: onay kutusu işaretlenmeden üretilmez" "200 " "$(yeni_kod "$VID")"
+kontrol "  uyarı mesajı" evet "$(icerir "$GECICI/veli.html" 'önce onay kutusunu işaretleyin')"
+kontrol "  kod değişmedi" "$KOD2" "$(satir "select Kod from Veliler where Id=$VID")"
+kontrol "yeni kod: onaylı istek" "302 $ADRES/yonetim/veli/$VID?yenilendi=true" "$(yeni_kod "$VID" "Anladim=true")"
+YENIKOD="$(satir "select Kod from Veliler where Id=$VID")"
+kontrol "  kod değişti" evet "$([ "$YENIKOD" != "$KOD2" ] && [ ${#YENIKOD} -eq 22 ] && echo evet || echo hayır)"
+kontrol "  eski bağlantı artık geçersiz" 404 "$(durum "$ADRES/v/$KOD2")"
+kontrol "  yeni bağlantı çalışıyor" 302 "$(curl -s -o /dev/null -w '%{http_code}' "$ADRES/v/$YENIKOD")"
+kontrol "  ilerleme ve cevaplar silinmedi" "2" "$(satir "select count(*) from Cevaplar where VeliId=$VID")"
+
 T="$(python3 -c "
 import re,sys; m=re.search(r'<input[^>]*name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"', open(sys.argv[1],encoding='utf-8').read()); print(m.group(1) if m else '')" "$GECICI/yonetim.html")"
 kontrol "Çıkış: giriş sayfasına döner" "302 $ADRES/yonetim/giris" "$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' -c "$CEREZ" -b "$CEREZ" -X POST --data-urlencode "__RequestVerificationToken=$T" "$ADRES/yonetim?handler=cikis")"

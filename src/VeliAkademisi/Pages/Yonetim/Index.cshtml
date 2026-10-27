@@ -10,8 +10,63 @@
   </form>
 </div>
 
-<h1>Yönetim</h1>
-<div class="kart">
-  <p style="margin:0 0 12px">Giriş yapıldı. Takip tablosu ve Excel bu sayfaya sonraki adımlarda eklenecek.</p>
-  <p style="margin:0"><a class="btn" href="/yonetim/veli-ekle">Veli ekle</a></p>
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+  <h1 style="margin:0;flex:1">Takip tablosu</h1>
+  <a class="btn" href="/yonetim/veli-ekle">Veli ekle</a>
 </div>
+
+<form method="get" class="kart suzgec" style="margin-bottom:12px">
+  <div>
+    <label for="Sinif">Sınıf</label>
+    <select asp-for="Sinif" id="Sinif">
+      <option value="">Hepsi</option>
+      @foreach (var s in Model.Siniflar)
+      {
+        <option value="@s" selected="@(s == Model.Sinif)">@s</option>
+      }
+    </select>
+  </div>
+  <div style="flex:1;min-width:160px">
+    <label for="Ara">Ada göre ara</label>
+    <input asp-for="Ara" type="text" id="Ara" autocomplete="off">
+  </div>
+  <div style="align-self:flex-end"><button class="btn" type="submit">Göster</button></div>
+</form>
+
+<p class="not" style="margin:0 0 8px">@Model.Satirlar.Count veli gösteriliyor (toplam @Model.ToplamVeli).
+  Yüzde, velinin hikâyede ulaştığı en ileri noktayı gösterir.</p>
+
+@if (Model.Satirlar.Count == 0)
+{
+  <div class="kart"><p style="margin:0">Gösterilecek veli yok.</p></div>
+}
+else
+{
+  <div class="tablo-kap">
+    <table class="tablo">
+      <thead>
+        <tr>
+          <th>Veli</th><th>Sınıf</th>
+          @foreach (var t in Hikayeler.Tanimlar)
+          {
+            <th title="@t.Modul · @t.Ad">@t.Kod.ToUpper(VeliAkademisi.Yonetim.Takip.Turkce)</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var s in Model.Satirlar)
+        {
+          <tr data-veli="@s.Veli.Id">
+            <td><a href="/yonetim/veli/@s.Veli.Id">@s.Veli.Ad</a></td>
+            <td>@s.Veli.Sinif</td>
+            @for (int k = 0; k < s.Hucreler.Count; k++)
+            {
+              var h = s.Hucreler[k];
+              <td data-hikaye="@Hikayeler.Sira[k]" class="@(h == "Tamamlandı" ? "tamam" : h == "Başlanmadı" ? "bos" : "")">@h</td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

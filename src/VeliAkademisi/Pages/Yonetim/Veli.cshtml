@@ -1,0 +1,101 @@
+@page "/yonetim/veli/{id:int}"
+@model VeliAkademisi.Pages.Yonetim.VeliModel
+@using VeliAkademisi.Yonetim
+@{
+    ViewData["Baslik"] = Model.Veli.Ad;
+}
+<div class="ust">
+  <span class="marka">Veli Akademisi · Yönetim</span>
+  <a class="sag" href="/yonetim">← Takip tablosu</a>
+</div>
+
+<h1>@Model.Veli.Ad <span class="not">(@Model.Veli.Sinif)</span></h1>
+
+@if (Model.Hata is not null)
+{
+  <p class="hata" role="alert">@Model.Hata</p>
+}
+@if (Model.KodYenilendi)
+{
+  <p class="kart" role="status" style="margin:0 0 12px;font-weight:700">Yeni kod üretildi. Eski bağlantı artık çalışmıyor; aşağıdaki yeni bağlantıyı veliye gönderin.</p>
+}
+
+<div class="kart" style="margin-bottom:16px">
+  @if (Model.SiteAdresi is null)
+  {
+    <p class="hata">Site adresi ayarlanmamış ("Site:Adres"). Bağlantı tam adres değil; veliye göndermeyin.</p>
+  }
+  <label for="baglanti">Velinin bağlantısı</label>
+  <div style="display:flex;gap:8px;align-items:center">
+    <input type="text" readonly id="baglanti" class="baglanti" value="@Model.Baglanti">
+    <button type="button" class="btn kopyala">Kopyala</button>
+  </div>
+  <p class="not" style="margin:10px 0 0">Eklenme: @Takip.Zaman(Model.Veli.OlusturmaTarihi) · Son giriş: @Takip.Zaman(Model.Veli.SonGiris)</p>
+</div>
+
+@foreach (var b in Model.Bolumler)
+{
+  <div class="kart" style="margin-bottom:12px" data-hikaye="@b.Tanim.Kod">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:baseline">
+      <h2 style="margin:0;font-size:19px;flex:1">@b.Tanim.Ad <span class="not">· @b.Tanim.Modul</span></h2>
+      <span class="durum-etiket">@b.Durum</span>
+    </div>
+    @if (b.Sorular.Any(s => s.Ilk is not null))
+    {
+      <div class="tablo-kap" style="margin-top:10px">
+        <table class="tablo">
+          <thead><tr><th>No</th><th>Soru</th><th>İlk seçim</th><th>Son seçim</th><th>İdeal mi?</th></tr></thead>
+          <tbody>
+            @foreach (var s in b.Sorular)
+            {
+              <tr data-soru="@s.Soru.No" data-ilk="@(s.Ilk is null ? "" : Takip.Harf(s.Ilk.Secim))" data-son="@(s.Son is null ? "" : Takip.Harf(s.Son.Secim))">
+                <td>@s.Soru.No</td>
+                <td>@s.Soru.Metin</td>
+                @if (s.Ilk is null)
+                {
+                  <td>—</td><td>—</td>
+                }
+                else
+                {
+                  <td><b>@Takip.Harf(s.Ilk.Secim)</b> · @s.Soru.Siklar[s.Ilk.Secim]<br><span class="not">@Takip.Zaman(s.Ilk.Zaman)</span></td>
+                  <td><b>@Takip.Harf(s.Son!.Secim)</b> · @s.Soru.Siklar[s.Son.Secim]<br><span class="not">@Takip.Zaman(s.Son.Zaman)</span></td>
+                }
+                <td>@(s.IdealMi switch { true => "Evet", false => "Hayır", _ => "—" })</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+    else
+    {
+      <p class="not" style="margin:8px 0 0">Bu hikâyede henüz cevaplanmış soru yok.</p>
+    }
+  </div>
+}
+
+<div class="kart" style="margin-top:16px">
+  <h2 style="margin:0 0 8px;font-size:19px">Yeni kod üret</h2>
+  <p style="margin:0 0 10px">Bağlantı yanlış kişiye gittiyse kullanın. Yeni kod üretilince <b>eski bağlantı çalışmaz</b>;
+    veli telefonunun ana ekranına simge eklediyse <b>o simge de çalışmaz</b>. Veli eski simgeyi silip yeni bağlantıdan yeniden ekler.
+    Velinin ilerlemesi ve cevapları silinmez.</p>
+  <form method="post" asp-page-handler="YeniKod" asp-route-id="@Model.Veli.Id">
+    <label style="font-weight:400;display:flex;gap:8px;align-items:flex-start">
+      <input type="checkbox" name="Anladim" value="true" style="margin-top:5px">
+      <span>Eski bağlantının ve ana ekrandaki simgenin çalışmayacağını anladım.</span>
+    </label>
+    <p style="margin:12px 0 0"><button class="btn ikincil" type="submit">Yeni kod üret</button></p>
+  </form>
+</div>
+
+<script>
+  document.querySelectorAll('.kopyala').forEach(function (d) {
+    d.onclick = function () {
+      var kutu = d.parentElement.querySelector('.baglanti');
+      function oldu() { d.textContent = 'Kopyalandı'; setTimeout(function () { d.textContent = 'Kopyala'; }, 2000); }
+      function eskiYol() { kutu.select(); try { document.execCommand('copy'); oldu(); } catch (e) {} }
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(kutu.value).then(oldu, eskiYol);
+      else eskiYol();
+    };
+  });
+</script>

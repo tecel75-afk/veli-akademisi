@@ -84,9 +84,29 @@ kontrol "kanca.js veriliyor" "200 javascript" "$(curl -s -o /dev/null -w '%{http
 SAYFA="$GECICI/m1_sunulan.html"; curl -s "$ADRES/v/$KOD/m1/" > "$SAYFA"
 kontrol "sayfanın sonunda kanca ve Modüller etiketleri var" '<script src="/kanca.js"></script>|<script src="/moduller.js"></script>' "$(tail -n 2 "$SAYFA" | paste -sd'|')"
 kontrol "moduller.js veriliyor" "200 javascript" "$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$ADRES/moduller.js" | sed -E 's/ .*javascript.*/ javascript/')"
-# Kanca etiketinden önceki kısım, depodaki onaylı dosyayla birebir aynı olmalı.
-head -c "$(stat -c %s "$YAYIN/icerik/m1/index.html")" "$SAYFA" | cmp -s - "$YAYIN/icerik/m1/index.html" \
-  && kontrol "onaylı sayfa değişmeden sunuluyor" evet evet || kontrol "onaylı sayfa değişmeden sunuluyor" evet hayır
+# Sunulan 8 sayfa, onaylı dosyadan yalnızca belgelenmiş eklerle (tanım bölüm 7) farklı olmalı:
+# Google yazı tipi satırları → sitenin kendi yazı tipi dosyası; sonda iki betik etiketi.
+cat > "$GECICI/sayfa_denetle.py" <<'PY'
+import sys, urllib.request
+kok, adres, kod = sys.argv[1:4]
+sorun = []
+for h in sys.argv[4:]:
+    asil = open(f"{kok}/{h}/index.html", encoding="utf-8").read()
+    beklenen = (asil.replace('<link rel="preconnect" href="https://fonts.googleapis.com">\n', "")
+                    .replace('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito:wght@500;700;800&display=swap">',
+                             '<link rel="stylesheet" href="/yazitipleri/yazitipleri.css">')
+                + '\n<script src="/kanca.js"></script>\n<script src="/moduller.js"></script>\n')
+    gelen = urllib.request.urlopen(f"{adres}/v/{kod}/{h}/").read().decode("utf-8")
+    if gelen != beklenen: sorun.append(h)
+    if "fonts.googleapis.com" in gelen or "gstatic" in gelen: sorun.append(h + ":google")
+print(",".join(sorun) or "yok")
+PY
+kontrol "m1: sunulan sayfa = onaylı sayfa + yalnızca belgelenmiş ekler; Google bağlantısı yok" "yok" \
+  "$(python3 "$GECICI/sayfa_denetle.py" "$YAYIN/icerik" "$ADRES" "$KOD" m1)"
+kontrol "yazı tipi dosyası veriliyor" "200" "$(durum "$ADRES/yazitipleri/yazitipleri.css")"
+for f in baloo-2-latin-700-normal nunito-latin-ext-800-normal; do
+  kontrol "  $f.woff2" "200 font/woff2" "$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$ADRES/yazitipleri/$f.woff2")"
+done
 
 # steps.json'dan m1'in toplam adımı, ilk sorusu ve ilk düşünme sorusu
 read -r TOPLAM SORU DUSUNME < <(python3 -c "
@@ -158,6 +178,8 @@ for h in m2a m2b m3 m4 m5 m6 m7; do ilr $h $(( $(toplam $h) - 1 )) > /dev/null; 
 kontrol "hepsi bitti: bağlantı en son bakılan hikâyeye (m7) gider" "302 $ADRES/v/$KOD3/m7/" "$(yonlendirme "$ADRES/v/$KOD3")"
 sleep 1; ilr m3 2 > /dev/null
 kontrol "hepsi bitti, m3 tekrar izlendi: bağlantı m3'e gider" "302 $ADRES/v/$KOD3/m3/" "$(yonlendirme "$ADRES/v/$KOD3")"
+kontrol "8 sayfanın hepsi: onaylı sayfa + yalnızca belgelenmiş ekler; Google bağlantısı yok" "yok" \
+  "$(python3 "$GECICI/sayfa_denetle.py" "$YAYIN/icerik" "$ADRES" "$KOD3" m1 m2a m2b m3 m4 m5 m6 m7)"
 
 echo "7) Tarayıcı testi (gerçek Chrome ile kayıt kancası)"
 # Ayrı bir deneme velisi: önceki velinin hız sınırı bu dakika dolmuş olabilir.

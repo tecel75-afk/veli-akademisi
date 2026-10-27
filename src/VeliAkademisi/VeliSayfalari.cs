@@ -19,6 +19,17 @@ public static partial class VeliSayfalari
     // Hikâye sayfasının sonuna eklenen satırlar: kayıt kancası ve Modüller düğmesi (wwwroot klasöründen).
     const string KancaEtiketi = "\n<script src=\"/kanca.js\"></script>\n<script src=\"/moduller.js\"></script>\n";
 
+    // Yazı tipleri (4a): onaylı sayfadaki iki Google satırı, sitenin kendi yazı tipi dosyasıyla değiştirilir.
+    // Aynı yazı tipleri (Baloo 2, Nunito) kullanılır; görünüm değişmez, veliden Google'a istek gitmez (KVKK).
+    // 8 sayfada da bu iki satır birebir aynıdır (26-27 Ekim incelemesi).
+    const string GoogleOnBaglanti = "<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n";
+    const string GoogleYaziTipi = "<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito:wght@500;700;800&display=swap\">";
+    const string KendiYaziTipi = "<link rel=\"stylesheet\" href=\"/yazitipleri/yazitipleri.css\">";
+
+    // Onaylı sayfaya, veliye gönderilmeden önce yapılan eklerin tamamı (tanım belgesi bölüm 7) burada toplanır.
+    internal static string SayfayiHazirla(string sayfa) =>
+        sayfa.Replace(GoogleOnBaglanti, "").Replace(GoogleYaziTipi, KendiYaziTipi) + KancaEtiketi;
+
     public static void Ekle(WebApplication app, string icerikYolu, string sesYolu)
     {
         var v = app.MapGroup("/v/{kod}");
@@ -46,9 +57,9 @@ public static partial class VeliSayfalari
             // Kilitli hikâyenin adresi elle yazılırsa açılmaz; veli kendi bağlantısına yönlendirilir (16.2).
             if (!(await VeliDurumu.Hesapla(db, veli.Id)).AcikMi(hikaye)) return Results.Redirect($"/v/{kod}");
             if (!http.Request.Path.Value!.EndsWith('/')) return Results.Redirect($"/v/{kod}/{hikaye}/");
-            // Onaylı sayfa olduğu gibi okunur; yalnızca en sonuna kayıt kancası eklenir.
+            // Onaylı sayfa okunur; bölüm 7'deki ekler yapılarak sunulur (bkz. SayfayiHazirla).
             var sayfa = await File.ReadAllTextAsync(Path.Combine(icerikYolu, hikaye, "index.html"));
-            return Results.Content(sayfa + KancaEtiketi, "text/html; charset=utf-8");
+            return Results.Content(SayfayiHazirla(sayfa), "text/html; charset=utf-8");
         });
 
         // Görseller ve sesler.

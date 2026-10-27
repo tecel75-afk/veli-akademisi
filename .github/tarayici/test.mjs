@@ -23,6 +23,10 @@ try {
   const sayfaHatalari = [];
   sayfa.on('pageerror', h => sayfaHatalari.push(String(h)));
 
+  // Sitenin dışındaki bir sunucuya giden her istek not edilir (olmamalı: yazı tipleri dahil her şey siteden gelir).
+  const disIstekler = [];
+  sayfa.on('request', r => { const u = new URL(r.url()); if (u.origin !== new URL(ADRES).origin && u.protocol.startsWith('http')) disIstekler.push(u.host); });
+
   // Tarayıcının gönderdiği kayıt isteklerini ve sunucunun cevaplarını dinle.
   const kayitlar = [];
   sayfa.on('response', async c => {
@@ -43,6 +47,14 @@ try {
   kontrol('başlat düğmesi görünüyor', true, !!(await sayfa.$('#basla')));
   kontrol('yarım ilerleme yok: düğme yazısı değişmedi', 'Hikâyeyi başlat', await sayfa.$eval('#basla', b => b.textContent.trim()));
   kontrol('açılışta henüz kayıt gönderilmedi', 0, kayitlar.length);
+  // Yazı tipleri sitenin kendi sunucusundan yüklendi mi ve Türkçe harfleri (ğ ş İ ı ç ö ü) kapsıyor mu?
+  const yazitipi = await sayfa.evaluate(async () => {
+    await Promise.all([document.fonts.load('700 32px "Baloo 2"', 'ğşİıçöü'), document.fonts.load('800 18px "Nunito"', 'ğşİıçöü'),
+                       document.fonts.load('500 18px "Nunito"', 'ğşİıçöü')]);
+    return [...document.fonts].filter(f => f.status === 'loaded').map(f => f.family.replace(/"/g, '') + ' ' + f.weight).sort().join(',');
+  });
+  kontrol('yazı tipleri yüklendi (Baloo 2 ve Nunito, Türkçe harflerle)', true,
+    ['Baloo 2 700', 'Nunito 500', 'Nunito 800'].every(x => yazitipi.includes(x)));
 
   console.log('b) "Hikâyeyi başlat" düğmesine basılıyor');
   const ilkKayit = kayitBekle('/api/ilerleme', v => v.adim === 0);
@@ -106,6 +118,7 @@ try {
   await Promise.all([sayfa.waitForNavigation({ waitUntil: 'load' }), sayfa.click('.va-satir[data-hikaye="m1"]')]);
   kontrol('açık hikâyeye dokununca o hikâye açıldı', `/v/${KOD}/m1/`, new URL(sayfa.url()).pathname);
 
+  kontrol('dışarıdaki hiçbir sunucuya istek gitmedi (Google dahil)', '', [...new Set(disIstekler)].join(', '));
   kontrol('sayfada yakalanmamış JavaScript hatası yok', '', sayfaHatalari.join(' | '));
   kontrol('reddedilen kayıt isteği yok', '', kayitlar.filter(k => k.durum !== 204).map(k => `${k.yol} ${k.durum}`).join(', '));
 } catch (h) {

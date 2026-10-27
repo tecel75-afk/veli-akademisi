@@ -1,0 +1,29 @@
+# Veli Akademisi · systemd servis tanımı
+# kurulum.sh "uygulama" adımı bu dosyayı /etc/systemd/system/ altına kopyalar;
+# @DOTNET@ yerine sunucudaki dotnet'in tam yolu yazılır.
+[Unit]
+Description=Veli Akademisi (ASP.NET Core)
+After=network.target
+
+[Service]
+Type=simple
+User=veliakademisi
+Group=veliakademisi
+WorkingDirectory=/opt/veliakademisi/uygulama
+ExecStart=@DOTNET@ /opt/veliakademisi/uygulama/VeliAkademisi.dll
+# Ayarlar (site adresi, klasörler, yönetici şifresinin özeti) bu dosyadan okunur; depoda yoktur.
+EnvironmentFile=/etc/veliakademisi/ayarlar.env
+Environment=HOME=/var/lib/veliakademisi DOTNET_NOLOGO=1 DOTNET_CLI_TELEMETRY_OPTOUT=1
+Restart=always
+RestartSec=5
+KillSignal=SIGINT
+TimeoutStopSec=20
+# Koruma: servis yalnızca kendi veri klasörüne yazabilir.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/var/lib/veliakademisi
+
+[Install]
+WantedBy=multi-user.target

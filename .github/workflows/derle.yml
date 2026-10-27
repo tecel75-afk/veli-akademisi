@@ -9,8 +9,15 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Aynı anda iki derleme sürüm yayımlamaya çalışmasın.
+concurrency:
+  group: derle
+  cancel-in-progress: false
+
 jobs:
   derle:
+    permissions:
+      contents: write   # sürümü ("son") yayımlamak için
     runs-on: ubuntu-24.04   # sunucuyla aynı sürüm; "latest" kendiliğinden değişmesin
     steps:
       - name: Kodu indir
@@ -42,9 +49,39 @@ jobs:
       - name: Duman testi (siteyi çalıştır ve kontrol et)
         run: bash .github/duman-testi.sh yayin
 
+      - name: Paketle (uygulama + kurulum dosyaları)
+        run: |
+          printf 'commit %s\nderleme %s\n' "$GITHUB_SHA" "$(date -u '+%Y-%m-%d %H:%M UTC')" > yayin/SURUM.txt
+          (cd yayin && zip -qr ../veli-akademisi.zip .)
+          (cd deploy && zip -qr ../kurulum.zip .)
+          ls -l veli-akademisi.zip kurulum.zip
+
+      - name: Kurulum betiklerini denetle (shellcheck)
+        run: shellcheck -S error deploy/*.sh .github/kurulum-provasi.sh
+
+      # Kurulum provası: deploy/kurulum.sh, sunucudaki adımlarla bu Ubuntu makinesinde baştan sona çalıştırılır.
+      - name: Kurulum provası
+        run: |
+          # Bu makinede dotnet kullanıcı klasöründe olabilir; servis kullanıcısı oraya erişemez.
+          # Sunucudaki gibi sistem klasörüne kopyalanır (yalnızca bu deneme makinesinde).
+          D="$(readlink -f "$(command -v dotnet)")"
+          case "$D" in /home/*) sudo cp -r "$(dirname "$D")" /usr/share/dotnet-prova && sudo ln -sf /usr/share/dotnet-prova/dotnet /usr/local/bin/dotnet ;; esac
+          sudo env "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" bash .github/kurulum-provasi.sh veli-akademisi.zip
+
       - name: Derlenen çıktıyı sakla
         uses: actions/upload-artifact@v7
         with:
           name: veli-akademisi-yayin
           path: yayin
           if-no-files-found: error
+
+      # Sunucu, son sürümü sabit bir adresten indirir:
+      #   https://github.com/tecel75-afk/veli-akademisi/releases/download/son/veli-akademisi.zip
+      - name: Sürümü yayımla ("son")
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view son >/dev/null 2>&1 || gh release create son --title "Son sürüm" \
+            --notes "Her başarılı derlemede güncellenir. Sunucuda: sudo veliakademisi-guncelle" --latest
+          gh release upload son veli-akademisi.zip kurulum.zip --clobber

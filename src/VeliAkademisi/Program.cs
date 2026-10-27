@@ -76,6 +76,10 @@ builder.Services.AddRazorPages(o =>
     o.Conventions.AllowAnonymousToPage("/Yonetim/Giris");
 });
 builder.Services.Configure<RouteOptions>(o => o.LowercaseUrls = true);   // adresler küçük harfle üretilir
+// Sayfalarda Türkçe harfler (ş, ğ, İ...) kodlanmadan, olduğu gibi yazılır. (Güvenlik için gereken
+// < > & " gibi işaretler yine kodlanır.)
+builder.Services.Configure<Microsoft.Extensions.WebEncoders.WebEncoderOptions>(o =>
+    o.TextEncoderSettings = new System.Text.Encodings.Web.TextEncoderSettings(System.Text.Unicode.UnicodeRanges.All));
 
 var app = builder.Build();
 

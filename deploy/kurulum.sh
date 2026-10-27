@@ -27,7 +27,8 @@ BURASI="$(cd "$(dirname "$0")" && pwd)"  # bu betiğin klasörü (kurulum.zip'te
 
 baslik() { printf '\n=== %s ===\n' "$1"; }
 tamam()  { printf '  TAMAM  %s\n' "$1"; }
-dur()    { printf '\n  HATA   %s\n  Kurulum bu adımda durdu. Çıktıyı olduğu gibi gönderin.\n' "$1" >&2; exit 1; }
+dur()    { printf '\n  HATA   %s\n  Kurulum bu adımda durdu. Çıktıyı olduğu gibi gönderin.\n' "$1" >&2
+           [ -n "${GITHUB_ACTIONS:-}" ] && echo "::error::kurulum.sh: $1"; exit 1; }
 
 [ "$(id -u)" -eq 0 ] || dur "Bu betik yönetici (root) olarak çalışmalı: başına sudo yazın."
 

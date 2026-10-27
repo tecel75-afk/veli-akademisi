@@ -66,7 +66,8 @@ jobs:
           # Sunucudaki gibi sistem klasörüne kopyalanır (yalnızca bu deneme makinesinde).
           D="$(readlink -f "$(command -v dotnet)")"
           case "$D" in /home/*) sudo cp -r "$(dirname "$D")" /usr/share/dotnet-prova && sudo ln -sf /usr/share/dotnet-prova/dotnet /usr/local/bin/dotnet ;; esac
-          sudo env "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" bash .github/kurulum-provasi.sh veli-akademisi.zip
+          echo "::notice::dotnet: $D — $(dotnet --list-runtimes | grep AspNetCore | tr '\n' ';')"
+          sudo env "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" GITHUB_ACTIONS=true bash .github/kurulum-provasi.sh veli-akademisi.zip
 
       - name: Derlenen çıktıyı sakla
         uses: actions/upload-artifact@v7

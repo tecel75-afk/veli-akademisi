@@ -60,10 +60,10 @@ Her satırı ayrı çalıştırın; çıktısını gönderin.
 | 4.1 | `sudo bash kurulum.sh hazirlik` | Gerekli paketleri kurar; .NET 10 ve nginx'i denetler. |
 | 4.2 | `sudo bash kurulum.sh uygulama` | Servis kullanıcısını, klasörleri ve ayar dosyasını oluşturur; son sürümü GitHub'dan indirip kurar. |
 | 4.3 | `sudo bash kurulum.sh nginx` | nginx ayarını kurar. **Önizleme şifresi** sorulur (kullanıcı adı: `onizleme`); iki kez yazılır, görünmez. |
-| 4.4 | `sudo bash kurulum.sh sifre` | **Yönetim sayfasının şifresi** sorulur (en az 10 karakter); iki kez yazılır, görünmez. |
+| 4.4 | `sudo bash kurulum.sh yonetici` | **Sistem yöneticisi hesabı**: ad soyad, kullanıcı adı ve şifre (en az 10 karakter) sorulur; şifre iki kez yazılır, görünmez. |
 | 4.5 | `sudo bash kurulum.sh yedek` | Her gece 03:30'da otomatik yedek kurar ve ilk yedeği hemen alır. |
 
-Önizleme şifresi ile yönetim şifresi **farklı** olsun. İkisini de bir yere not edin.
+Önizleme şifresi ile sistem yöneticisi şifresi **farklı** olsun. İkisini de bir yere not edin.
 
 ## 5) Sesleri yükleme
 

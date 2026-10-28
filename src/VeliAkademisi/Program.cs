@@ -1,11 +1,7 @@
 // Uygulamanın başlangıç noktası.
 //
-// Üç biçimde çalışır:
-//   1) Site olarak (normal):              dotnet VeliAkademisi.dll
-//   2) Veli eklemek için:                 dotnet VeliAkademisi.dll veli-ekle "Ayşe Hanım" "4-A"
-//      (Yönetim sayfası hazır olana kadar deneme velisi oluşturmak için.)
-//   3) Yönetici şifresinin özeti için:    dotnet VeliAkademisi.dll sifre-hash
-//      (Şifreyi sorar, ekranda göstermez; çıkan özet yapılandırmaya "Yonetim:SifreHash" olarak yazılır.)
+// Site olarak çalışır (dotnet VeliAkademisi.dll) ya da sunucuda bir komut çalıştırıp çıkar
+// (komutların listesi ve açıklamaları: Komutlar.cs; ör. dotnet VeliAkademisi.dll yonetici-ekle).
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
@@ -15,9 +11,7 @@ using VeliAkademisi;
 using VeliAkademisi.Veri;
 using VeliAkademisi.Yonetim;
 
-if (args.Length > 0 && args[0] == "sifre-hash") return SifreHashKomutu();
-
-var komut = args.Length > 0 && args[0] == "veli-ekle";
+var komut = args.Length > 0 && Komutlar.VarMi(args[0]);
 
 // Komut biçiminde, komutun kendi bilgileri site ayarı sanılmasın diye siteye iletilmez.
 // Kök klasör, komutun çalıştırıldığı yer değil, sitenin kendi klasörüdür; böylece wwwroot ve icerik
@@ -42,10 +36,11 @@ var sesYolu = Yol("Ses:Yol", "ses");                              // ses dosyala
 var veriKlasoru = Path.GetDirectoryName(dbYolu)!;
 Directory.CreateDirectory(veriKlasoru);
 
+builder.Services.AddScoped<OkulKapsami>();                     // isteğin görebileceği okul (bkz. VeriTabani)
 builder.Services.AddDbContext<VeriTabani>(o => o.UseSqlite($"Data Source={dbYolu}"));
 builder.Services.AddSingleton(new HikayeVerisi(icerikYolu));   // 8 hikâyenin steps.json bilgileri
 builder.Services.AddSingleton(new HizSiniri(120));             // kayıt uçları: dakikada 120 istek/kod
-builder.Services.AddSingleton<GirisKilidi>();                  // yönetici girişi: 5 hatada 15 dk kilit
+builder.Services.AddSingleton<GirisKilidi>();                  // yönetici girişi: aynı adla 5 hatada 15 dk kilit
 builder.Services.AddSingleton(new VeriYolu(dbYolu));           // yedek indirme için
 
 // Oturum çerezlerini şifreleyen anahtarlar veritabanının yanında saklanır;
@@ -54,12 +49,13 @@ builder.Services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(veriKlasoru, "anahtarlar")))
     .SetApplicationName("VeliAkademisi");
 
-// Yönetici girişi: çerezli oturum. Çerez yalnızca /yonetim altında geçerlidir,
+// Yönetici girişi (kişisel hesaplar): çerezli oturum. Çerez yalnızca /yonetim altında geçerlidir,
 // JavaScript tarafından okunamaz, başka sitelerden gelen isteklerle gönderilmez.
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(o =>
     {
         o.LoginPath = "/yonetim/giris";
+        o.AccessDeniedPath = "/yonetim/erisim";
         o.Cookie.Name = "va_yonetim";
         o.Cookie.Path = "/yonetim";
         o.Cookie.HttpOnly = true;
@@ -67,10 +63,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         o.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;   // sunucuda HTTPS olduğu için "Secure" olur
         o.ExpireTimeSpan = TimeSpan.FromHours(8);
         o.SlidingExpiration = true;                                  // işlem yaptıkça süre uzar
+        // Her istekte hesap denetlenir: kapatılmış hesap, değişmiş şifre ya da pasif okul → oturum kapanır.
+        o.Events.OnValidatePrincipal = Oturum.Denetle;
     });
 builder.Services.AddAuthorization();
 
 // Yönetim sayfaları (Razor Pages). /yonetim klasörünün tamamı giriş ister; giriş sayfası hariç.
+// Hangi rolün hangi sayfayı açabileceği tek yerde denetlenir: Oturum.RolKapisi.
 builder.Services.AddRazorPages(o =>
 {
     o.Conventions.AuthorizeFolder("/Yonetim");
@@ -94,17 +93,8 @@ using (var kapsam = app.Services.CreateScope())
 
 if (komut)
 {
-    // veli-ekle "Ad" "Sınıf" → veliyi ekler, kodunu ve bağlantı yolunu yazar, çıkar.
-    if (args.Length != 3) { Console.Error.WriteLine("Kullanım: veli-ekle \"Ad\" \"Sınıf\""); return 1; }
     using var kapsam = app.Services.CreateScope();
-    var db = kapsam.ServiceProvider.GetRequiredService<VeriTabani>();
-    var veli = new Veli { Ad = args[1], Sinif = args[2], Kod = KodUretici.Uret(), OlusturmaTarihi = DateTime.UtcNow };
-    db.Veliler.Add(veli);
-    db.SaveChanges();
-    Console.WriteLine($"Eklendi: {veli.Ad} ({veli.Sinif})");
-    Console.WriteLine($"Kod: {veli.Kod}");
-    Console.WriteLine($"Bağlantı yolu: /v/{veli.Kod}");
-    return 0;
+    return Komutlar.Calistir(args, kapsam.ServiceProvider.GetRequiredService<VeriTabani>());
 }
 
 // Sunucuda site nginx'in arkasında çalışır. nginx'in bildirdiği "isteğin HTTPS ile geldiği" bilgisi
@@ -129,6 +119,18 @@ app.MapGet("/", () => "Veli Akademisi çalışıyor.");
 app.UseStaticFiles();
 
 app.UseAuthentication();
+
+// Okul kapsamı: veli sayfaları ve kayıt uçları veliyi gizli koduyla bulur (bütün okullarda);
+// okul yöneticisi yalnızca kendi okulunu görür. Diğer istekler için kapsam boştur: veli verisi görünmez.
+app.Use(async (http, sonraki) =>
+{
+    var k = http.RequestServices.GetRequiredService<OkulKapsami>();
+    if (http.Request.Path.StartsWithSegments("/v") || http.Request.Path.StartsWithSegments("/api")) k.TumOkullar = true;
+    else if (http.Request.Path.StartsWithSegments("/yonetim")) k.OkulId = Oturum.OkulNo(http.User);
+    await sonraki();
+});
+app.Use(Oturum.RolKapisi);
+
 app.UseAuthorization();
 
 VeliSayfalari.Ekle(app, icerikYolu, sesYolu);
@@ -137,34 +139,3 @@ app.MapRazorPages();
 
 app.Run();
 return 0;
-
-// sifre-hash: şifreyi ekranda göstermeden iki kez sorar, özetini yazar.
-// (Girdi bir dosyadan ya da başka bir komuttan geliyorsa, örneğin testlerde, tek satır okunur.)
-static int SifreHashKomutu()
-{
-    string Oku(string soru)
-    {
-        Console.Error.Write(soru);
-        if (Console.IsInputRedirected) return Console.ReadLine() ?? "";
-        var s = new System.Text.StringBuilder();
-        while (true)
-        {
-            var tus = Console.ReadKey(intercept: true);
-            if (tus.Key == ConsoleKey.Enter) break;
-            if (tus.Key == ConsoleKey.Backspace) { if (s.Length > 0) s.Length--; continue; }
-            if (!char.IsControl(tus.KeyChar)) s.Append(tus.KeyChar);
-        }
-        Console.Error.WriteLine();
-        return s.ToString();
-    }
-
-    var sifre = Oku("Yönetici şifresi: ");
-    if (sifre.Length < 10) { Console.Error.WriteLine("Şifre en az 10 karakter olmalı."); return 1; }
-    if (!Console.IsInputRedirected && Oku("Şifre (tekrar): ") != sifre)
-    {
-        Console.Error.WriteLine("İki şifre aynı değil.");
-        return 1;
-    }
-    Console.WriteLine(SifreOzeti.Olustur(sifre));
-    return 0;
-}

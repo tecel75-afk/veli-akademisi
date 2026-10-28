@@ -23,13 +23,15 @@ ONIZLEME_SIFRE="prova-onizleme-1" $K nginx
 kontrol "şifreyle ana sayfa" "Veli Akademisi çalışıyor." "$(curl -s "${A[@]}" "${O[@]}" http://127.0.0.1/)"
 kontrol "yanlış önizleme şifresi → 401" 401 "$(kod "${A[@]}" -u onizleme:yanlis http://127.0.0.1/)"
 
-echo "prova-yonetici-123" | $K sifre
-KOD="$($K veli-ekle "Prova Veli" "1-A" | sed -n 's/^Kod: //p')"
+printf 'Prova Yönetici\nprova\nprova-yonetici-123\n' | $K yonetici
+OKUL="$($K okul-ekle "Prova Okulu" | sed -n 's/^Okul no: //p')"
+kontrol "okul eklendi" 1 "$OKUL"
+KOD="$($K veli-ekle "Prova Veli" "1-A" "$OKUL" | sed -n 's/^Kod: //p')"
 kontrol "veli eklendi (22 karakterlik kod)" 22 "${#KOD}"
 # Teşhis: servisin gerçekte gördüğü ayarlar ve veritabanı dosyalarının yerleri
 PID="$(systemctl show -p MainPID --value veliakademisi)"
-echo "::notice::Servisin ortamı: $(tr '\0' '\n' < "/proc/$PID/environ" | grep -E '^(VeriTabani|Ses|Site|Yonetim|ASPNETCORE)' | sed 's/\(SifreHash=.\{20\}\).*/\1…/' | tr '\n' ' ')"
-echo "::notice::Ayar dosyası: $(sed 's/\(SifreHash=.\{20\}\).*/\1…/' /etc/veliakademisi/ayarlar.env | tr '\n' ' ')"
+echo "::notice::Servisin ortamı: $(tr '\0' '\n' < "/proc/$PID/environ" | grep -E '^(VeriTabani|Ses|Site|ASPNETCORE)' | tr '\n' ' ')"
+echo "::notice::Ayar dosyası: $(tr '\n' ' ' < /etc/veliakademisi/ayarlar.env)"
 echo "::notice::Veritabanı dosyaları: $(find / -xdev -name 'veliakademisi.db' 2>/dev/null | tr '\n' ' ')"
 kontrol "veritabanı servis kullanıcısına ait" veliakademisi "$(stat -c %U /var/lib/veliakademisi/veliakademisi.db)"
 kontrol "veli bağlantısı (şifreyle) → Modül 1" "302 /v/$KOD/m1/" "$(yon "${A[@]}" "${O[@]}" "http://127.0.0.1/v/$KOD")"
@@ -37,14 +39,14 @@ kontrol "veli bağlantısı şifresiz açılmaz (önizleme)" 401 "$(kod "${A[@]}
 kontrol "uygulama tanımı şifresiz alınabiliyor (ana ekrana ekleme için)" 200 "$(kod "${A[@]}" "http://127.0.0.1/v/$KOD/manifest.webmanifest")"
 kontrol "simge şifresiz alınabiliyor" 200 "$(kod "${A[@]}" http://127.0.0.1/simge/simge-192.png)"
 
-# Yönetici girişi nginx ve servis üzerinden: ayar dosyasındaki şifre özeti ($ işaretleriyle) doğru okunuyor mu?
+# Sistem yöneticisi girişi nginx ve servis üzerinden (hesap, servisin veritabanına komutla açıldı).
 C="$(mktemp)"
 T="$(curl -s -c "$C" -b "$C" "${A[@]}" "${O[@]}" http://127.0.0.1/yonetim/giris | python3 -c "
 import re,sys; m=re.search(r'name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"', sys.stdin.read()); print(m.group(1) if m else '')")"
-kontrol "yönetici girişi (servisin ayar dosyasındaki şifre özetiyle)" "302 /yonetim" \
-  "$(yon -c "$C" -b "$C" "${A[@]}" "${O[@]}" -X POST \
+kontrol "sistem yöneticisi girişi" "302 /yonetim/sistem" \
+  "$(yon -c "$C" -b "$C" "${A[@]}" "${O[@]}" -X POST --data-urlencode "KullaniciAdi=prova" \
      --data-urlencode "Sifre=prova-yonetici-123" --data-urlencode "__RequestVerificationToken=$T" http://127.0.0.1/yonetim/giris)"
-kontrol "giriş sonrası takip tablosu" 200 "$(kod -b "$C" "${A[@]}" "${O[@]}" http://127.0.0.1/yonetim)"
+kontrol "giriş sonrası sistem sayfası" 200 "$(kod -b "$C" "${A[@]}" "${O[@]}" http://127.0.0.1/yonetim/sistem)"
 
 # Sesler: küçük bir deneme paketi (8 hikâyenin ortam.wav'ı + bir mp3)
 S="$(mktemp -d)"
@@ -70,7 +72,7 @@ kontrol "günlükte veli kodu yok (/v/***)" "evet|hayır" "$(echo "$GUNLUK" | gr
 /usr/local/sbin/veliakademisi-guncelle "$PAKET"
 kontrol "güncellemeden sonra önceki sürüm saklandı" evet "$([ -f /opt/veliakademisi/onceki/VeliAkademisi.dll ] && echo evet || echo hayır)"
 kontrol "güncellemeden sonra veriler yerinde" 22 "$(KOD2="$(sqlite3 /var/lib/veliakademisi/veliakademisi.db 'select Kod from Veliler')"; echo ${#KOD2})"
-kontrol "güncellemeden sonra oturum sürüyor (anahtarlar korunmuş)" 200 "$(kod -b "$C" "${A[@]}" "${O[@]}" http://127.0.0.1/yonetim)"
+kontrol "güncellemeden sonra oturum sürüyor (anahtarlar korunmuş)" 200 "$(kod -b "$C" "${A[@]}" "${O[@]}" http://127.0.0.1/yonetim/sistem)"
 # Bozuk paket: kurulmamalı, eski sürüm çalışmaya devam etmeli
 printf 'bozuk' > "$S/bozuk.zip"
 kontrol "bozuk paket kurulmaz (hata koduyla durur)" evet "$(/usr/local/sbin/veliakademisi-guncelle "$S/bozuk.zip" >/dev/null 2>&1 && echo hayır || echo evet)"

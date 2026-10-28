@@ -7,11 +7,12 @@
 #   sudo bash kurulum.sh nginx                3) nginx ayarı + önizleme şifresi
 #   sudo bash kurulum.sh https                4) HTTPS sertifikası (DNS kaydı açıldıktan sonra)
 #   sudo bash kurulum.sh sesler <ses.zip>     5) ses dosyaları
-#   sudo bash kurulum.sh sifre                6) yönetici şifresi
+#   sudo bash kurulum.sh yonetici             6) sistem yöneticisi hesabı (ad, kullanıcı adı, şifre sorulur)
 #   sudo bash kurulum.sh yedek                7) günlük otomatik yedek
 #   sudo bash kurulum.sh guvenlik-duvari      8) güvenlik duvarı (yalnızca SSH, HTTP, HTTPS açık)
 #   sudo bash kurulum.sh durum                   her zaman: servis, site ve son günlük satırları
-#   sudo bash kurulum.sh veli-ekle "Ad" "Sınıf"  deneme velisi (yönetim sayfası yerine komutla)
+#   sudo bash kurulum.sh okul-ekle "Okulun adı"             okul ekler (yönetim ekranı yerine komutla)
+#   sudo bash kurulum.sh veli-ekle "Ad" "Sınıf" <okul no>   deneme velisi (yönetim ekranı yerine komutla)
 #
 # Bir adım hata verirse durur ve neyin tutmadığını yazar; sonraki adıma geçilmez.
 set -euo pipefail
@@ -38,7 +39,7 @@ dotnet_yolu() {
   readlink -f "$y"
 }
 
-# Uygulamanın kendi komutlarını (veli-ekle, sifre-hash) servisin ayarlarıyla ve servisin kullanıcısıyla çalıştırır.
+# Uygulamanın kendi komutlarını (yonetici-ekle, okul-ekle, veli-ekle) servisin ayarlarıyla ve servisin kullanıcısıyla çalıştırır.
 uygulama_komutu() {
   local d; d="$(dotnet_yolu)"
   ( set -a; . "$AYAR/ayarlar.env"; set +a; export HOME="$VERI"
@@ -173,15 +174,11 @@ adim_sesler() {
   tamam "sesler yerinde: $KOK/ses"
 }
 
-adim_sifre() {
-  baslik "6) Yönetici şifresi"
-  echo "Yönetim sayfasının şifresini belirleyin (en az 10 karakter). Yazarken ekranda görünmez; iki kez sorulur."
-  local ozet; ozet="$(uygulama_komutu sifre-hash)" || dur "Şifre özeti üretilemedi (yukarıdaki iletiye bakın)."
-  [[ "$ozet" == pbkdf2-sha256\$* ]] || dur "Şifre özeti beklenen biçimde değil."
-  ayar_yaz Yonetim__SifreHash "$ozet"
-  systemctl restart "$SERVIS"
-  saglik || dur "Servis yeniden başladıktan sonra site cevap vermedi."
-  tamam "şifre kaydedildi (yalnızca özeti), servis yeniden başlatıldı"
+adim_yonetici() {
+  baslik "6) Sistem yöneticisi hesabı"
+  echo "Sistem yöneticisinin adı, kullanıcı adı ve şifresi sorulur (şifre en az 10 karakter; yazarken görünmez, iki kez sorulur)."
+  uygulama_komutu yonetici-ekle || dur "Hesap açılamadı (yukarıdaki iletiye bakın)."
+  tamam "sistem yöneticisi hesabı açıldı (şifrenin yalnızca özeti saklanır)"
 }
 
 adim_yedek() {
@@ -224,9 +221,14 @@ adim_durum() {
   journalctl -u "$SERVIS" -n 15 --no-pager 2>/dev/null | sed 's/^/           /' || true
 }
 
+adim_okul_ekle() {
+  [ $# -eq 1 ] || dur 'Kullanım: sudo bash kurulum.sh okul-ekle "Okulun adı"'
+  uygulama_komutu okul-ekle "$1"
+}
+
 adim_veli_ekle() {
-  [ $# -eq 2 ] || dur 'Kullanım: sudo bash kurulum.sh veli-ekle "Ad" "Sınıf"'
-  uygulama_komutu veli-ekle "$1" "$2"
+  [ $# -eq 3 ] || dur 'Kullanım: sudo bash kurulum.sh veli-ekle "Ad" "Sınıf" <okul no>'
+  uygulama_komutu veli-ekle "$1" "$2" "$3"
 }
 
 case "${1:-}" in
@@ -235,10 +237,11 @@ case "${1:-}" in
   nginx)           adim_nginx ;;
   https)           adim_https ;;
   sesler)          adim_sesler "${2:-}" ;;
-  sifre)           adim_sifre ;;
+  yonetici)        adim_yonetici ;;
   yedek)           adim_yedek ;;
   guvenlik-duvari) adim_guvenlik_duvari ;;
   durum)           adim_durum ;;
+  okul-ekle)       shift; adim_okul_ekle "$@" ;;
   veli-ekle)       shift; adim_veli_ekle "$@" ;;
-  *) sed -n '2,17p' "$0"; exit 1 ;;
+  *) sed -n '2,18p' "$0"; exit 1 ;;
 esac

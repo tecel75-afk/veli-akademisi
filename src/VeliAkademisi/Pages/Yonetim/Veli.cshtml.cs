@@ -43,7 +43,7 @@ public class VeliModel : PageModel
     // Yeni kod üretme: eski bağlantı (ve ana ekrandaki simge) geçersiz olur. Onay kutusu işaretlenmelidir.
     public async Task<IActionResult> OnPostYeniKodAsync(int id)
     {
-        var veli = await _db.Veliler.FindAsync(id);
+        var veli = await _db.Veliler.FirstOrDefaultAsync(v => v.Id == id);   // okul süzgecinden geçer: başka okulun velisi bulunmaz
         if (veli is null) return NotFound();
         if (!Anladim)
         {
@@ -59,7 +59,7 @@ public class VeliModel : PageModel
     // Veliyi bütün ilerleme ve cevaplarıyla siler (veritabanı kuralı: veli silinince kayıtları da silinir).
     public async Task<IActionResult> OnPostSilAsync(int id)
     {
-        var veli = await _db.Veliler.FindAsync(id);
+        var veli = await _db.Veliler.FirstOrDefaultAsync(v => v.Id == id);   // okul süzgecinden geçer: başka okulun velisi bulunmaz
         if (veli is null) return NotFound();
         if (!SilAnladim)
         {

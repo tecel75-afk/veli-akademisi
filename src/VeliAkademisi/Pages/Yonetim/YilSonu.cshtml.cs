@@ -7,7 +7,8 @@ using VeliAkademisi.Yonetim;
 namespace VeliAkademisi.Pages.Yonetim;
 
 // Yıl sonu silme: /yonetim/yil-sonu
-// Bütün veliler, ilerlemeler ve cevaplar silinir. İki onay ister:
+// Okulun bütün velileri, ilerlemeleri ve cevapları silinir; başka okullarınkine dokunulmaz
+// (silme sorguları da okul süzgecinden geçer, bkz. VeriTabani). İki onay ister:
 //   1) onay kutusu, 2) kutuya "TÜMÜNÜ SİL" yazmak (büyük/küçük harf fark etmez).
 public class YilSonuModel : PageModel
 {

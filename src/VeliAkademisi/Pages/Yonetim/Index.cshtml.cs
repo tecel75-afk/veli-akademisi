@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -8,19 +6,18 @@ using VeliAkademisi.Yonetim;
 
 namespace VeliAkademisi.Pages.Yonetim;
 
-// Yönetim ana sayfası: /yonetim (yalnızca giriş yapılmışsa açılır)
+// Okul yöneticisinin ana sayfası: /yonetim (yalnızca okul yöneticisi; bkz. Oturum.RolKapisi)
+// Bütün veli sorguları okul süzgecinden geçer: yalnızca kendi okulunun velileri görünür (bkz. VeriTabani).
 // Takip tablosu: satır = veli, sütun = 8 hikâye. Sınıfa göre süzme (?sinif=), ada göre arama (?ara=).
 public class IndexModel : PageModel
 {
     readonly VeriTabani _db;
     readonly HikayeVerisi _hv;
-    readonly VeriYolu _yol;
 
-    public IndexModel(VeriTabani db, HikayeVerisi hv, VeriYolu yol)
+    public IndexModel(VeriTabani db, HikayeVerisi hv)
     {
         _db = db;
         _hv = hv;
-        _yol = yol;
     }
 
     static string Damga() => (DateTime.UtcNow + TimeSpan.FromHours(3)).ToString("yyyy-MM-dd-HHmm");
@@ -30,10 +27,6 @@ public class IndexModel : PageModel
         File(await ExcelRaporu.Olustur(_db, _hv),
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"veli-akademisi-{Damga()}.xlsx");
 
-    // /yonetim?handler=yedek → veritabanının o anki kopyası. Haftada bir indirip bilgisayarınıza kaydedin.
-    public IActionResult OnGetYedek() =>
-        File(Yedek.Al(_yol.Db), "application/vnd.sqlite3", $"veli-akademisi-yedek-{Damga()}.db");
-
     [BindProperty(SupportsGet = true)] public string? Sinif { get; set; }
     [BindProperty(SupportsGet = true)] public string? Ara { get; set; }
 
@@ -41,9 +34,11 @@ public class IndexModel : PageModel
     public List<Satir> Satirlar { get; private set; } = new();
     public List<string> Siniflar { get; private set; } = new();
     public int ToplamVeli { get; private set; }
+    public string OkulAdi { get; private set; } = "";
 
     public async Task OnGetAsync()
     {
+        OkulAdi = (await _db.Okullar.FindAsync(Oturum.OkulNo(User)))?.Ad ?? "";
         // Veli sayısı küçük olduğu için (bir okul) hepsi okunup süzme bellekte yapılır;
         // böylece Türkçe büyük/küçük harf (İ/ı, Ş/ş) doğru karşılaştırılır.
         var veliler = await _db.Veliler.AsNoTracking().ToListAsync();
@@ -60,12 +55,5 @@ public class IndexModel : PageModel
             .Select(v => new Satir(v, Hikayeler.Sira.Select(h =>
                 Takip.Hucre(ilerlemeler.GetValueOrDefault((v.Id, h)), _hv.Bilgi(h).Toplam)).ToList()))
             .ToList();
-    }
-
-    // "Çıkış" düğmesi: oturumu kapatır, giriş sayfasına döner.
-    public async Task<IActionResult> OnPostCikisAsync()
-    {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return Redirect("/yonetim/giris");
     }
 }

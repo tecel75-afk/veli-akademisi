@@ -5,16 +5,18 @@
 }
 <div class="ust">
   <span class="marka">Veli Akademisi · Yönetim</span>
-  <form class="sag" method="post" asp-page-handler="Cikis">
+  <span class="sag">@User.Identity?.Name</span>
+  <a href="/yonetim/sifre">Şifremi değiştir</a>
+  <form method="post" action="/yonetim/cikis" asp-antiforgery="true">
     <button class="btn ikincil" type="submit">Çıkış</button>
   </form>
 </div>
+<p class="not" style="margin:-8px 0 12px" id="okul-adi">@Model.OkulAdi</p>
 
 <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px">
   <h1 style="margin:0;flex:1">Takip tablosu</h1>
   <a class="btn" href="/yonetim/veli-ekle">Veli ekle</a>
   <a class="btn ikincil" href="/yonetim?handler=excel">Excel'e aktar</a>
-  <a class="btn ikincil" href="/yonetim?handler=yedek">Yedeği indir</a>
 </div>
 
 <form method="get" class="kart suzgec" style="margin-bottom:12px">
@@ -73,5 +75,5 @@ else
   </div>
 }
 
-<p class="not" style="margin:16px 0 0">Yedeği haftada bir indirip bilgisayarınıza kaydedin; sunucuya bir şey olursa veriler o dosyadan geri yüklenir.
-  Yıl sonunda bütün kayıtları silmek için: <a href="/yonetim/yil-sonu">Yıl sonu silme</a>.</p>
+<p class="not" style="margin:16px 0 0">Okulunuzun kayıtlarını Excel'e aktararak saklayabilirsiniz; sitenin tam yedeği sunucuda her gece alınır.
+  Yıl sonunda okulunuzun bütün kayıtlarını silmek için: <a href="/yonetim/yil-sonu">Yıl sonu silme</a>.</p>

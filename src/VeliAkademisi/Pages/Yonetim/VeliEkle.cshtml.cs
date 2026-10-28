@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using VeliAkademisi.Veri;
+using VeliAkademisi.Yonetim;
 
 namespace VeliAkademisi.Pages.Yonetim;
 
@@ -85,7 +86,9 @@ public class VeliEkleModel : PageModel
 
     Veli YeniVeli(string ad, string sinif)
     {
-        var v = new Veli { Ad = ad, Sinif = sinif, Kod = KodUretici.Uret(), OlusturmaTarihi = DateTime.UtcNow };
+        // Veli, ekleyen okul yöneticisinin okuluna eklenir (rol kapısı bu sayfayı yalnızca okul yöneticisine açar).
+        var okul = Oturum.OkulNo(User) ?? throw new InvalidOperationException("Okul yöneticisi oturumunda okul bilgisi yok.");
+        var v = new Veli { OkulId = okul, Ad = ad, Sinif = sinif, Kod = KodUretici.Uret(), OlusturmaTarihi = DateTime.UtcNow };
         _db.Veliler.Add(v);
         return v;
     }

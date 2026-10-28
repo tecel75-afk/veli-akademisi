@@ -12,7 +12,7 @@
 
 @if (Model.Silindi)
 {
-  <p class="kart" role="status" style="margin:0 0 12px;font-weight:700">Bütün veliler ve kayıtları silindi.</p>
+  <p class="kart" role="status" style="margin:0 0 12px;font-weight:700">Okulunuzun bütün velileri ve kayıtları silindi.</p>
 }
 @if (Model.Hata is not null)
 {
@@ -20,14 +20,13 @@
 }
 
 <div class="kart">
-  <p style="margin:0 0 10px">Bu işlem <b>bütün velileri (@Model.VeliSayisi), ilerlemelerini ve cevaplarını kalıcı olarak siler</b>.
+  <p style="margin:0 0 10px">Bu işlem <b>okulunuzun bütün velilerini (<span id="veli-sayisi">@Model.VeliSayisi</span>), ilerlemelerini ve cevaplarını kalıcı olarak siler</b>. Başka okulların kayıtlarına dokunulmaz.
     Bütün bağlantılar çalışmaz olur. Geri alınamaz.</p>
-  <p style="margin:0 0 14px"><b>Önce</b> <a href="/yonetim?handler=excel">Excel'i</a> ve
-    <a href="/yonetim?handler=yedek">yedeği</a> indirip bilgisayarınıza kaydedin.</p>
+  <p style="margin:0 0 14px"><b>Önce</b> <a href="/yonetim?handler=excel">Excel'i</a> indirip bilgisayarınıza kaydedin.</p>
   <form method="post">
     <label style="font-weight:400;display:flex;gap:8px;align-items:flex-start">
       <input type="checkbox" name="Anladim" value="true" style="margin-top:5px">
-      <span>Excel'i ve yedeği indirdim; bütün kayıtların kalıcı olarak silineceğini anladım.</span>
+      <span>Excel'i indirdim; okulumuzun bütün kayıtlarının kalıcı olarak silineceğini anladım.</span>
     </label>
     <label for="Yazi" style="margin-top:12px">Onaylamak için kutuya <b>@VeliAkademisi.Pages.Yonetim.YilSonuModel.OnayYazisi</b> yazın</label>
     <input asp-for="Yazi" type="text" autocomplete="off" style="max-width:260px">

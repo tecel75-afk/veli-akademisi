@@ -8,5 +8,5 @@ namespace VeliAkademisi.Veri;
 public class TasarimFabrikasi : IDesignTimeDbContextFactory<VeriTabani>
 {
     public VeriTabani CreateDbContext(string[] args) =>
-        new(new DbContextOptionsBuilder<VeriTabani>().UseSqlite("Data Source=tasarim.db").Options);
+        new(new DbContextOptionsBuilder<VeriTabani>().UseSqlite("Data Source=tasarim.db").Options, new OkulKapsami());
 }

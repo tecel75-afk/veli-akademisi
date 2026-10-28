@@ -1,0 +1,42 @@
+@page
+@model VeliAkademisi.Pages.Yonetim.SifreModel
+@{
+    ViewData["Baslik"] = "Şifre";
+}
+<div class="ust">
+  <span class="marka">Veli Akademisi · Yönetim</span>
+  @if (!Model.Gecici) { <a class="sag" href="@Model.AnaSayfa">← Ana sayfa</a> }
+  <form class="@(Model.Gecici ? "sag" : "")" method="post" action="/yonetim/cikis" asp-antiforgery="true">
+    <button class="btn ikincil" type="submit">Çıkış</button>
+  </form>
+</div>
+
+<div class="kart" style="max-width:480px">
+  @if (Model.Degisti)
+  {
+    <h1>Şifreniz değişti</h1>
+    <p role="status">Yeni şifreniz kaydedildi. Başka cihazlarda açık oturumlarınız kapandı.</p>
+    <p><a class="btn" href="@Model.AnaSayfa">Devam et</a></p>
+  }
+  else
+  {
+    <h1>@(Model.Gecici ? "Kendi şifrenizi belirleyin" : "Şifremi değiştir")</h1>
+    @if (Model.Gecici)
+    {
+      <p>Size verilen geçici şifreyle giriş yaptınız. Devam etmek için kendi şifrenizi belirleyin.</p>
+    }
+    @if (Model.Hata is not null)
+    {
+      <p class="hata" role="alert">@Model.Hata</p>
+    }
+    <form method="post">
+      <label for="Mevcut">@(Model.Gecici ? "Geçici şifre" : "Şu anki şifre")</label>
+      <input asp-for="Mevcut" type="password" autocomplete="current-password" required>
+      <label for="Yeni" style="margin-top:12px">Yeni şifre (en az 10 karakter)</label>
+      <input asp-for="Yeni" type="password" autocomplete="new-password" minlength="10" required>
+      <label for="YeniTekrar" style="margin-top:12px">Yeni şifre (tekrar)</label>
+      <input asp-for="YeniTekrar" type="password" autocomplete="new-password" minlength="10" required>
+      <p style="margin:14px 0 0"><button class="btn" type="submit">Şifreyi kaydet</button></p>
+    </form>
+  }
+</div>

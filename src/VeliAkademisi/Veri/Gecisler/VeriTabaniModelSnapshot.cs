@@ -84,6 +84,85 @@ namespace VeliAkademisi.Veri.Gecisler
                     b.ToTable("Ilerlemeler");
                 });
 
+            modelBuilder.Entity("VeliAkademisi.Veri.Kullanici", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AdSoyad")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Etkin")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("GeciciSifre")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("GuvenlikDamgasi")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("KullaniciAdi")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("OkulId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("OlusturmaTarihi")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Rol")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SifreOzeti")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("SonGiris")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KullaniciAdi")
+                        .IsUnique();
+
+                    b.HasIndex("OkulId");
+
+                    b.ToTable("Kullanicilar");
+                });
+
+            modelBuilder.Entity("VeliAkademisi.Veri.Okul", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Ad")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Etkin")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("OlusturmaTarihi")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Ad")
+                        .IsUnique();
+
+                    b.ToTable("Okullar");
+                });
+
             modelBuilder.Entity("VeliAkademisi.Veri.Veli", b =>
                 {
                     b.Property<int>("Id")
@@ -100,6 +179,9 @@ namespace VeliAkademisi.Veri.Gecisler
                         .HasMaxLength(32)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("OkulId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("OlusturmaTarihi")
                         .HasColumnType("TEXT");
 
@@ -115,6 +197,8 @@ namespace VeliAkademisi.Veri.Gecisler
 
                     b.HasIndex("Kod")
                         .IsUnique();
+
+                    b.HasIndex("OkulId");
 
                     b.ToTable("Veliler");
                 });
@@ -139,6 +223,34 @@ namespace VeliAkademisi.Veri.Gecisler
                         .IsRequired();
 
                     b.Navigation("Veli");
+                });
+
+            modelBuilder.Entity("VeliAkademisi.Veri.Kullanici", b =>
+                {
+                    b.HasOne("VeliAkademisi.Veri.Okul", "Okul")
+                        .WithMany("Kullanicilar")
+                        .HasForeignKey("OkulId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Okul");
+                });
+
+            modelBuilder.Entity("VeliAkademisi.Veri.Veli", b =>
+                {
+                    b.HasOne("VeliAkademisi.Veri.Okul", "Okul")
+                        .WithMany("Veliler")
+                        .HasForeignKey("OkulId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Okul");
+                });
+
+            modelBuilder.Entity("VeliAkademisi.Veri.Okul", b =>
+                {
+                    b.Navigation("Kullanicilar");
+
+                    b.Navigation("Veliler");
                 });
 
             modelBuilder.Entity("VeliAkademisi.Veri.Veli", b =>

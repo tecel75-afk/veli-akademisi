@@ -12,9 +12,12 @@
     <p class="hata" role="alert">@Model.Hata</p>
   }
   <form method="post">
-    <label for="Sifre">Şifre</label>
-    <input asp-for="Sifre" type="password" autocomplete="current-password" autofocus required>
+    <label for="KullaniciAdi">Kullanıcı adı</label>
+    <input asp-for="KullaniciAdi" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" autofocus required>
+    <label for="Sifre" style="margin-top:12px">Şifre</label>
+    <input asp-for="Sifre" type="password" autocomplete="current-password" required>
     <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl">
     <p style="margin:14px 0 0"><button class="btn" type="submit">Giriş yap</button></p>
   </form>
+  <p class="not" style="margin:14px 0 0">Şifrenizi unuttuysanız okulunuzun diğer yöneticisi size yeni bir geçici şifre verebilir.</p>
 </div>

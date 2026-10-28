@@ -1,0 +1,13 @@
+@page
+@model VeliAkademisi.Pages.Yonetim.Ilce.IndexModel
+@{
+    ViewData["Baslik"] = "İlçe izleme";
+}
+<div class="ust">
+  <span class="marka">Veli Akademisi · İlçe izleme</span>
+  <span class="sag">@User.Identity?.Name</span>
+  <a href="/yonetim/sifre">Şifremi değiştir</a>
+  <form method="post" action="/yonetim/cikis" asp-antiforgery="true"><button class="btn ikincil" type="submit">Çıkış</button></form>
+</div>
+<h1>İlçe izleme</h1>
+<p class="not">Okul başına isimsiz sayılar bu sayfada görünecek (yapım aşamasında).</p>

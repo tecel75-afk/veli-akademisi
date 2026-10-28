@@ -8,4 +8,3 @@ yayin/
 *.db-shm
 *.db-wal
 appsettings.Production.json
-src/VeliAkademisi/tasarim.db

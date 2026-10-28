@@ -8,6 +8,10 @@ public class Veli
     // Yönetim sayfasında görünen ad, ör. "Ayşe Hanım".
     public string Ad { get; set; } = "";
 
+    // Velinin okulu (zorunlu).
+    public int OkulId { get; set; }
+    public Okul? Okul { get; set; }
+
     // Serbest metin, ör. "4-A".
     public string Sinif { get; set; } = "";
 

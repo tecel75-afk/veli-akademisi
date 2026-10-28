@@ -21,6 +21,10 @@ public static class VeriTabaniHazirlik
         if (db.Database.GetPendingMigrations().Any(g => g.EndsWith("_CokOkul")) && VeliVar(db))
             return "HATA: Veritabanında okulu belli olmayan veliler var; çok okullu yapıya geçiş uygulanmadı, veritabanına dokunulmadı.";
         db.Database.Migrate();
+        // WAL günlük kipi: okuma (gece yedeği, Excel, takip tablosu) ile yazma (velilerin kayıtları) birbirini engellemez.
+        // Varsayılan kipte, biri okurken gelen kayıtlar "database is locked" hatasıyla (500) kayboluyordu
+        // (28 Ekim, eşzamanlı yazma denemesi: 1.000 istekten 997'si). Kip veritabanı dosyasına yazılır, kalıcıdır.
+        db.Database.ExecuteSqlRaw("PRAGMA journal_mode=WAL;");
         return null;
     }
 

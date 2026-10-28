@@ -12,6 +12,7 @@ O=(-u "onizleme:prova-onizleme-1")    # önizleme şifresi
 hata=0
 kontrol() { if [ "$2" == "$3" ]; then echo "  TAMAM  $1"; else echo "  HATA   $1 — beklenen: [$2], gelen: [$3]"; echo "::error::Kurulum: $1 — beklenen: [$2], gelen: [$3]"; hata=1; fi; }
 kod() { curl -s -o /dev/null -w '%{http_code}' "$@"; }
+gq() { grep "$@" > /dev/null; }   # boru içinde arama: bütün girdiyi okur (grep -q + pipefail yanlış "hayır" verebilir)
 # yon <curl seçenekleri> → "<durum kodu> <Location başlığı>" (site göreli adresle yönlendirir; tarayıcı kendi alan adını ekler)
 yon() { curl -s -o /dev/null -D - "$@" | tr -d '\r' | awk 'NR==1{k=$2} tolower($1)=="location:"{l=$2} END{print k" "l}'; }
 
@@ -65,8 +66,8 @@ kontrol "yedek dosyası alındı" 1 "$(ls /var/backups/veliakademisi/veliakademi
 kontrol "yedek geçerli (veli sayısı 1)" 1 "$(sqlite3 /var/backups/veliakademisi/veliakademisi-*.db 'select count(*) from Veliler')"
 
 GUNLUK="$(cat /var/log/nginx/veliakademisi-erisim.gunluk)"
-kontrol "günlükte IP kısaltılmış (127.0.0.0)" evet "$(echo "$GUNLUK" | grep -q '^127\.0\.0\.0 ' && echo evet || echo hayır)"
-kontrol "günlükte veli kodu yok (/v/***)" "evet|hayır" "$(echo "$GUNLUK" | grep -q '/v/\*\*\*' && echo evet || echo hayır)|$(echo "$GUNLUK" | grep -q "$KOD" && echo evet || echo hayır)"
+kontrol "günlükte IP kısaltılmış (127.0.0.0)" evet "$(echo "$GUNLUK" | gq '^127\.0\.0\.0 ' && echo evet || echo hayır)"
+kontrol "günlükte veli kodu yok (/v/***)" "evet|hayır" "$(echo "$GUNLUK" | gq '/v/\*\*\*' && echo evet || echo hayır)|$(echo "$GUNLUK" | gq "$KOD" && echo evet || echo hayır)"
 
 # Güncelleme: aynı paket yeniden kurulur; önceki sürüm saklanır, veriler korunur.
 /usr/local/sbin/veliakademisi-guncelle "$PAKET"

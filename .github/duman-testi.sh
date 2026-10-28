@@ -21,6 +21,10 @@ kontrol() {  # kontrol "<açıklama>" <beklenen> <gerçek>
   if [ "$2" == "$3" ]; then echo "  TAMAM  $1"; else echo "  HATA   $1 — beklenen: [$2], gelen: [$3]"; echo "::error::$1 — beklenen: [$2], gelen: [$3]"; hata=1; fi
 }
 durum() { curl -s -o /dev/null -w "%{http_code}" "$1"; }
+# Boru içinde arama: "grep -q" eşleşmeyi bulunca hemen çıkar; o zaman yazan komut (curl, echo, 7z) kırık boru hatası
+# alır ve "set -o pipefail" yüzünden eşleşme olsa bile sonuç başarısız sayılır (büyük sayfalarda rastgele "hayır").
+# gq bütün girdiyi okur, yalnızca sonucu döndürür.
+gq() { grep "$@" > /dev/null; }
 yonlendirme() { curl -s -o /dev/null -w "%{http_code} %{redirect_url}" "$1"; }
 
 echo "0) Hesaplar ve okullar (komutlarla)"
@@ -36,7 +40,7 @@ kontrol "iki okul eklendi" "1 2" "$OKUL_A $OKUL_B"
 kontrol "aynı adla okul eklenmez" 1 "$(VA okul-ekle "Deneme Okulu A" >/dev/null 2>&1; echo $?)"
 GECICI_A="$(VA okul-yoneticisi-ekle "$OKUL_A" "Ayşe Yönetici" ayse.a | sed -n 's/^Geçici şifre: //p')"
 GECICI_B="$(VA okul-yoneticisi-ekle "$OKUL_B" "Bora Yönetici" bora.b | sed -n 's/^Geçici şifre: //p')"
-kontrol "geçici şifre biçimi (xxxx-xxxx-xxxx)" evet "$(echo "$GECICI_A" | grep -qE '^[a-z2-9]{4}-[a-z2-9]{4}-[a-z2-9]{4}$' && echo evet || echo hayır)"
+kontrol "geçici şifre biçimi (xxxx-xxxx-xxxx)" evet "$(echo "$GECICI_A" | gq -E '^[a-z2-9]{4}-[a-z2-9]{4}-[a-z2-9]{4}$' && echo evet || echo hayır)"
 kontrol "olmayan okula yönetici açılmaz" 1 "$(VA okul-yoneticisi-ekle 99 "X Y" xyz >/dev/null 2>&1; echo $?)"
 kontrol "şifreler veritabanında yalnızca özet olarak" "pbkdf2-sha256|0" "$(python3 -c "import sqlite3,sys; c=sqlite3.connect(sys.argv[1]); print(c.execute(\"select distinct substr(SifreOzeti,1,13) from Kullanicilar\").fetchone()[0], c.execute('select count(*) from Kullanicilar where SifreOzeti like ? or SifreOzeti like ?', ('%'+sys.argv[2]+'%','%'+sys.argv[3]+'%')).fetchone()[0], sep='|')" "$VeriTabani__Yol" "$SISTEM_SIFRE" "$GECICI_A")"
 kontrol "olmayan okula veli eklenmez" 1 "$(VA veli-ekle "X" "1" 99 >/dev/null 2>&1; echo $?)"
@@ -72,7 +76,7 @@ export Icerik__Yol="$GECICI/icerik"
 cp -r "$GECICI/icerik" "$GECICI/icerik-hatali"
 sed -i 's|https://www.tohumotizm.org.tr/|http://www.tohumotizm.org.tr/|' "$GECICI/icerik-hatali/m1/materyaller.json"
 HATA_CIKTI="$(Icerik__Yol="$GECICI/icerik-hatali" VeriTabani__Yol="$GECICI/hatali.db" dotnet "$YAYIN/VeliAkademisi.dll" veli-ekle X 1 1 2>&1 || true)"
-kontrol "hatalı materyaller.json: site açılmaz, hatanın yeri yazılır" evet "$(echo "$HATA_CIKTI" | grep -q 'm1/materyaller.json: bağlantı adresi https:// ile başlamalı' && echo evet || echo hayır)"
+kontrol "hatalı materyaller.json: site açılmaz, hatanın yeri yazılır" evet "$(echo "$HATA_CIKTI" | gq 'm1/materyaller.json: bağlantı adresi https:// ile başlamalı' && echo evet || echo hayır)"
 
 echo "2d) Eski yöntemle (şema güncelleme kaydı olmadan) kurulmuş veritabanı"
 # 27 Ekim sürümünün kurduğu yapının aynısı. Site açılmamalı ve dosyaya dokunmamalı.
@@ -90,7 +94,7 @@ PY
 ONCE="$(sha256sum < "$ESKI_DB")"
 ESKI_CIKTI="$(VeriTabani__Yol="$ESKI_DB" dotnet "$YAYIN/VeliAkademisi.dll" veli-ekle X 1 1 2>&1; echo "çıkış:$?")"
 kontrol "eski yapı: site açılmaz (çıkış kodu 1)" "çıkış:1" "$(echo "$ESKI_CIKTI" | tail -1)"
-kontrol "eski yapı: nedeni yazılır" evet "$(echo "$ESKI_CIKTI" | grep -q 'eski yöntemle kurulmuş' && echo evet || echo hayır)"
+kontrol "eski yapı: nedeni yazılır" evet "$(echo "$ESKI_CIKTI" | gq 'eski yöntemle kurulmuş' && echo evet || echo hayır)"
 kontrol "eski yapı: dosyaya dokunulmadı" "$ONCE" "$(sha256sum < "$ESKI_DB")"
 
 echo "3) Site başlatılıyor"
@@ -312,11 +316,11 @@ kontrol "olmayan kullanıcı adı: aynı mesaj" evet "$(giris yok.boyle sifre-si
 kontrol "geçici şifreyle giriş: önce şifre sayfasına gider" "302 $ADRES/yonetim/sifre" "$(giris "  AYSE.A " "$GECICI_A")"
 SC="$(tr -d '\r' < "$GECICI/giris.baslik" | grep -i '^set-cookie: va_yonetim=' | tr 'A-Z' 'a-z')"
 for b in "path=/yonetim" "httponly" "samesite=strict"; do
-  kontrol "  oturum çerezi: $b" evet "$(echo "$SC" | grep -q "$b" && echo evet || echo hayır)"
+  kontrol "  oturum çerezi: $b" evet "$(echo "$SC" | gq "$b" && echo evet || echo hayır)"
 done
 kontrol "  geçici şifreyle takip tablosu açılmaz, şifre sayfasına gider" "302 $ADRES/yonetim/sifre" "$(git_c "$CEREZ" "$ADRES/yonetim")"
 kontrol "  geçici şifreyle veli ayrıntısı da açılmaz" "302 $ADRES/yonetim/sifre" "$(git_c "$CEREZ" "$ADRES/yonetim/veli/1")"
-kontrol "  şifre sayfası 'Kendi şifrenizi belirleyin' der" evet "$(curl -s -b "$CEREZ" "$ADRES/yonetim/sifre" | grep -q 'Kendi şifrenizi belirleyin' && echo evet || echo hayır)"
+kontrol "  şifre sayfası 'Kendi şifrenizi belirleyin' der" evet "$(curl -s -b "$CEREZ" "$ADRES/yonetim/sifre" | gq 'Kendi şifrenizi belirleyin' && echo evet || echo hayır)"
 SIFRE_A="ayse-kendi-sifresi-1"
 kontrol "  kısa yeni şifre kabul edilmez" "200 " "$(sifre_degistir "$CEREZ" "$GECICI_A" kisa)"
 kontrol "  iki kutu farklıysa kabul edilmez" "200 " "$(sifre_degistir "$CEREZ" "$GECICI_A" "$SIFRE_A" "$SIFRE_A-x")"
@@ -342,18 +346,18 @@ yon_islem() {  # yon_islem <çerez> <handler> [id] [alan=değer]... → "<durum>
 gecici_oku() { python3 -c "import re,sys; m=re.search(r'id=\"gecici-sifre\">([^<]+)<', open(sys.argv[1],encoding='utf-8').read()); print(m.group(1) if m else '')" "$GECICI/yon.html"; }
 yon_no() { satir "select Id from Kullanicilar where KullaniciAdi='$1'"; }
 
-kontrol "tek yönetici varken veli eklenemez (uyarı gösterilir)" evet "$(curl -s -b "$CEREZ" "$ADRES/yonetim/veli-ekle" | grep -q 'id="yonetici-eksik"' && echo evet || echo hayır)"
+kontrol "tek yönetici varken veli eklenemez (uyarı gösterilir)" evet "$(curl -s -b "$CEREZ" "$ADRES/yonetim/veli-ekle" | gq 'id="yonetici-eksik"' && echo evet || echo hayır)"
 TV="$(belirtec_al "$ADRES/yonetim/veli-ekle")"
 kontrol "  tek yönetici varken veli ekleme isteği de reddedilir" "0" "$(curl -s -o /dev/null -b "$CEREZ" -c "$CEREZ" -X POST --data-urlencode "__RequestVerificationToken=$TV" --data-urlencode "Ad=Yasak Veli" --data-urlencode "Sinif=1" "$ADRES/yonetim/veli-ekle?handler=tek"; satir "select count(*) from Veliler where Ad='Yasak Veli'")"
-kontrol "yöneticiler sayfası açılıyor, eksik yönetici uyarısı var" evet "$(curl -s -b "$CEREZ" "$ADRES/yonetim/yoneticiler" | grep -q 'id="yonetici-eksik"' && echo evet || echo hayır)"
+kontrol "yöneticiler sayfası açılıyor, eksik yönetici uyarısı var" evet "$(curl -s -b "$CEREZ" "$ADRES/yonetim/yoneticiler" | gq 'id="yonetici-eksik"' && echo evet || echo hayır)"
 kontrol "geçersiz kullanıcı adıyla yönetici eklenmez" "200 |0" "$(yon_islem "$CEREZ" ekle "" "AdSoyad=Can Yönetici" "KullaniciAdi=can ğ"; echo "|$(satir "select count(*) from Kullanicilar where AdSoyad='Can Yönetici'")")"
 kontrol "var olan kullanıcı adıyla yönetici eklenmez" evet "$(yon_islem "$CEREZ" ekle "" "AdSoyad=Başka" "KullaniciAdi=bora.b" >/dev/null; grep -q 'zaten kullanılıyor' "$GECICI/yon.html" && echo evet || echo hayır)"
 yon_islem "$CEREZ" ekle "" "AdSoyad=Can Yönetici" "KullaniciAdi=Can.A" > /dev/null
 GECICI_C="$(gecici_oku)"
 kontrol "A ikinci yöneticiyi ekledi; geçici şifre bir kez gösterildi" "evet|ayse.a,can.a|$OKUL_A" "$([ -n "$GECICI_C" ] && echo evet || echo hayır)|$(satir "select group_concat(KullaniciAdi) from (select KullaniciAdi from Kullanicilar where OkulId=$OKUL_A order by KullaniciAdi)")|$(satir "select OkulId from Kullanicilar where KullaniciAdi='can.a'")"
 kontrol "  başarılı eklemeden sonra form boşaldı" hayır "$(grep -q 'value="Can.A"' "$GECICI/yon.html" && echo evet || echo hayır)"
-kontrol "  sayfayı yeniden açınca geçici şifre görünmez" hayır "$(curl -s -b "$CEREZ" "$ADRES/yonetim/yoneticiler" | grep -q 'gecici-sifre' && echo evet || echo hayır)"
-kontrol "  artık eksik yönetici uyarısı yok" hayır "$(curl -s -b "$CEREZ" "$ADRES/yonetim/veli-ekle" | grep -q 'id="yonetici-eksik"' && echo evet || echo hayır)"
+kontrol "  sayfayı yeniden açınca geçici şifre görünmez" hayır "$(curl -s -b "$CEREZ" "$ADRES/yonetim/yoneticiler" | gq 'gecici-sifre' && echo evet || echo hayır)"
+kontrol "  artık eksik yönetici uyarısı yok" hayır "$(curl -s -b "$CEREZ" "$ADRES/yonetim/veli-ekle" | gq 'id="yonetici-eksik"' && echo evet || echo hayır)"
 CC="$GECICI/cerez-c.txt"
 kontrol "yeni yönetici geçici şifreyle girdi" "302 $ADRES/yonetim/sifre" "$(giris can.a "$GECICI_C" "$CC")"
 kontrol "  kendi şifresini belirledi" "302 $ADRES/yonetim/sifre?degisti=true" "$(sifre_degistir "$CC" "$GECICI_C" "can-kendi-sifresi-1")"
@@ -373,7 +377,7 @@ kontrol "hesap kapatıldı" 0 "$(yon_islem "$CEREZ" kapat "$CAN" "Anladim=true" 
 Y="$(git_c "$CC" "$ADRES/yonetim/sifre")"
 kontrol "  kapalı hesabın açık oturumu kapandı" "302 $ADRES/yonetim/giris" "${Y%%\?*}"
 kontrol "  kapalı hesap giriş yapamaz" evet "$(giris can.a "$GECICI_C2" "$CC" >/dev/null; grep -q 'Bu hesap kapatılmış' "$GECICI/giris.html" && echo evet || echo hayır)"
-kontrol "  tek açık yönetici kaldı: veli eklenemez" evet "$(curl -s -b "$CEREZ" "$ADRES/yonetim/veli-ekle" | grep -q 'id="yonetici-eksik"' && echo evet || echo hayır)"
+kontrol "  tek açık yönetici kaldı: veli eklenemez" evet "$(curl -s -b "$CEREZ" "$ADRES/yonetim/veli-ekle" | gq 'id="yonetici-eksik"' && echo evet || echo hayır)"
 yon_islem "$CEREZ" ac "$CAN" > /dev/null
 GECICI_C3="$(gecici_oku)"
 kontrol "hesap yeniden açıldı, yeni geçici şifreyle" "1|1|evet" "$(satir "select Etkin from Kullanicilar where KullaniciAdi='can.a'")|$(satir "select GeciciSifre from Kullanicilar where KullaniciAdi='can.a'")|$([ -n "$GECICI_C3" ] && echo evet || echo hayır)"
@@ -491,7 +495,7 @@ kontrol "B yöneticisi geçici şifreyle girdi" "302 $ADRES/yonetim/sifre" "$(gi
 SIFRE_B="bora-kendi-sifresi-1"
 kontrol "  kendi şifresini belirledi" "302 $ADRES/yonetim/sifre?degisti=true" "$(sifre_degistir "$CB" "$GECICI_B" "$SIFRE_B")"
 B_TAKIP="$(curl -s -b "$CB" "$ADRES/yonetim")"
-kontrol "B'nin takip tablosunda yalnızca kendi velisi" "1|evet|hayır" "$(echo "$B_TAKIP" | grep -c '<tr data-veli=')|$(echo "$B_TAKIP" | grep -q 'Bora Veli' && echo evet || echo hayır)|$(echo "$B_TAKIP" | grep -q 'Tarayıcı Deneme' && echo evet || echo hayır)"
+kontrol "B'nin takip tablosunda yalnızca kendi velisi" "1|evet|hayır" "$(echo "$B_TAKIP" | grep -c '<tr data-veli=')|$(echo "$B_TAKIP" | gq 'Bora Veli' && echo evet || echo hayır)|$(echo "$B_TAKIP" | gq 'Tarayıcı Deneme' && echo evet || echo hayır)"
 kontrol "B, A'nın velisinin ayrıntısını açamaz (404)" 404 "$(curl -s -o /dev/null -w '%{http_code}' -b "$CB" "$ADRES/yonetim/veli/$VID")"
 TB="$(belirtec_al "$ADRES/yonetim" "$CB")"
 kontrol "B, A'nın velisine yeni kod üretemez (404)" 404 "$(curl -s -o /dev/null -w '%{http_code}' -b "$CB" -c "$CB" -X POST --data-urlencode "__RequestVerificationToken=$TB" --data-urlencode "Anladim=true" "$ADRES/yonetim/veli/$VID?handler=yenikod")"
@@ -504,9 +508,9 @@ k = openpyxl.load_workbook(sys.argv[1])
 print(','.join(r[0].value for r in k['Takip'].iter_rows(min_row=2)), k['Cevaplar'].max_row - 1, sep='|')" "$GECICI/rapor-b.xlsx")"
 kontrol "B, A'nın yöneticisine geçici şifre veremez (404)" "404 " "$(yon_islem "$CB" gecicisifre "$CAN" "Anladim=true")"
 kontrol "B, A'nın yöneticisinin hesabını kapatamaz (404)" "404 |1" "$(yon_islem "$CB" kapat "$CAN" "Anladim=true")|$(satir "select Etkin from Kullanicilar where KullaniciAdi='can.a'")"
-kontrol "B'nin yöneticiler sayfasında A'nın yöneticileri yok" hayır "$(curl -s -b "$CB" "$ADRES/yonetim/yoneticiler" | grep -q 'ayse.a\|can.a' && echo evet || echo hayır)"
-kontrol "B'de tek yönetici var: veli eklenemez" evet "$(curl -s -b "$CB" "$ADRES/yonetim/veli-ekle" | grep -q 'id="yonetici-eksik"' && echo evet || echo hayır)"
-kontrol "B'nin yıl sonu sayfası yalnızca kendi velisini sayar" evet "$(curl -s -b "$CB" "$ADRES/yonetim/yil-sonu" | grep -q '<span id="veli-sayisi">1</span>' && echo evet || echo hayır)"
+kontrol "B'nin yöneticiler sayfasında A'nın yöneticileri yok" hayır "$(curl -s -b "$CB" "$ADRES/yonetim/yoneticiler" | gq 'ayse.a\|can.a' && echo evet || echo hayır)"
+kontrol "B'de tek yönetici var: veli eklenemez" evet "$(curl -s -b "$CB" "$ADRES/yonetim/veli-ekle" | gq 'id="yonetici-eksik"' && echo evet || echo hayır)"
+kontrol "B'nin yıl sonu sayfası yalnızca kendi velisini sayar" evet "$(curl -s -b "$CB" "$ADRES/yonetim/yil-sonu" | gq '<span id="veli-sayisi">1</span>' && echo evet || echo hayır)"
 
 echo "8d) Excel ve silme"
 indir() { curl -s -o "$2" -D "$2.baslik" -w '%{http_code}' -b "$CEREZ" "$1"; }   # indir <adres> <dosya>
@@ -517,7 +521,7 @@ ESIT="$(python3 -c "import json,sys; s=json.load(open(sys.argv[1],encoding='utf-
 kontrol "eşit şıklı soruya cevap kaydedildi" 204 "$(post /api/cevap "{\"kod\":\"$KOD3\",\"hikaye\":\"m1\",\"adim\":$ESIT,\"secim\":0}")"
 
 kontrol "Excel indiriliyor" 200 "$(indir "$ADRES/yonetim?handler=excel" "$GECICI/rapor.xlsx")"
-kontrol "  dosya adı (okulun adıyla)" evet "$(dosya_adi "$GECICI/rapor.xlsx" | grep -qE '^veli-akademisi-deneme-okulu-a-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{4}\.xlsx$' && echo evet || echo hayır)"
+kontrol "  dosya adı (okulun adıyla)" evet "$(dosya_adi "$GECICI/rapor.xlsx" | gq -E '^veli-akademisi-deneme-okulu-a-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{4}\.xlsx$' && echo evet || echo hayır)"
 IDEAL1="$(python3 -c "import json,sys; s=json.load(open(sys.argv[1],encoding='utf-8')); print('ABC'[next(x for x in s if x['t']=='q')['ov']['i']])" "$YAYIN/icerik/m1/steps.json")"
 EXCEL="$(python3 - "$GECICI/rapor.xlsx" "$IDEAL1" <<'PY'
 import sys, datetime, openpyxl
@@ -644,7 +648,7 @@ kontrol "  yeni okulun yöneticisi geçici şifreyle girebiliyor" "302 $ADRES/yo
 kontrol "  kendi şifresini belirledi" "302 $ADRES/yonetim/sifre?degisti=true" "$(sifre_degistir "$CEREZ_A2" "$GECICI_CEM" "cem-kendi-sifresi-1")"
 
 O_ADRES="$ADRES/yonetim/sistem/okul/$OKUL_B?"
-kontrol "okul ayrıntısı açılıyor (yöneticileri görünüyor)" evet "$(curl -s -b "$CS" "$ADRES/yonetim/sistem/okul/$OKUL_B" | grep -q 'bora.b' && echo evet || echo hayır)"
+kontrol "okul ayrıntısı açılıyor (yöneticileri görünüyor)" evet "$(curl -s -b "$CS" "$ADRES/yonetim/sistem/okul/$OKUL_B" | gq 'bora.b' && echo evet || echo hayır)"
 kontrol "olmayan okul → 404" 404 "$(curl -s -o /dev/null -w '%{http_code}' -b "$CS" "$ADRES/yonetim/sistem/okul/999")"
 kontrol "olmayan okula yönetici eklenmez (404)" "404" "$(T="$(belirtec_al "$ADRES/yonetim/sistem" "$CS")"; curl -s -o /dev/null -w '%{http_code}' -b "$CS" -c "$CS" -X POST --data-urlencode "__RequestVerificationToken=$T" --data-urlencode "AdSoyad=X" --data-urlencode "KullaniciAdi=yok.okul" "$ADRES/yonetim/sistem/okul/999?handler=ekle")"
 kontrol "onaysız okul pasife alınmaz" 1 "$(sis_islem "$O_ADRES" pasif >/dev/null; satir "select Etkin from Okullar where Id=$OKUL_B")"
@@ -666,7 +670,7 @@ kontrol "iki kutu farklıysa yedek inmez" "200|text/html" "$(R="$(sis_islem "$S_
 kontrol "onaysız yedek inmez" "200|text/html" "$(R="$(sis_islem "$S_ADRES" yedek "YedekSifre=$YS" "YedekSifreTekrar=$YS")"; echo "${R%%;*}")"
 kontrol "yedek iniyor (zip)" "200|application/zip" "$(sis_islem "$S_ADRES" yedek "YedekSifre=$YS" "YedekSifreTekrar=$YS" "SifreyiYazdim=true")"
 cp "$GECICI/sis.cevap" "$GECICI/yedek.zip"
-kontrol "  zip AES-256 ile şifreli" evet "$(7z l -slt -p"$YS" "$GECICI/yedek.zip" 2>/dev/null | grep -q '^Method = AES-256' && echo evet || echo hayır)"
+kontrol "  zip AES-256 ile şifreli" evet "$(7z l -slt -p"$YS" "$GECICI/yedek.zip" 2>/dev/null | gq '^Method = AES-256' && echo evet || echo hayır)"
 kontrol "  yanlış şifreyle açılmaz" hayır "$(7z x -y -p"yanlis-sifre-123" -o"$GECICI/yedek-yanlis" "$GECICI/yedek.zip" >/dev/null 2>&1 && echo evet || echo hayır)"
 kontrol "  doğru şifreyle 7-Zip açıyor" evet "$(7z x -y -p"$YS" -o"$GECICI/yedek-acik" "$GECICI/yedek.zip" >/dev/null 2>&1 && echo evet || echo hayır)"
 kontrol "  içinden geçerli veritabanı çıkıyor (veli ve hesap sayıları aynı)" "$(satir "select count(*) from Veliler")|$(satir "select count(*) from Kullanicilar")" "$(python3 -c "import sqlite3,sys,glob; c=sqlite3.connect(glob.glob(sys.argv[1]+'/*.db')[0]); print(c.execute('select count(*) from Veliler').fetchone()[0], c.execute('select count(*) from Kullanicilar').fetchone()[0], sep='|')" "$GECICI/yedek-acik")"

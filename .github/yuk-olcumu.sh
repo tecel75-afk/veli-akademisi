@@ -111,5 +111,30 @@ giris olcum.ilce olcum-ilce-sifresi
 olc "ilçe izleme sayfası"                         2 "$ADRES/yonetim/ilce" -b "$C"
 C="$C_ESKI"
 
-[ $hata -eq 0 ] || { echo "SONUÇ: süre sınırı aşıldı."; exit 1; }
-echo "SONUÇ: bütün ölçümler sınırın altında."
+echo "4) Eşzamanlı kayıt: 40 veli aynı anda, bu sırada veritabanı dışarıdan okunurken (gece yedeği gibi)"
+# 28 Ekim'de bulundu: WAL kipi olmadan bu durumda kayıtların neredeyse hepsi "database is locked" (500) ile kayboluyordu.
+python3 - "$VeriTabani__Yol" <<'PY' > "$GECICI/kodlar.txt"
+import sqlite3, sys
+for (k,) in sqlite3.connect(sys.argv[1]).execute("select Kod from Veliler order by Id limit 200"): print(k)
+PY
+python3 -c "
+import sqlite3,sys,time
+t=time.time()
+while time.time()-t<15:
+    c=sqlite3.connect(sys.argv[1]); c.execute('begin'); c.execute('select count(*) from Cevaplar').fetchone(); time.sleep(0.05); c.commit(); c.close()
+" "$VeriTabani__Yol" &
+OKUYAN=$!
+for tur in 1 2 3; do
+  xargs -P 40 -I{} curl -s -o /dev/null -w '%{http_code}\n' -X POST -H 'Content-Type: application/json' \
+    -d '{"kod":"{}","hikaye":"m1","adim":'"$tur"'}' "$ADRES/api/ilerleme" < "$GECICI/kodlar.txt"
+done > "$GECICI/eszamanli.txt"
+wait "$OKUYAN" || true
+BASARILI="$(grep -c '^204$' "$GECICI/eszamanli.txt" || true)"
+TOPLAM="$(wc -l < "$GECICI/eszamanli.txt")"
+if [ "$BASARILI" = "$TOPLAM" ] && [ "$TOPLAM" = 600 ]; then echo "  TAMAM  600 eşzamanlı kaydın hepsi kabul edildi"
+else echo "  HATA   eşzamanlı kayıt: $TOPLAM istekten $BASARILI başarılı"; echo "::error::Yük: eşzamanlı kayıt $BASARILI/$TOPLAM"; hata=1; fi
+KIP="$(python3 -c "import sqlite3,sys; print(sqlite3.connect(sys.argv[1]).execute('pragma journal_mode').fetchone()[0])" "$VeriTabani__Yol")"
+if [ "$KIP" = wal ]; then echo "  TAMAM  veritabanı WAL kipinde"; else echo "  HATA   veritabanı kipi: $KIP"; hata=1; fi
+
+[ $hata -eq 0 ] || { echo "SONUÇ: süre sınırı aşıldı ya da kayıtlar reddedildi."; exit 1; }
+echo "SONUÇ: bütün ölçümler sınırın altında, eşzamanlı kayıtların hepsi kabul edildi."

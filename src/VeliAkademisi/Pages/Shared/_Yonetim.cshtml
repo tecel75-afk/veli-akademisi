@@ -38,6 +38,12 @@
     .tablo td:nth-child(2){white-space:normal}
     .tablo th{font-size:13px;letter-spacing:.04em;color:var(--muted);background:var(--soft)}
     .tablo tr:last-child td{border-bottom:0}
+    /* İşlem hücresi: onay kutusu ve düğme alt alta; tablo genişlemez. */
+    .tablo td.islem{white-space:normal;min-width:180px}
+    .islem form{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin:0}
+    .islem form+form{margin-top:10px}
+    .islem label{font-weight:400;display:flex;gap:6px;align-items:center;margin:0;font-size:15px}
+    .tablo td.islem-ad{white-space:normal}
     .tablo td.tamam{color:var(--accent);font-weight:800}
     .tablo td.bos{color:var(--muted)}
     .durum-etiket{font-size:13px;font-weight:800;border-radius:999px;padding:3px 10px;background:var(--soft)}

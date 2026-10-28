@@ -30,21 +30,21 @@
       @foreach (var k in Model.Yoneticiler)
       {
         <tr data-yonetici="@k.KullaniciAdi">
-          <td>@k.AdSoyad @(k.Id == Model.BenimNo ? "(siz)" : "")</td>
+          <td class="islem-ad">@k.AdSoyad @(k.Id == Model.BenimNo ? "(siz)" : "")</td>
           <td class="baglanti">@k.KullaniciAdi</td>
           <td><span class="durum-etiket">@(!k.Etkin ? "Kapalı" : k.GeciciSifre ? "İlk girişi bekleniyor" : "Açık")</span></td>
           <td>@VeliAkademisi.Yonetim.Takip.Zaman(k.SonGiris)</td>
-          <td>
+          <td class="islem">
             @if (k.Id != Model.BenimNo)
             {
               @if (k.Etkin)
               {
-                <form method="post" asp-page-handler="GeciciSifre" asp-route-kullanici="@k.Id" style="display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap">
-                  <label style="font-weight:400;display:flex;gap:4px;margin:0"><input type="checkbox" name="Anladim" value="true">eski şifresi geçersiz olsun</label>
+                <form method="post" asp-page-handler="GeciciSifre" asp-route-kullanici="@k.Id">
+                  <label><input type="checkbox" name="Anladim" value="true">eski şifresi geçersiz olsun</label>
                   <button class="btn ikincil" type="submit">Geçici şifre ver</button>
                 </form>
-                <form method="post" asp-page-handler="Kapat" asp-route-kullanici="@k.Id" style="display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px">
-                  <label style="font-weight:400;display:flex;gap:4px;margin:0"><input type="checkbox" name="Anladim" value="true">hesap kapansın</label>
+                <form method="post" asp-page-handler="Kapat" asp-route-kullanici="@k.Id">
+                  <label><input type="checkbox" name="Anladim" value="true">hesap kapansın</label>
                   <button class="btn sil" type="submit">Hesabı kapat</button>
                 </form>
               }

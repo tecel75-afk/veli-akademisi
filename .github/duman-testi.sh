@@ -311,8 +311,18 @@ kontrol "/yonetim girişsiz açılmaz, giriş sayfasına gider" "302 $ADRES/yone
 kontrol "giriş sayfası açılıyor" 200 "$(durum "$ADRES/yonetim/giris")"
 kontrol "giriş sayfası arama motorlarına kapalı" "x-robots-tag: noindex, nofollow" "$(curl -s -D - -o /dev/null "$ADRES/yonetim/giris" | tr -d '\r' | grep -i '^x-robots-tag:' | tr 'A-Z' 'a-z')"
 kontrol "giriş formunda güvenlik belirteci var" evet "$([ -n "$(belirtec)" ] && echo evet || echo hayır)"
-kontrol "belirteçsiz giriş isteği reddedilir (400)" 400 "$(curl -s -o /dev/null -w '%{http_code}' -X POST --data-urlencode "KullaniciAdi=ayse.a" --data-urlencode "Sifre=$GECICI_A" "$ADRES/yonetim/giris")"
+kontrol "belirteçsiz giriş isteği işlenmez: oturum açılmaz, giriş sayfasına geri döner" "302 $ADRES/yonetim/giris?suresiDoldu=1|hayır" "$(curl -s -o /dev/null -D "$GECICI/belirtecsiz.baslik" -w '%{http_code} %{redirect_url}' -X POST --data-urlencode "KullaniciAdi=ayse.a" --data-urlencode "Sifre=$GECICI_A" "$ADRES/yonetim/giris")|$(tr -d '\r' < "$GECICI/belirtecsiz.baslik" | gq -i '^set-cookie: va_yonetim=' && echo evet || echo hayır)"
 
+# Bozuk/eski güvenlik çerezi: 400 yerine sayfa "süresi dolmuştu" iletisiyle yeniden açılır, çerez silinir (28 Ekim).
+TB_SURE="$(belirtec "$GECICI/cerez-sure.txt")"
+AF_AD="$(grep -o '\.AspNetCore\.Antiforgery\.[^[:space:]]*' "$GECICI/cerez-sure.txt" | head -1)"
+curl -s -o /dev/null -D "$GECICI/sure.baslik" -w '%{http_code} %{redirect_url}' -H "Cookie: $AF_AD=bozukdeger" -X POST \
+  --data-urlencode "KullaniciAdi=ayse.a" --data-urlencode "Sifre=x" --data-urlencode "__RequestVerificationToken=$TB_SURE" \
+  "$ADRES/yonetim/giris?ReturnUrl=%2Fyonetim" > "$GECICI/sure.sonuc"
+kontrol "bozuk güvenlik çereziyle giriş: 400 değil, giriş sayfasına geri döner" "302 $ADRES/yonetim/giris?ReturnUrl=%2Fyonetim&suresiDoldu=1" "$(cat "$GECICI/sure.sonuc")"
+kontrol "  bozuk çerez silinir" evet "$(tr -d '\r' < "$GECICI/sure.baslik" | grep -i "^set-cookie: $AF_AD=;" | gq -i 'expires=thu, 01 jan 1970' && echo evet || echo hayır)"
+kontrol "  sayfada 'süresi dolmuştu' iletisi" evet "$(curl -s "$ADRES/yonetim/giris?ReturnUrl=%2Fyonetim&suresiDoldu=1" | gq 'id="suresi-doldu"' && echo evet || echo hayır)"
+kontrol "  oturum açılmadı (giriş çerezi verilmedi)" hayır "$(tr -d '\r' < "$GECICI/sure.baslik" | gq -i '^set-cookie: va_yonetim=' && echo evet || echo hayır)"
 kontrol "yanlış şifre: sayfa yeniden gelir" "200 " "$(giris ayse.a yanlis-sifre-123)"
 kontrol "  'Kullanıcı adı ya da şifre yanlış.' mesajı" evet "$(grep -q "Kullanıcı adı ya da şifre yanlış." "$GECICI/giris.html" && echo evet || echo hayır)"
 kontrol "olmayan kullanıcı adı: aynı mesaj" evet "$(giris yok.boyle sifre-sifre-1 >/dev/null; grep -q "Kullanıcı adı ya da şifre yanlış." "$GECICI/giris.html" && echo evet || echo hayır)"
@@ -433,6 +443,7 @@ kontrol "  2. satır hatası gösterildi" evet "$(icerir "$GECICI/ekle.html" '2.
 kontrol "  3. satır hatası gösterildi" evet "$(icerir "$GECICI/ekle.html" '3. satır: Sınıf boş olamaz.')"
 kontrol "  veritabanı değişmedi" "$((ONCE+4))" "$(veli_sayisi)"
 
+kontrol "bozuk belirteçli veli ekleme: işlem yapılmaz, sayfa iletiyle yeniden açılır" "302 $ADRES/yonetim/veli-ekle?handler=tek&suresiDoldu=1|0" "$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' -b "$CEREZ" -X POST --data-urlencode "__RequestVerificationToken=bozuk" --data-urlencode "Ad=Sure Veli" --data-urlencode "Sinif=1" "$ADRES/yonetim/veli-ekle?handler=tek")|$(satir "select count(*) from Veliler where Ad='Sure Veli'")"
 kontrol "girişsiz veli ekleme isteği kabul edilmez" "302" "$(curl -s -o /dev/null -w '%{http_code}' -X POST --data-urlencode "Ad=X" --data-urlencode "Sinif=1" "$ADRES/yonetim/veli-ekle?handler=tek")"
 kontrol "  veritabanı değişmedi" "$((ONCE+4))" "$(veli_sayisi)"
 

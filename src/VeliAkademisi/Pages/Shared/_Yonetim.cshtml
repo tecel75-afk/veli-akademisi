@@ -54,6 +54,11 @@
 </head>
 <body>
   <div class="kap">
+    @if (Context.Request.Query["suresiDoldu"] == "1")
+    {
+      <p class="kart hata" role="alert" id="suresi-doldu" style="margin:0 0 12px">Sayfanın süresi dolmuştu; son işleminiz yapılmadı.
+        Lütfen yeniden deneyin@(Context.Request.Path.StartsWithSegments("/yonetim/giris") ? " (yeniden giriş yapın)" : "").</p>
+    }
     @RenderBody()
   </div>
 </body>

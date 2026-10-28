@@ -72,6 +72,8 @@ builder.Services.AddAuthorization();
 // Hangi rolün hangi sayfayı açabileceği tek yerde denetlenir: Oturum.RolKapisi.
 builder.Services.AddRazorPages(o =>
 {
+    // Formun güvenlik belirteci geçersizse 400 yerine sayfa "süresi dolmuştu" iletisiyle yeniden açılır.
+    o.Conventions.ConfigureFilter(new SuresiDolanForm());
     o.Conventions.AuthorizeFolder("/Yonetim");
     o.Conventions.AllowAnonymousToPage("/Yonetim/Giris");
 });

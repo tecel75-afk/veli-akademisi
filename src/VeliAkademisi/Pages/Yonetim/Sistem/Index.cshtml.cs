@@ -90,6 +90,7 @@ public class IndexModel : PageModel
             await islem.CommitAsync();
             SonucBasligi = $"{okul.Ad} eklendi";
             OkulAdi = Y1AdSoyad = Y1KullaniciAdi = Y2AdSoyad = Y2KullaniciAdi = "";
+            ModelState.Clear();   // form kutuları gönderilen değerlerle değil, boş olarak çizilsin
         }
         await Yukle();
         return Page();
@@ -107,6 +108,7 @@ public class IndexModel : PageModel
             SonucBasligi = $"İlçe izleyicisi {adSoyad} eklendi";
             SonucHesaplar.Add((adSoyad, ad, gecici));
             IzAdSoyad = IzKullaniciAdi = "";
+            ModelState.Clear();   // form kutuları gönderilen değerlerle değil, boş olarak çizilsin
         }
         await Yukle();
         return Page();

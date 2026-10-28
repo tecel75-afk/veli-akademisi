@@ -49,6 +49,7 @@ public abstract class OkulYoneticileriModel : PageModel
             await _db.SaveChangesAsync();
             (SonucBasligi, SonucKullanici, SonucSifre) = ($"{adSoyad} eklendi", ad, gecici);
             AdSoyad = KullaniciAdi = "";
+            ModelState.Clear();   // form kutuları gönderilen değerlerle değil, boş olarak çizilsin
         }
         await Yukle();
         return Page();

@@ -351,6 +351,7 @@ kontrol "var olan kullanıcı adıyla yönetici eklenmez" evet "$(yon_islem "$CE
 yon_islem "$CEREZ" ekle "" "AdSoyad=Can Yönetici" "KullaniciAdi=Can.A" > /dev/null
 GECICI_C="$(gecici_oku)"
 kontrol "A ikinci yöneticiyi ekledi; geçici şifre bir kez gösterildi" "evet|ayse.a,can.a|$OKUL_A" "$([ -n "$GECICI_C" ] && echo evet || echo hayır)|$(satir "select group_concat(KullaniciAdi) from (select KullaniciAdi from Kullanicilar where OkulId=$OKUL_A order by KullaniciAdi)")|$(satir "select OkulId from Kullanicilar where KullaniciAdi='can.a'")"
+kontrol "  başarılı eklemeden sonra form boşaldı" hayır "$(grep -q 'value="Can.A"' "$GECICI/yon.html" && echo evet || echo hayır)"
 kontrol "  sayfayı yeniden açınca geçici şifre görünmez" hayır "$(curl -s -b "$CEREZ" "$ADRES/yonetim/yoneticiler" | grep -q 'gecici-sifre' && echo evet || echo hayır)"
 kontrol "  artık eksik yönetici uyarısı yok" hayır "$(curl -s -b "$CEREZ" "$ADRES/yonetim/veli-ekle" | grep -q 'id="yonetici-eksik"' && echo evet || echo hayır)"
 CC="$GECICI/cerez-c.txt"
@@ -635,6 +636,7 @@ kontrol "okul ekleme: aynı ad reddedilir" "0" "$(sis_islem "$S_ADRES" okulekle 
 kontrol "okul ekleme: var olan kullanıcı adı varsa hiçbir şey eklenmez" "0|0" "$(sis_islem "$S_ADRES" okulekle "OkulAdi=Deneme Okulu C" "Y1AdSoyad=Cem Y" "Y1KullaniciAdi=cem.c" "Y2AdSoyad=Bora" "Y2KullaniciAdi=bora.b" >/dev/null; echo "$(satir "select count(*) from Okullar where Ad='Deneme Okulu C'")|$(satir "select count(*) from Kullanicilar where KullaniciAdi='cem.c'")")"
 sis_islem "$S_ADRES" okulekle "OkulAdi=Deneme Okulu C" "Y1AdSoyad=Cem Yönetici" "Y1KullaniciAdi=cem.c" "Y2AdSoyad=Deniz Yönetici" "Y2KullaniciAdi=deniz.c" > /dev/null
 OKUL_C="$(satir "select Id from Okullar where Ad='Deneme Okulu C'")"
+kontrol "  başarılı eklemeden sonra form boşaldı" hayır "$(grep -q 'value="Deneme Okulu C"' "$GECICI/sis.cevap" && echo evet || echo hayır)"
 kontrol "okul iki yöneticisiyle eklendi, iki geçici şifre gösterildi" "2|2" "$(satir "select count(*) from Kullanicilar where OkulId=$OKUL_C and GeciciSifre=1")|$(grep -c 'data-gecici=' "$GECICI/sis.cevap")"
 GECICI_CEM="$(python3 -c "import re,sys; m=re.search(r'data-gecici=\"cem.c\">([^<]+)<', open(sys.argv[1],encoding='utf-8').read()); print(m.group(1) if m else '')" "$GECICI/sis.cevap")"
 CEREZ_A2="$GECICI/cerez-cem.txt"   # bundan sonra "bir okul yöneticisi" olarak kullanılır

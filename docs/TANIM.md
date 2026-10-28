@@ -236,7 +236,8 @@ Hangi ölçütün otomatik testle, hangisinin elle sınanacağı: bkz. 16.5.
 - 28 Ekim, iPhone: materyaller (kart görselleri büyüyor, PDF iniyor ve açılıyor; ölçüt 3 ve 10'un materyal kısmı).
 - 28 Ekim, iPhone (Safari → Ana Ekrana Ekle): ölçüt 9 — simge göründü, tam ekran açıldı, kaldığı hikâyeye götürdü.
   Önizleme şifresi ana ekran uygulamasında yeniden soruluyor; yayına alınınca bu şifre kalkacağı için velileri etkilemez.
-- Henüz sınanmadı: Android (ölçüt 9 ve 10).
+- 28 Ekim, Android (Chrome, Kurul üyesinin telefonu): ses çaldı; ana ekrana simge olarak eklendi; kapatıp simgeden
+  açınca kaldığı yerden devam etti (ölçüt 9 ve 7). Android'de WhatsApp'ın kendi tarayıcısı ayrıca denenmedi.
 
 ## 15. Kapsam dışı
 Veli için ek özellikler (profil, mesajlaşma, bildirim), veli şifresi, SMS/WhatsApp gönderimi,

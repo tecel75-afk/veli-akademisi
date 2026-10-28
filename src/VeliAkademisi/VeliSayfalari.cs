@@ -138,11 +138,12 @@ public static partial class VeliSayfalari
         return veli is not null && (await VeliDurumu.Hesapla(db, veli.Id)).AcikMi(hikaye);
     }
 
-    // Kodu önce biçimce, sonra veritabanında denetler. Bulamazsa null döner.
+    // Kodu önce biçimce, sonra veritabanında denetler. Bulamazsa ya da velinin okulu pasifse null döner
+    // (pasif okulun velilerinin bağlantıları çalışmaz; veriler silinmez, okul yeniden açılınca bağlantılar çalışır).
     internal static async Task<Veli?> VeliBul(VeriTabani db, string kod)
     {
         if (!KodUretici.BicimDogruMu(kod)) return null;
-        return await db.Veliler.FirstOrDefaultAsync(x => x.Kod == kod);
+        return await db.Veliler.FirstOrDefaultAsync(x => x.Kod == kod && x.Okul!.Etkin);
     }
 
     // Dosya varsa türüyle birlikte verir, yoksa 404. (Ses dosyası yoksa sayfa tarayıcı sesine geçer.)

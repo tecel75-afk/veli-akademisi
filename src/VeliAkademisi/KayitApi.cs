@@ -98,8 +98,8 @@ public static class KayitApi
     static async Task<(Veli? Veli, IResult? Hata)> Denetle(VeriTabani db, HizSiniri hiz, string? kod, string? hikaye)
     {
         if (hikaye is null || !Hikayeler.GecerliMi(hikaye)) return (null, Results.BadRequest());
-        if (kod is null || !KodUretici.BicimDogruMu(kod)) return (null, Results.NotFound());
-        var veli = await db.Veliler.FirstOrDefaultAsync(x => x.Kod == kod);
+        if (kod is null) return (null, Results.NotFound());
+        var veli = await VeliSayfalari.VeliBul(db, kod);   // biçim, kod ve okulun etkin olması denetlenir
         if (veli is null) return (null, Results.NotFound());
         if (!hiz.IzinVarMi(kod)) return (null, Results.StatusCode(429));
         if (!(await VeliDurumu.Hesapla(db, veli.Id)).AcikMi(hikaye)) return (null, Results.StatusCode(403));

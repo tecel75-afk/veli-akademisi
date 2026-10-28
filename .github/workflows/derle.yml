@@ -44,6 +44,9 @@ jobs:
       - name: Excel okuyucusunu kur (testte Excel dosyasını açmak için)
         run: python3 -m pip install --quiet --break-system-packages openpyxl
 
+      - name: 7-Zip'i denetle (testte şifreli yedeği açmak için)
+        run: command -v 7z || { sudo apt-get update -q && sudo apt-get install -y -q p7zip-full; }
+
       # Duman testi: derlenen siteyi gerçekten çalıştırır ve temel adresleri dener
       # (ayrıntılar .github/duman-testi.sh içinde). Bir kontrol tutmazsa derleme başarısız olur.
       - name: Duman testi (siteyi çalıştır ve kontrol et)

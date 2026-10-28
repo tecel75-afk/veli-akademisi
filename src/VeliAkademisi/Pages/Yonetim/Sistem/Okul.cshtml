@@ -1,0 +1,38 @@
+@page "/yonetim/sistem/okul/{id:int}"
+@model VeliAkademisi.Pages.Yonetim.Sistem.OkulModel
+@{
+    ViewData["Baslik"] = Model.OkulBilgisi.Ad;
+}
+<div class="ust">
+  <span class="marka">Veli Akademisi · Sistem yöneticisi</span>
+  <a class="sag" href="/yonetim/sistem">← Okullar</a>
+</div>
+
+<h1>@Model.OkulBilgisi.Ad</h1>
+<p style="margin:0 0 12px">Durum: <span class="durum-etiket" id="okul-durumu">@(Model.OkulBilgisi.Etkin ? "Açık" : "Pasif")</span></p>
+
+<div class="kart" style="margin-bottom:16px;max-width:620px">
+  @if (Model.OkulBilgisi.Etkin)
+  {
+    <h2 style="margin:0 0 8px;font-size:19px">Okulu pasife al</h2>
+    <p style="margin:0 0 10px">Pasif okulun yöneticileri giriş yapamaz, <b>velilerinin bağlantıları çalışmaz</b>. Veriler silinmez;
+      okul yeniden açılınca her şey kaldığı yerden sürer.</p>
+    <form method="post" asp-page-handler="Pasif">
+      <label style="font-weight:400;display:flex;gap:8px;align-items:flex-start">
+        <input type="checkbox" name="Anladim" value="true" style="margin-top:5px">
+        <span>Okulun yöneticilerinin ve velilerinin siteye giremeyeceğini anladım.</span>
+      </label>
+      <p style="margin:12px 0 0"><button class="btn sil" type="submit">Pasife al</button></p>
+    </form>
+  }
+  else
+  {
+    <h2 style="margin:0 0 8px;font-size:19px">Okulu yeniden aç</h2>
+    <form method="post" asp-page-handler="Etkin"><button class="btn" type="submit">Yeniden aç</button></form>
+  }
+</div>
+
+<h2 style="font-size:21px">Okulun yöneticileri</h2>
+<p class="not" style="margin:0 0 12px">Yönetici işleri normalde okulun kendi "Yöneticiler" sayfasından yapılır.
+  Buradan yalnızca son çare olarak (ör. iki yönetici de ayrıldıysa ya da ulaşılamıyorsa) işlem yapın.</p>
+<partial name="_OkulYoneticileri" model="Model" />

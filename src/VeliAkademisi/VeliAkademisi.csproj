@@ -19,13 +19,14 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <!-- Sistem yöneticisinin haftalık yedeği: şifreli (AES-256) zip; Windows'ta 7-Zip ile açılır -->
+    <PackageReference Include="SharpZipLib" Version="1.4.2" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Depodaki hikâye klasörü (icerik/) derlenen çıktıya "icerik" adıyla kopyalanır.
          Sesler depoda olmadığı için hiçbir ses dosyası kopyalanmaz. -->
-    <None Include="..\..\icerik\**\*" Exclude="..\..\icerik\**\ses\**" LinkBase="icerik"
-          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\..\icerik\**\*" Exclude="..\..\icerik\**\ses\**" LinkBase="icerik" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

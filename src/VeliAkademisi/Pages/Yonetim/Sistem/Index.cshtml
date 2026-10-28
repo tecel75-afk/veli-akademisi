@@ -9,5 +9,142 @@
   <a href="/yonetim/sifre">Şifremi değiştir</a>
   <form method="post" action="/yonetim/cikis" asp-antiforgery="true"><button class="btn ikincil" type="submit">Çıkış</button></form>
 </div>
-<h1>Sistem yöneticisi</h1>
-<p class="not">Okullar ve okul yöneticileri bu sayfadan yönetilecek (yapım aşamasında).</p>
+
+@if (Model.YedekHatirlat)
+{
+  <p class="hata" role="alert" id="yedek-hatirlatma">@(Model.SonYedek is null ? "Henüz haftalık yedek indirilmedi." : "Son haftalık yedeğin üzerinden 7 günden fazla geçti.")
+    <a href="#yedek">Yedeği indirin</a>.</p>
+}
+
+<h1>Okullar</h1>
+<p class="not" style="margin:0 0 12px">Okulların veli işleri (veli ekleme, takip, Excel, yöneticilerin şifreleri) okulun kendi yöneticilerindedir.
+  Bu sayfadan okul açılır, gerekirse pasife alınır; veli bilgisi burada görünmez.</p>
+
+@if (Model.Hata is not null)
+{
+  <p class="hata" role="alert">@Model.Hata</p>
+}
+@if (Model.SonucBasligi is not null)
+{
+  <div class="kart" role="status" style="margin-bottom:16px" id="sonuc">
+    <h2 style="margin:0 0 8px;font-size:20px">@Model.SonucBasligi</h2>
+    <partial name="_GeciciSifreler" model="Model.SonucHesaplar" />
+  </div>
+}
+
+<div class="tablo-kap" style="margin-bottom:16px">
+  <table class="tablo">
+    <thead><tr><th>Okul</th><th>Durum</th><th>Açık yönetici</th><th></th></tr></thead>
+    <tbody>
+      @if (Model.Okullar.Count == 0)
+      {
+        <tr><td colspan="4" class="not">Henüz okul yok.</td></tr>
+      }
+      @foreach (var o in Model.Okullar)
+      {
+        <tr data-okul="@o.Okul.Id">
+          <td>@o.Okul.Ad</td>
+          <td><span class="durum-etiket">@(o.Okul.Etkin ? "Açık" : "Pasif")</span></td>
+          <td class="@(o.AcikYonetici < VeliAkademisi.Yonetim.Hesaplar.OkulEnAzYonetici ? "hata" : "")">@o.AcikYonetici</td>
+          <td><a href="/yonetim/sistem/okul/@o.Okul.Id">Ayrıntı</a></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<div class="kart" style="max-width:620px;margin-bottom:24px">
+  <h2 style="margin:0 0 8px;font-size:19px">Okul ekle</h2>
+  <p class="not" style="margin:0 0 10px">Okul, ilk iki yöneticisiyle birlikte açılır (ör. müdür yardımcısı ve rehber öğretmen).
+    Kullanıcı adı: küçük harf (Türkçe harf olmadan), rakam, nokta, tire; 3–40 karakter.</p>
+  <form method="post" asp-page-handler="OkulEkle">
+    <label for="OkulAdi">Okulun adı</label>
+    <input asp-for="OkulAdi" type="text" maxlength="150" required>
+    <div class="suzgec" style="margin-top:12px">
+      <div style="flex:1;min-width:220px">
+        <label for="Y1AdSoyad">1. yönetici · ad soyad</label>
+        <input asp-for="Y1AdSoyad" type="text" maxlength="100" required>
+        <label for="Y1KullaniciAdi" style="margin-top:8px">1. yönetici · kullanıcı adı</label>
+        <input asp-for="Y1KullaniciAdi" type="text" maxlength="40" autocapitalize="none" spellcheck="false" required>
+      </div>
+      <div style="flex:1;min-width:220px">
+        <label for="Y2AdSoyad">2. yönetici · ad soyad</label>
+        <input asp-for="Y2AdSoyad" type="text" maxlength="100" required>
+        <label for="Y2KullaniciAdi" style="margin-top:8px">2. yönetici · kullanıcı adı</label>
+        <input asp-for="Y2KullaniciAdi" type="text" maxlength="40" autocapitalize="none" spellcheck="false" required>
+      </div>
+    </div>
+    <p style="margin:14px 0 0"><button class="btn" type="submit">Okulu ekle</button></p>
+  </form>
+</div>
+
+<h1>İlçe izleyicileri</h1>
+<p class="not" style="margin:0 0 12px">İlçe izleyicisi yalnızca okul başına isimsiz sayıları görür; veli adı, sınıfı ve cevabı görmez.</p>
+<div class="tablo-kap" style="margin-bottom:16px">
+  <table class="tablo">
+    <thead><tr><th>Ad soyad</th><th>Kullanıcı adı</th><th>Durum</th><th>Son giriş</th><th></th></tr></thead>
+    <tbody>
+      @if (Model.Izleyiciler.Count == 0)
+      {
+        <tr><td colspan="5" class="not">Henüz ilçe izleyicisi yok.</td></tr>
+      }
+      @foreach (var k in Model.Izleyiciler)
+      {
+        <tr data-izleyici="@k.KullaniciAdi">
+          <td>@k.AdSoyad</td>
+          <td class="baglanti">@k.KullaniciAdi</td>
+          <td><span class="durum-etiket">@(!k.Etkin ? "Kapalı" : k.GeciciSifre ? "İlk girişi bekleniyor" : "Açık")</span></td>
+          <td>@VeliAkademisi.Yonetim.Takip.Zaman(k.SonGiris)</td>
+          <td>
+            @if (k.Etkin)
+            {
+              <form method="post" asp-page-handler="IzleyiciGeciciSifre" asp-route-id="@k.Id" style="display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap">
+                <label style="font-weight:400;display:flex;gap:4px;margin:0"><input type="checkbox" name="Anladim" value="true">eski şifresi geçersiz olsun</label>
+                <button class="btn ikincil" type="submit">Geçici şifre ver</button>
+              </form>
+              <form method="post" asp-page-handler="IzleyiciKapat" asp-route-id="@k.Id" style="display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px">
+                <label style="font-weight:400;display:flex;gap:4px;margin:0"><input type="checkbox" name="Anladim" value="true">hesap kapansın</label>
+                <button class="btn sil" type="submit">Hesabı kapat</button>
+              </form>
+            }
+            else
+            {
+              <form method="post" asp-page-handler="IzleyiciAc" asp-route-id="@k.Id"><button class="btn ikincil" type="submit">Yeniden aç</button></form>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+<div class="kart" style="max-width:520px">
+  <h2 style="margin:0 0 8px;font-size:19px">İlçe izleyicisi ekle</h2>
+  <form method="post" asp-page-handler="IzleyiciEkle">
+    <label for="IzAdSoyad">Ad soyad</label>
+    <input asp-for="IzAdSoyad" type="text" maxlength="100" required>
+    <label for="IzKullaniciAdi" style="margin-top:12px">Kullanıcı adı</label>
+    <input asp-for="IzKullaniciAdi" type="text" maxlength="40" autocapitalize="none" spellcheck="false" required>
+    <p style="margin:14px 0 0"><button class="btn" type="submit">Ekle</button></p>
+  </form>
+</div>
+
+<h1 id="yedek" style="margin-top:24px">Haftalık yedek</h1>
+<div class="kart" style="max-width:620px">
+  <p style="margin:0 0 8px">Sitenin bütün verisinin (bütün okullar) şifreli kopyası iner. Dosyayı okulun bilgisayarında ya da
+    kilitli duran bir USB bellekte saklayın; son 4 haftanınkini tutun, eskileri silin. Kişisel telefona ya da yurt dışındaki
+    bulut hizmetlerine (Google Drive vb.) koymayın.</p>
+  <p style="margin:0 0 8px">Dosya Windows'ta <b>7-Zip</b> ile, aşağıda yazacağınız şifreyle açılır. Şifre hiçbir yerde saklanmaz:
+    <b>unutulursa yedek açılamaz.</b> Şifreyi kâğıda yazıp okulda güvenli bir yerde saklayın.</p>
+  <p class="not" style="margin:0 0 12px">Son indirme: <span id="son-yedek">@VeliAkademisi.Yonetim.Takip.Zaman(Model.SonYedek)</span></p>
+  <form method="post" asp-page-handler="Yedek">
+    <label for="YedekSifre">Yedek şifresi (en az @VeliAkademisi.Yonetim.Yedek.SifreEnAz karakter)</label>
+    <input asp-for="YedekSifre" type="password" autocomplete="new-password" minlength="12" required>
+    <label for="YedekSifreTekrar" style="margin-top:12px">Yedek şifresi (tekrar)</label>
+    <input asp-for="YedekSifreTekrar" type="password" autocomplete="new-password" minlength="12" required>
+    <label style="font-weight:400;display:flex;gap:8px;align-items:flex-start;margin-top:12px">
+      <input type="checkbox" name="SifreyiYazdim" value="true" style="margin-top:5px">
+      <span>Şifreyi bir yere yazdım; unutulursa yedeğin açılamayacağını anladım.</span>
+    </label>
+    <p style="margin:12px 0 0"><button class="btn" type="submit">Şifreli yedeği indir</button></p>
+  </form>
+</div>

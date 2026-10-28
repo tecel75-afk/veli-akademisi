@@ -9,5 +9,51 @@
   <a href="/yonetim/sifre">Şifremi değiştir</a>
   <form method="post" action="/yonetim/cikis" asp-antiforgery="true"><button class="btn ikincil" type="submit">Çıkış</button></form>
 </div>
-<h1>İlçe izleme</h1>
-<p class="not">Okul başına isimsiz sayılar bu sayfada görünecek (yapım aşamasında).</p>
+
+<h1>Okullara göre katılım</h1>
+<p class="not" style="margin:0 0 12px">Sayılar isimsizdir; veli adı, sınıfı ve cevapları bu sayfada yer almaz.
+  "Başlayan": en az bir hikâyeye başlamış veli. Hikâye sütunları: o hikâyeyi tamamlamış veli sayısı.</p>
+
+<div class="tablo-kap">
+  <table class="tablo" id="ilce-tablosu">
+    <thead>
+      <tr>
+        <th>Okul</th><th>Veli</th><th>Başlayan</th>
+        @foreach (var t in Hikayeler.Tanimlar)
+        {
+          <th title="@t.Ad">@t.Kod.ToUpper(VeliAkademisi.Yonetim.Takip.Turkce)</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @if (Model.Satirlar.Count == 0)
+      {
+        <tr><td colspan="@(3 + Hikayeler.Sira.Count)" class="not">Henüz okul yok.</td></tr>
+      }
+      @foreach (var s in Model.Satirlar)
+      {
+        <tr data-okul="@s.Okul">
+          <td>@s.Okul @(s.Etkin ? "" : "(pasif)")</td>
+          <td data-sayi="veli">@s.Veli</td>
+          <td data-sayi="baslayan">@s.Baslayan</td>
+          @for (int k = 0; k < s.Tamamlayan.Count; k++)
+          {
+            <td data-hikaye="@Hikayeler.Sira[k]">@s.Tamamlayan[k]</td>
+          }
+        </tr>
+      }
+      @if (Model.Toplam is { } top && Model.Satirlar.Count > 0)
+      {
+        <tr id="toplam" style="font-weight:800">
+          <td>Toplam</td>
+          <td data-sayi="veli">@top.Veli</td>
+          <td data-sayi="baslayan">@top.Baslayan</td>
+          @for (int k = 0; k < top.Tamamlayan.Count; k++)
+          {
+            <td data-hikaye="@Hikayeler.Sira[k]">@top.Tamamlayan[k]</td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

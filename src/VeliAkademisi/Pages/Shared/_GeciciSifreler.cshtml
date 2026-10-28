@@ -1,0 +1,18 @@
+@model List<(string AdSoyad, string KullaniciAdi, string Sifre)>
+@* İşlemden hemen sonra açılan hesapların geçici şifreleri; bir kez gösterilir, hiçbir yerde saklanmaz. *@
+@if (Model.Count > 0)
+{
+  <div class="tablo-kap" style="margin:8px 0">
+    <table class="tablo">
+      <thead><tr><th>Ad soyad</th><th>Kullanıcı adı</th><th>Geçici şifre</th></tr></thead>
+      <tbody>
+        @foreach (var h in Model)
+        {
+          <tr><td>@h.AdSoyad</td><td class="baglanti">@h.KullaniciAdi</td><td class="baglanti" data-gecici="@h.KullaniciAdi">@h.Sifre</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="not" style="margin:0">Bilgileri her kişiye ayrı ayrı, elden ya da telefonla iletin (WhatsApp grubuna yazmayın).
+    Geçici şifreler <b>bir daha gösterilmez</b>; kişi ilk girişte kendi şifresini belirler.</p>
+}

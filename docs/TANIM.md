@@ -231,6 +231,13 @@ Kod okuma: bütün iş bittikten sonra, tercihen hafta sonu (26 Ekim kararı).
 10. WhatsApp'ın kendi tarayıcısında sayfa açılır, ses çalar, materyal indirilebilir.
 Hangi ölçütün otomatik testle, hangisinin elle sınanacağı: bkz. 16.5.
 
+**Gerçek telefonda sınananlar (sunucuda, önizleme sırasında):**
+- 27 Ekim, iPhone + WhatsApp: ölçüt 1, 2, 3, 4, 7 (ses çaldı), 10 (WhatsApp tarayıcısında açılma ve ses).
+- 28 Ekim, iPhone: materyaller (kart görselleri büyüyor, PDF iniyor ve açılıyor; ölçüt 3 ve 10'un materyal kısmı).
+- 28 Ekim, iPhone (Safari → Ana Ekrana Ekle): ölçüt 9 — simge göründü, tam ekran açıldı, kaldığı hikâyeye götürdü.
+  Önizleme şifresi ana ekran uygulamasında yeniden soruluyor; yayına alınınca bu şifre kalkacağı için velileri etkilemez.
+- Henüz sınanmadı: Android (ölçüt 9 ve 10).
+
 ## 15. Kapsam dışı
 Veli için ek özellikler (profil, mesajlaşma, bildirim), veli şifresi, SMS/WhatsApp gönderimi,
 öğretmen hesapları, düşünme sorusu yazı alanı, ses kaydı, bilgilendirme ekranı, çevrimdışı çalışma.

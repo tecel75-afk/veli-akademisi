@@ -594,6 +594,15 @@ Y="$(git_c "$CB" "$ADRES/yonetim")"
 kontrol "  ilk cihazın oturumu kapandı" "302 $ADRES/yonetim/giris" "${Y%%\?*}"
 # Sistem yöneticisi kendi sayfasına gider; okul sayfalarını açamaz.
 CS="$GECICI/cerez-s.txt"
+# Giriş sonrası dönüş adresi: yalnızca kişinin rolüne açıksa (yoksa kendi ana sayfası).
+giris_donus() {  # giris_donus <kullanıcı adı> <şifre> <dönüş adresi> → "<durum> <yönlendirme>"
+  local c="$GECICI/cerez-donus.txt" T; rm -f "$c"; T="$(belirtec "$c")"
+  curl -s -o /dev/null -w "%{http_code} %{redirect_url}" -c "$c" -b "$c" -X POST --data-urlencode "KullaniciAdi=$1" \
+    --data-urlencode "Sifre=$2" --data-urlencode "ReturnUrl=$3" --data-urlencode "__RequestVerificationToken=$T" "$ADRES/yonetim/giris"; }
+kontrol "sistem yöneticisi /yonetim adresinden girerse kendi sayfasına gider" "302 $ADRES/yonetim/sistem" "$(giris_donus sistem "$SISTEM_SIFRE" /yonetim)"
+kontrol "okul yöneticisi istediği okul sayfasına döner" "302 $ADRES/yonetim/veli-ekle" "$(giris_donus bora.b "$SIFRE_B-yeni" /yonetim/veli-ekle)"
+kontrol "okul yöneticisi sistem adresinden girerse kendi sayfasına gider" "302 $ADRES/yonetim" "$(giris_donus bora.b "$SIFRE_B-yeni" /yonetim/sistem)"
+kontrol "dış adrese yönlendirilmez" "302 $ADRES/yonetim" "$(giris_donus bora.b "$SIFRE_B-yeni" https://ornek.com/)"
 kontrol "sistem yöneticisi girişi: sistem sayfasına gider" "302 $ADRES/yonetim/sistem" "$(giris sistem "$SISTEM_SIFRE" "$CS")"
 kontrol "  sistem sayfası açılıyor" 200 "$(curl -s -o /dev/null -w '%{http_code}' -b "$CS" "$ADRES/yonetim/sistem")"
 kontrol "  takip tablosunu açamaz" "302 $ADRES/yonetim/erisim" "$(git_c "$CS" "$ADRES/yonetim")"

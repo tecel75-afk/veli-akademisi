@@ -78,6 +78,17 @@ public static partial class Oturum
         }
     }
 
+    // Bu kullanıcı bu adresi açabilir mi? (Rol kapısıyla aynı kural; girişten sonra dönülecek adres için de kullanılır.)
+    public static bool IzinliMi(ClaimsPrincipal k, PathString yol)
+    {
+        bool Altinda(string s) => yol.StartsWithSegments(s, StringComparison.OrdinalIgnoreCase);
+        if (!Altinda("/yonetim")) return true;
+        if (Altinda("/yonetim/giris") || Altinda("/yonetim/cikis") || Altinda("/yonetim/erisim") || Altinda("/yonetim/sifre")) return true;
+        return Altinda("/yonetim/sistem") ? k.IsInRole("Sistem")
+             : Altinda("/yonetim/ilce") ? k.IsInRole("Ilce")
+             : k.IsInRole("Okul");
+    }
+
     // Rol kapısı (bütün /yonetim istekleri için tek yerde):
     //  - /yonetim/sistem… yalnızca sistem yöneticisi, /yonetim/ilce… yalnızca ilçe izleyicisi,
     //  - giriş, çıkış, şifre ve erişim sayfaları dışındaki bütün diğer /yonetim sayfaları yalnızca okul yöneticisi.
@@ -96,11 +107,7 @@ public static partial class Oturum
                 http.Response.Redirect("/yonetim/sifre");
                 return;
             }
-            bool izinli = serbest || Altinda("/yonetim/sifre") ||
-                (Altinda("/yonetim/sistem") ? kullanici.IsInRole("Sistem")
-                 : Altinda("/yonetim/ilce") ? kullanici.IsInRole("Ilce")
-                 : kullanici.IsInRole("Okul"));
-            if (!izinli)
+            if (!IzinliMi(kullanici, yol))
             {
                 http.Response.Redirect("/yonetim/erisim");
                 return;

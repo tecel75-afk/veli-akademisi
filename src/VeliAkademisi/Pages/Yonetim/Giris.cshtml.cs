@@ -62,9 +62,13 @@ public class GirisModel : PageModel
         await Oturum.GirisYap(HttpContext, k);
 
         if (k.GeciciSifre) return Redirect("/yonetim/sifre");
-        // Yalnızca sitenin kendi adreslerine dönülür (dışarıya yönlendirme yapılmaz).
-        // Dönülecek sayfa bu kullanıcının rolüne kapalıysa rol kapısı onu erişim sayfasına götürür.
+        // Girişten önce istenen sayfaya dönülür; ama yalnızca sitenin kendi adresiyse (dışarıya yönlendirme yapılmaz)
+        // ve bu kişinin rolü o sayfayı açabiliyorsa. Değilse kişinin kendi ana sayfası açılır
+        // (ör. sistem yöneticisi /yonetim adresinden girerse Okullar sayfasına gider, "erişim yok"a değil).
         var ana = k.Rol switch { Rol.SistemYoneticisi => "/yonetim/sistem", Rol.IlceIzleyicisi => "/yonetim/ilce", _ => "/yonetim" };
-        return LocalRedirect(Url.IsLocalUrl(ReturnUrl) ? ReturnUrl! : ana);
+        var kimlik = new System.Security.Claims.ClaimsPrincipal(new System.Security.Claims.ClaimsIdentity(
+            new[] { new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, Oturum.RolAdi(k.Rol)) }, "giris"));
+        var donus = Url.IsLocalUrl(ReturnUrl) && Oturum.IzinliMi(kimlik, new PathString(ReturnUrl!.Split('?', '#')[0])) ? ReturnUrl! : ana;
+        return LocalRedirect(donus);
     }
 }

@@ -84,10 +84,12 @@ builder.Services.Configure<Microsoft.Extensions.WebEncoders.WebEncoderOptions>(o
 
 var app = builder.Build();
 
-// Veritabanı dosyası yoksa tablolarla birlikte oluşturulur; varsa dokunulmaz.
+// Veritabanı yoksa oluşturulur; varsa eksik şema güncellemeleri (Veri/Gecisler) sırayla uygulanır.
+// Eski yöntemle (güncelleme kaydı olmadan) kurulmuş bir veritabanına dokunulmaz: site açılmaz ve neden açılmadığını yazar.
 using (var kapsam = app.Services.CreateScope())
 {
-    kapsam.ServiceProvider.GetRequiredService<VeriTabani>().Database.EnsureCreated();
+    var hata = VeriTabaniHazirlik.Hazirla(kapsam.ServiceProvider.GetRequiredService<VeriTabani>());
+    if (hata is not null) { Console.Error.WriteLine(hata); return 1; }
 }
 
 if (komut)

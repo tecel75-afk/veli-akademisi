@@ -13,6 +13,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.14" />
     <!-- Excel dosyası üretmek için -->
     <PackageReference Include="ClosedXML" Version="0.105.1" />
+    <!-- Yalnızca geliştirme sırasında: şema güncelleme dosyalarını (Veri/Gecisler) üreten araç için.
+         Yayımlanan pakete girmez. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

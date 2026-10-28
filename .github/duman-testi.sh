@@ -61,6 +61,25 @@ sed -i 's|https://www.tohumotizm.org.tr/|http://www.tohumotizm.org.tr/|' "$GECIC
 HATA_CIKTI="$(Icerik__Yol="$GECICI/icerik-hatali" VeriTabani__Yol="$GECICI/hatali.db" dotnet "$YAYIN/VeliAkademisi.dll" veli-ekle X 1 2>&1 || true)"
 kontrol "hatalı materyaller.json: site açılmaz, hatanın yeri yazılır" evet "$(echo "$HATA_CIKTI" | grep -q 'm1/materyaller.json: bağlantı adresi https:// ile başlamalı' && echo evet || echo hayır)"
 
+echo "2d) Eski yöntemle (şema güncelleme kaydı olmadan) kurulmuş veritabanı"
+# 27 Ekim sürümünün kurduğu yapının aynısı. Site açılmamalı ve dosyaya dokunmamalı.
+ESKI_DB="$GECICI/eski.db"
+python3 - "$ESKI_DB" <<'PY'
+import sqlite3, sys
+c = sqlite3.connect(sys.argv[1])
+c.executescript("""
+CREATE TABLE "Veliler" ("Id" INTEGER NOT NULL CONSTRAINT "PK_Veliler" PRIMARY KEY AUTOINCREMENT, "Ad" TEXT NOT NULL,
+  "Sinif" TEXT NOT NULL, "Kod" TEXT NOT NULL, "OlusturmaTarihi" TEXT NOT NULL, "SonGiris" TEXT NULL);
+INSERT INTO Veliler (Ad, Sinif, Kod, OlusturmaTarihi) VALUES ('Eski', '1', 'eskikod', '2026-10-27');
+""")
+c.commit(); c.close()
+PY
+ONCE="$(sha256sum < "$ESKI_DB")"
+ESKI_CIKTI="$(VeriTabani__Yol="$ESKI_DB" dotnet "$YAYIN/VeliAkademisi.dll" veli-ekle X 1 2>&1; echo "çıkış:$?")"
+kontrol "eski yapı: site açılmaz (çıkış kodu 1)" "çıkış:1" "$(echo "$ESKI_CIKTI" | tail -1)"
+kontrol "eski yapı: nedeni yazılır" evet "$(echo "$ESKI_CIKTI" | grep -q 'eski yöntemle kurulmuş' && echo evet || echo hayır)"
+kontrol "eski yapı: dosyaya dokunulmadı" "$ONCE" "$(sha256sum < "$ESKI_DB")"
+
 echo "3) Site başlatılıyor"
 dotnet "$YAYIN/VeliAkademisi.dll" > "$GECICI/site.log" 2>&1 &
 SITE_PID=$!
@@ -71,7 +90,8 @@ for i in $(seq 1 30); do curl -s "$ADRES/" > /dev/null && break; sleep 1; done
 echo "4) Kontroller"
 kontrol "ana sayfa yazısı" "Veli Akademisi çalışıyor." "$(curl -s "$ADRES/")"
 TABLOLAR="$(python3 -c "import sqlite3,sys; print(','.join(sorted(r[0] for r in sqlite3.connect(sys.argv[1]).execute(\"select name from sqlite_master where type='table' and name not like 'sqlite_%'\"))))" "$VeriTabani__Yol")"
-kontrol "veritabanı tabloları" "Cevaplar,Ilerlemeler,Veliler" "$TABLOLAR"
+kontrol "veritabanı tabloları (şema güncelleme kaydıyla)" "Cevaplar,Ilerlemeler,Veliler,__EFMigrationsHistory,__EFMigrationsLock" "$TABLOLAR"
+kontrol "şema güncellemeleri kaydedildi" "20261028103255_IlkSema" "$(python3 -c "import sqlite3,sys; print(','.join(r[0] for r in sqlite3.connect(sys.argv[1]).execute('select MigrationId from __EFMigrationsHistory order by MigrationId')))" "$VeriTabani__Yol")"
 
 kontrol "/v/{kod} → Modül 1'e yönlendirme" "302 $ADRES/v/$KOD/m1/" "$(yonlendirme "$ADRES/v/$KOD")"
 kontrol "/v/{kod}/m1 → sonuna / eklenerek yönlendirme" "302 $ADRES/v/$KOD/m1/" "$(yonlendirme "$ADRES/v/$KOD/m1")"

@@ -263,6 +263,15 @@ Veli için ek özellikler (profil, mesajlaşma, bildirim), veli şifresi, SMS/Wh
   ticari lisansı abonelik bittikten sonra da süresiz geçerlidir (ElevenLabs yardım sayfası). Abonelik
   sonrası üretilecek seslerde atıf gerekir; eksik ses kalmaması için iptal tarihi: 13 Kasım 2026.
 
+## 17a. Anlatıcı sesinin güncellenmesi (28 Ekim 2026)
+- Kurul üyesinin eleştirisi: anlatıcı Nursel'in sesi üzüntülü yerlerde aşırı duygusal ve yapmacık. Karar: Nursel'in
+  bütün satırları daha nötr, duygusu hafif bir tonla yeniden üretildi (ElevenLabs; stability 0.65, style 0.3).
+- 501 dosya: kareler (başka karakterlerin tırnak içindeki 48 sözü hariç), köprü cümleleri, bölüm başlıkları, kapanışlar.
+  Adlar, süreler ve dosyaların açılması sunucuya gönderilmeden denetlendi; `kurulum.sh ses-guncelle` ile kuruldu.
+- Yedekler sunucuda: `/var/backups/veliakademisi/ses-28ekim-oncesi.tgz` (bütün sesler) ve
+  `/var/backups/veliakademisi/ses-2026-10-28-205922/` (değişen 501 dosyanın eski hâli).
+- Telefonda dinlendi (iPhone, ana ekran simgesinden): yeni sesler çalıyor, ton uygun bulundu.
+
 ## 18. Çok okullu yapı (28 Ekim 2026)
 Okul müdürünün görüşmesinden sonra uygulamanın ilçedeki okullara yayılması gündeme geldi; kod İlçe MEM kararı
 beklenmeden yazıldı, yayına alma İlçe MEM onayından sonra yapılır. Tasarım belgesi: "Veli Akademisi · Çok Okullu

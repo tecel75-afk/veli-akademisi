@@ -1,0 +1,87 @@
+@page
+@model VeliAkademisi.Pages.Yonetim.YoneticilerModel
+@using VeliAkademisi.Yonetim
+@{
+    ViewData["Baslik"] = "Yöneticiler";
+}
+<div class="ust">
+  <span class="marka">Veli Akademisi · Yönetim</span>
+  <a class="sag" href="/yonetim">← Takip tablosu</a>
+</div>
+
+<h1>Okulun yöneticileri</h1>
+<p class="not" style="margin:0 0 12px">Her hesap kişiye özeldir; şifre paylaşılmaz. Veli ekleyebilmek için okulda
+  en az @Hesaplar.OkulEnAzYonetici açık yönetici hesabı gerekir: biri şifresini unutursa öteki ona geçici şifre verir.</p>
+
+@if (Model.EtkinSayisi < Hesaplar.OkulEnAzYonetici)
+{
+  <p class="hata" role="alert" id="yonetici-eksik">Okulunuzda @Model.EtkinSayisi açık yönetici hesabı var. Veli ekleyebilmek için en az @Hesaplar.OkulEnAzYonetici gerekir: aşağıdan bir yönetici ekleyin.</p>
+}
+@if (Model.Hata is not null)
+{
+  <p class="hata" role="alert">@Model.Hata</p>
+}
+@if (Model.SonucBasligi is not null)
+{
+  <div class="kart" role="status" style="margin-bottom:16px" id="sonuc">
+    <h2 style="margin:0 0 8px;font-size:20px">@Model.SonucBasligi</h2>
+    @if (Model.SonucSifre is not null)
+    {
+      <p style="margin:0 0 6px">Kullanıcı adı: <b class="baglanti">@Model.SonucKullanici</b></p>
+      <p style="margin:0 0 6px">Geçici şifre: <b class="baglanti" id="gecici-sifre">@Model.SonucSifre</b></p>
+      <p class="not" style="margin:0">Bu bilgileri kişiye elden ya da telefonla iletin (WhatsApp grubuna yazmayın).
+        Geçici şifre <b>bir daha gösterilmez</b>; kişi ilk girişte kendi şifresini belirler.</p>
+    }
+  </div>
+}
+
+<div class="tablo-kap" style="margin-bottom:16px">
+  <table class="tablo">
+    <thead><tr><th>Ad soyad</th><th>Kullanıcı adı</th><th>Durum</th><th>Son giriş</th><th></th></tr></thead>
+    <tbody>
+      @foreach (var k in Model.Yoneticiler)
+      {
+        <tr data-yonetici="@k.KullaniciAdi">
+          <td>@k.AdSoyad @(k.Id == Model.BenimNo ? "(siz)" : "")</td>
+          <td class="baglanti">@k.KullaniciAdi</td>
+          <td><span class="durum-etiket">@(!k.Etkin ? "Kapalı" : k.GeciciSifre ? "İlk girişi bekleniyor" : "Açık")</span></td>
+          <td>@Takip.Zaman(k.SonGiris)</td>
+          <td>
+            @if (k.Id != Model.BenimNo)
+            {
+              @if (k.Etkin)
+              {
+                <form method="post" asp-page-handler="GeciciSifre" asp-route-id="@k.Id" style="display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap">
+                  <label style="font-weight:400;display:flex;gap:4px;margin:0"><input type="checkbox" name="Anladim" value="true">eski şifresi geçersiz olsun</label>
+                  <button class="btn ikincil" type="submit">Geçici şifre ver</button>
+                </form>
+                <form method="post" asp-page-handler="Kapat" asp-route-id="@k.Id" style="display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px">
+                  <label style="font-weight:400;display:flex;gap:4px;margin:0"><input type="checkbox" name="Anladim" value="true">hesap kapansın</label>
+                  <button class="btn sil" type="submit">Hesabı kapat</button>
+                </form>
+              }
+              else
+              {
+                <form method="post" asp-page-handler="Ac" asp-route-id="@k.Id">
+                  <button class="btn ikincil" type="submit">Yeniden aç</button>
+                </form>
+              }
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<div class="kart" style="max-width:520px">
+  <h2 style="margin:0 0 8px;font-size:19px">Yönetici ekle</h2>
+  <form method="post" asp-page-handler="Ekle">
+    <label for="AdSoyad">Ad soyad</label>
+    <input asp-for="AdSoyad" type="text" maxlength="100" required>
+    <label for="KullaniciAdi" style="margin-top:12px">Kullanıcı adı</label>
+    <input asp-for="KullaniciAdi" type="text" maxlength="40" autocapitalize="none" spellcheck="false" required placeholder="ör. ayse.yilmaz">
+    <p class="not" style="margin:4px 0 0">Küçük harf (Türkçe harf olmadan), rakam, nokta, tire; 3–40 karakter.</p>
+    <p style="margin:14px 0 0"><button class="btn" type="submit">Ekle</button></p>
+  </form>
+</div>

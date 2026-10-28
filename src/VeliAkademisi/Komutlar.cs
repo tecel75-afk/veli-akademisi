@@ -43,7 +43,7 @@ public static class Komutlar
         var sifre = Oku("Şifre (en az 10 karakter): ", gizli: true);
         if (sifre.Length < Oturum.SifreEnAz) return Hata($"Şifre en az {Oturum.SifreEnAz} karakter olmalı.");
         if (!Console.IsInputRedirected && Oku("Şifre (tekrar): ", gizli: true) != sifre) return Hata("İki şifre aynı değil.");
-        db.Kullanicilar.Add(YeniKullanici(adSoyad, ad, Rol.SistemYoneticisi, null, sifre, gecici: false));
+        db.Kullanicilar.Add(Hesaplar.Yeni(adSoyad, ad, Rol.SistemYoneticisi, null, sifre, gecici: false));
         db.SaveChanges();
         Console.WriteLine($"Sistem yöneticisi hesabı açıldı: {ad}");
         return 0;
@@ -71,8 +71,7 @@ public static class Komutlar
         if (adSoyad.Length is 0 or > 100) return Hata("Ad soyad boş olamaz, en çok 100 karakter olabilir.");
         if (!Oturum.KullaniciAdiGecerli(ad)) return Hata("Kullanıcı adı 3–40 karakter olmalı; yalnızca a-z, 0-9, nokta, tire, alt çizgi.");
         if (db.Kullanicilar.Any(k => k.KullaniciAdi == ad)) return Hata("Bu kullanıcı adı zaten var.");
-        var gecici = GeciciSifre.Uret();
-        db.Kullanicilar.Add(YeniKullanici(adSoyad, ad, Rol.OkulYoneticisi, okul.Id, gecici, gecici: true));
+        var (_, gecici) = Hesaplar.GeciciSifreyleAc(db, adSoyad, ad, Rol.OkulYoneticisi, okul.Id);
         db.SaveChanges();
         Console.WriteLine($"Okul yöneticisi hesabı açıldı: {ad} ({okul.Ad})");
         Console.WriteLine($"Geçici şifre: {gecici}");
@@ -92,13 +91,6 @@ public static class Komutlar
         Console.WriteLine($"Bağlantı yolu: /v/{veli.Kod}");
         return 0;
     }
-
-    public static Kullanici YeniKullanici(string adSoyad, string ad, Rol rol, int? okulId, string sifre, bool gecici) => new()
-    {
-        AdSoyad = adSoyad, KullaniciAdi = ad, Rol = rol, OkulId = okulId,
-        SifreOzeti = SifreOzeti.Olustur(sifre), GeciciSifre = gecici,
-        GuvenlikDamgasi = Oturum.YeniDamga(), OlusturmaTarihi = DateTime.UtcNow,
-    };
 
     // Ekrandan bir satır okur. gizli: yazılanlar ekranda görünmez (şifre için).
     // Girdi bir dosyadan ya da başka bir komuttan geliyorsa (ör. testlerde) satır satır okunur.

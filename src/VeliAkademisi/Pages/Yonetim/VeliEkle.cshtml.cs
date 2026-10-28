@@ -37,8 +37,19 @@ public class VeliEkleModel : PageModel
     public string? SiteAdresi => _ayarlar["Site:Adres"]?.Trim().TrimEnd('/') is { Length: > 0 } a ? a : null;
     public string Baglanti(Veli v) => $"{SiteAdresi}/v/{v.Kod}";
 
+    // Okulda en az iki açık yönetici hesabı yoksa veli eklenmez (bkz. Hesaplar.OkulEnAzYonetici).
+    public int EtkinYonetici { get; private set; }
+    public bool YoneticiEksik => EtkinYonetici < Hesaplar.OkulEnAzYonetici;
+
+    async Task<bool> YoneticiYeterli()
+    {
+        EtkinYonetici = await Hesaplar.EtkinYoneticiSayisi(_db, Oturum.OkulNo(User) ?? 0);
+        return !YoneticiEksik;
+    }
+
     public async Task OnGetAsync()
     {
+        await YoneticiYeterli();
         // Az önce eklenenleri göster.
         var idler = (Eklenen ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries)
             .Select(x => int.TryParse(x, out var n) ? n : 0).Where(n => n > 0).ToList();
@@ -54,6 +65,7 @@ public class VeliEkleModel : PageModel
 
     public async Task<IActionResult> OnPostTekAsync()
     {
+        if (!await YoneticiYeterli()) return Page();
         var (ad, sinif, hata) = Denetle(Ad, Sinif);
         if (hata is not null) { Hatalar.Add(hata); return Page(); }
         var v = YeniVeli(ad, sinif);
@@ -63,6 +75,7 @@ public class VeliEkleModel : PageModel
 
     public async Task<IActionResult> OnPostTopluAsync()
     {
+        if (!await YoneticiYeterli()) return Page();
         var satirlar = (Toplu ?? "").Replace("\r", "").Split('\n');
         var okunan = new List<(string Ad, string Sinif)>();
         for (int k = 0; k < satirlar.Length; k++)

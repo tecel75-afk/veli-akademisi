@@ -16,6 +16,20 @@ public static class Takip
     public static string Zaman(DateTime? utc) =>
         utc is null ? "—" : (utc.Value + TurkiyeFarki).ToString("dd.MM.yyyy HH:mm", Turkce);
 
+    // Dosya adına uygun kısa biçim: "Ortaca Özel Eğitim Uygulama Okulu" → "ortaca-ozel-egitim-uygulama-okulu".
+    public static string DosyaAdiParcasi(string ad)
+    {
+        var s = new System.Text.StringBuilder();
+        foreach (var c in ad.ToLower(Turkce))
+        {
+            var d = c switch { 'ç' => 'c', 'ğ' => 'g', 'ı' => 'i', 'ö' => 'o', 'ş' => 's', 'ü' => 'u', 'â' => 'a', 'î' => 'i', 'û' => 'u', _ => c };
+            if (d is >= 'a' and <= 'z' or >= '0' and <= '9') s.Append(d);
+            else if (s.Length > 0 && s[^1] != '-') s.Append('-');
+        }
+        var sonuc = s.ToString().Trim('-');
+        return sonuc.Length > 50 ? sonuc[..50].TrimEnd('-') : sonuc;
+    }
+
     public static string Harf(int secim) => "ABC"[secim].ToString();
 
     // İlerleme yüzdesi: ulaşılan en ileri adıma göre (geri dönülse de düşmez).

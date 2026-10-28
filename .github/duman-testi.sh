@@ -332,6 +332,51 @@ kontrol "okul yöneticisi sistem sayfasını açamaz" "302 $ADRES/yonetim/erisim
 kontrol "okul yöneticisi ilçe sayfasını açamaz" "302 $ADRES/yonetim/erisim" "$(git_c "$CEREZ" "$ADRES/yonetim/ilce")"
 kontrol "eski geçici şifre artık geçmez" "200 " "$(giris ayse.a "$GECICI_A" "$GECICI/cerez-x.txt")"
 
+echo "8a) Okulun yöneticileri"
+yon_islem() {  # yon_islem <çerez> <handler> [id] [alan=değer]... → "<durum> <yönlendirme>"; sayfa $GECICI/yon.html
+  local c="$1" h="$2" id="${3:-}"; shift 3 || shift $#
+  local T; T="$(belirtec_al "$ADRES/yonetim/yoneticiler" "$c")"
+  local veri=(); for a in "$@"; do veri+=(--data-urlencode "$a"); done
+  curl -s -o "$GECICI/yon.html" -w "%{http_code} %{redirect_url}" -c "$c" -b "$c" -X POST \
+    --data-urlencode "__RequestVerificationToken=$T" "${veri[@]}" "$ADRES/yonetim/yoneticiler?handler=$h${id:+&id=$id}"; }
+gecici_oku() { python3 -c "import re,sys; m=re.search(r'id=\"gecici-sifre\">([^<]+)<', open(sys.argv[1],encoding='utf-8').read()); print(m.group(1) if m else '')" "$GECICI/yon.html"; }
+yon_no() { satir "select Id from Kullanicilar where KullaniciAdi='$1'"; }
+
+kontrol "tek yönetici varken veli eklenemez (uyarı gösterilir)" evet "$(curl -s -b "$CEREZ" "$ADRES/yonetim/veli-ekle" | grep -q 'id="yonetici-eksik"' && echo evet || echo hayır)"
+TV="$(belirtec_al "$ADRES/yonetim/veli-ekle")"
+kontrol "  tek yönetici varken veli ekleme isteği de reddedilir" "0" "$(curl -s -o /dev/null -b "$CEREZ" -c "$CEREZ" -X POST --data-urlencode "__RequestVerificationToken=$TV" --data-urlencode "Ad=Yasak Veli" --data-urlencode "Sinif=1" "$ADRES/yonetim/veli-ekle?handler=tek"; satir "select count(*) from Veliler where Ad='Yasak Veli'")"
+kontrol "yöneticiler sayfası açılıyor, eksik yönetici uyarısı var" evet "$(curl -s -b "$CEREZ" "$ADRES/yonetim/yoneticiler" | grep -q 'id="yonetici-eksik"' && echo evet || echo hayır)"
+kontrol "geçersiz kullanıcı adıyla yönetici eklenmez" "200 |0" "$(yon_islem "$CEREZ" ekle "" "AdSoyad=Can Yönetici" "KullaniciAdi=can ğ"; echo "|$(satir "select count(*) from Kullanicilar where AdSoyad='Can Yönetici'")")"
+kontrol "var olan kullanıcı adıyla yönetici eklenmez" evet "$(yon_islem "$CEREZ" ekle "" "AdSoyad=Başka" "KullaniciAdi=bora.b" >/dev/null; grep -q 'zaten kullanılıyor' "$GECICI/yon.html" && echo evet || echo hayır)"
+yon_islem "$CEREZ" ekle "" "AdSoyad=Can Yönetici" "KullaniciAdi=Can.A" > /dev/null
+GECICI_C="$(gecici_oku)"
+kontrol "A ikinci yöneticiyi ekledi; geçici şifre bir kez gösterildi" "evet|ayse.a,can.a|$OKUL_A" "$([ -n "$GECICI_C" ] && echo evet || echo hayır)|$(satir "select group_concat(KullaniciAdi) from (select KullaniciAdi from Kullanicilar where OkulId=$OKUL_A order by KullaniciAdi)")|$(satir "select OkulId from Kullanicilar where KullaniciAdi='can.a'")"
+kontrol "  sayfayı yeniden açınca geçici şifre görünmez" hayır "$(curl -s -b "$CEREZ" "$ADRES/yonetim/yoneticiler" | grep -q 'gecici-sifre' && echo evet || echo hayır)"
+kontrol "  artık eksik yönetici uyarısı yok" hayır "$(curl -s -b "$CEREZ" "$ADRES/yonetim/veli-ekle" | grep -q 'id="yonetici-eksik"' && echo evet || echo hayır)"
+CC="$GECICI/cerez-c.txt"
+kontrol "yeni yönetici geçici şifreyle girdi" "302 $ADRES/yonetim/sifre" "$(giris can.a "$GECICI_C" "$CC")"
+kontrol "  kendi şifresini belirledi" "302 $ADRES/yonetim/sifre?degisti=true" "$(sifre_degistir "$CC" "$GECICI_C" "can-kendi-sifresi-1")"
+CAN="$(yon_no can.a)"
+kontrol "onaysız geçici şifre verilmez" evet "$(yon_islem "$CEREZ" gecicisifre "$CAN" >/dev/null; grep -q 'önce onay kutusunu' "$GECICI/yon.html" && echo evet || echo hayır)"
+yon_islem "$CEREZ" gecicisifre "$CAN" "Anladim=true" > /dev/null
+GECICI_C2="$(gecici_oku)"
+kontrol "şifresini unutan yöneticiye geçici şifre verildi" evet "$([ -n "$GECICI_C2" ] && [ "$GECICI_C2" != "$GECICI_C" ] && echo evet || echo hayır)"
+Y="$(git_c "$CC" "$ADRES/yonetim")"
+kontrol "  onun açık oturumu kapandı" "302 $ADRES/yonetim/giris" "${Y%%\?*}"
+kontrol "  eski şifresi geçmez" "200 " "$(giris can.a "can-kendi-sifresi-1" "$CC")"
+kontrol "  geçici şifreyle girer, şifre sayfasına gider" "302 $ADRES/yonetim/sifre" "$(giris can.a "$GECICI_C2" "$CC")"
+kontrol "kendine geçici şifre verilmez" evet "$(yon_islem "$CEREZ" gecicisifre "$(yon_no ayse.a)" "Anladim=true" >/dev/null; grep -q 'Şifremi değiştir' "$GECICI/yon.html" && grep -q 'Kendi şifrenizi' "$GECICI/yon.html" && echo evet || echo hayır)"
+kontrol "kendi hesabını kapatamaz" "1" "$(yon_islem "$CEREZ" kapat "$(yon_no ayse.a)" "Anladim=true" >/dev/null; satir "select Etkin from Kullanicilar where KullaniciAdi='ayse.a'")"
+kontrol "onaysız hesap kapatılmaz" 1 "$(yon_islem "$CEREZ" kapat "$CAN" >/dev/null; satir "select Etkin from Kullanicilar where KullaniciAdi='can.a'")"
+kontrol "hesap kapatıldı" 0 "$(yon_islem "$CEREZ" kapat "$CAN" "Anladim=true" >/dev/null; satir "select Etkin from Kullanicilar where KullaniciAdi='can.a'")"
+Y="$(git_c "$CC" "$ADRES/yonetim/sifre")"
+kontrol "  kapalı hesabın açık oturumu kapandı" "302 $ADRES/yonetim/giris" "${Y%%\?*}"
+kontrol "  kapalı hesap giriş yapamaz" evet "$(giris can.a "$GECICI_C2" "$CC" >/dev/null; grep -q 'Bu hesap kapatılmış' "$GECICI/giris.html" && echo evet || echo hayır)"
+kontrol "  tek açık yönetici kaldı: veli eklenemez" evet "$(curl -s -b "$CEREZ" "$ADRES/yonetim/veli-ekle" | grep -q 'id="yonetici-eksik"' && echo evet || echo hayır)"
+yon_islem "$CEREZ" ac "$CAN" > /dev/null
+GECICI_C3="$(gecici_oku)"
+kontrol "hesap yeniden açıldı, yeni geçici şifreyle" "1|1|evet" "$(satir "select Etkin from Kullanicilar where KullaniciAdi='can.a'")|$(satir "select GeciciSifre from Kullanicilar where KullaniciAdi='can.a'")|$([ -n "$GECICI_C3" ] && echo evet || echo hayır)"
+
 echo "8b) Veli ekleme"
 sayfa_belirteci() {  # sayfa_belirteci <adres> → o sayfadaki formun güvenlik belirteci (oturumlu)
   curl -s -c "$CEREZ" -b "$CEREZ" "$1" | python3 -c "
@@ -456,6 +501,10 @@ kontrol "B'nin Excel'inde yalnızca kendi velisi (Takip ve Cevaplar)" "Bora Veli
 import sys, openpyxl
 k = openpyxl.load_workbook(sys.argv[1])
 print(','.join(r[0].value for r in k['Takip'].iter_rows(min_row=2)), k['Cevaplar'].max_row - 1, sep='|')" "$GECICI/rapor-b.xlsx")"
+kontrol "B, A'nın yöneticisine geçici şifre veremez (404)" "404 " "$(yon_islem "$CB" gecicisifre "$CAN" "Anladim=true")"
+kontrol "B, A'nın yöneticisinin hesabını kapatamaz (404)" "404 |1" "$(yon_islem "$CB" kapat "$CAN" "Anladim=true")|$(satir "select Etkin from Kullanicilar where KullaniciAdi='can.a'")"
+kontrol "B'nin yöneticiler sayfasında A'nın yöneticileri yok" hayır "$(curl -s -b "$CB" "$ADRES/yonetim/yoneticiler" | grep -q 'ayse.a\|can.a' && echo evet || echo hayır)"
+kontrol "B'de tek yönetici var: veli eklenemez" evet "$(curl -s -b "$CB" "$ADRES/yonetim/veli-ekle" | grep -q 'id="yonetici-eksik"' && echo evet || echo hayır)"
 kontrol "B'nin yıl sonu sayfası yalnızca kendi velisini sayar" evet "$(curl -s -b "$CB" "$ADRES/yonetim/yil-sonu" | grep -q '<span id="veli-sayisi">1</span>' && echo evet || echo hayır)"
 
 echo "8d) Excel ve silme"
@@ -467,7 +516,7 @@ ESIT="$(python3 -c "import json,sys; s=json.load(open(sys.argv[1],encoding='utf-
 kontrol "eşit şıklı soruya cevap kaydedildi" 204 "$(post /api/cevap "{\"kod\":\"$KOD3\",\"hikaye\":\"m1\",\"adim\":$ESIT,\"secim\":0}")"
 
 kontrol "Excel indiriliyor" 200 "$(indir "$ADRES/yonetim?handler=excel" "$GECICI/rapor.xlsx")"
-kontrol "  dosya adı" evet "$(dosya_adi "$GECICI/rapor.xlsx" | grep -qE '^veli-akademisi-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{4}\.xlsx$' && echo evet || echo hayır)"
+kontrol "  dosya adı (okulun adıyla)" evet "$(dosya_adi "$GECICI/rapor.xlsx" | grep -qE '^veli-akademisi-deneme-okulu-a-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{4}\.xlsx$' && echo evet || echo hayır)"
 IDEAL1="$(python3 -c "import json,sys; s=json.load(open(sys.argv[1],encoding='utf-8')); print('ABC'[next(x for x in s if x['t']=='q')['ov']['i']])" "$YAYIN/icerik/m1/steps.json")"
 EXCEL="$(python3 - "$GECICI/rapor.xlsx" "$IDEAL1" <<'PY'
 import sys, datetime, openpyxl

@@ -49,6 +49,16 @@
   </div>
 }
 
+@if (Model.YoneticiEksik)
+{
+  <div class="kart" role="alert" id="yonetici-eksik">
+    <p class="hata" style="margin:0 0 8px">Veli eklenemez: okulunuzda @Model.EtkinYonetici açık yönetici hesabı var, en az @VeliAkademisi.Yonetim.Hesaplar.OkulEnAzYonetici gerekir.</p>
+    <p style="margin:0">Biri şifresini unutursa öteki ona yeni şifre verebilsin diye her okulda en az iki yönetici bulunur.
+      <a href="/yonetim/yoneticiler">Yöneticiler sayfasından</a> bir yönetici ekleyin.</p>
+  </div>
+}
+else
+{
 <div class="kart" style="margin-bottom:16px">
   <h2 style="margin:0 0 12px;font-size:20px">Tek veli</h2>
   <form method="post" asp-page-handler="Tek">
@@ -69,6 +79,7 @@
     <p style="margin:14px 0 0"><button class="btn" type="submit">Hepsini ekle</button></p>
   </form>
 </div>
+}
 
 <script>
   // "Kopyala": bağlantıyı panoya kopyalar (WhatsApp'a yapıştırmak için).

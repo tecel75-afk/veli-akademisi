@@ -22,10 +22,15 @@ public class IndexModel : PageModel
 
     static string Damga() => (DateTime.UtcNow + TimeSpan.FromHours(3)).ToString("yyyy-MM-dd-HHmm");
 
-    // /yonetim?handler=excel → iki sayfalık Excel dosyası (Takip, Cevaplar)
-    public async Task<IActionResult> OnGetExcelAsync() =>
-        File(await ExcelRaporu.Olustur(_db, _hv),
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"veli-akademisi-{Damga()}.xlsx");
+    // /yonetim?handler=excel → iki sayfalık Excel dosyası (Takip, Cevaplar); yalnızca bu okulun velileri.
+    public async Task<IActionResult> OnGetExcelAsync()
+    {
+        var okul = (await _db.Okullar.FindAsync(Oturum.OkulNo(User)))?.Ad ?? "";
+        var parca = Takip.DosyaAdiParcasi(okul);
+        return File(await ExcelRaporu.Olustur(_db, _hv),
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            $"veli-akademisi-{(parca.Length > 0 ? parca + "-" : "")}{Damga()}.xlsx");
+    }
 
     [BindProperty(SupportsGet = true)] public string? Sinif { get; set; }
     [BindProperty(SupportsGet = true)] public string? Ara { get; set; }

@@ -133,6 +133,28 @@ BASARILI="$(grep -c '^204$' "$GECICI/eszamanli.txt" || true)"
 TOPLAM="$(wc -l < "$GECICI/eszamanli.txt")"
 if [ "$BASARILI" = "$TOPLAM" ] && [ "$TOPLAM" = 600 ]; then echo "  TAMAM  600 eşzamanlı kaydın hepsi kabul edildi"
 else echo "  HATA   eşzamanlı kayıt: $TOPLAM istekten $BASARILI başarılı"; echo "::error::Yük: eşzamanlı kayıt $BASARILI/$TOPLAM"; hata=1; fi
+echo "5) Aynı veliden aynı anda gelen ilk kayıtlar (henüz ilerlemesi yokken, m2a'da 4 kayıt birden; 200 veli)"
+# 28 Ekim'de bulundu: ikisi de yeni satır eklemeye çalışınca biri "UNIQUE constraint failed" ile 500 alıyordu.
+python3 - "$ADRES" "$GECICI/kodlar.txt" "$VeriTabani__Yol" <<'PY' > "$GECICI/ayni.txt"
+import json, sys, urllib.request, concurrent.futures, collections, sqlite3
+A, kodlar, db = sys.argv[1], open(sys.argv[2]).read().split(), sys.argv[3]
+# m2a herkese açık olsun diye m1 bitirilmiş sayılır (veriler bu ölçüm için uyduruldu; hepsi 8 hikâyeyi bitirmiş)
+c = sqlite3.connect(db); c.execute("delete from Ilerlemeler where Hikaye='m2a'"); c.commit(); c.close()
+def gonder(v):
+    r = urllib.request.Request(A + '/api/ilerleme', data=json.dumps(v).encode(), headers={'Content-Type': 'application/json'}, method='POST')
+    try:
+        with urllib.request.urlopen(r, timeout=60) as x: return x.status
+    except urllib.error.HTTPError as h: return h.code
+isler = [{'kod': k, 'hikaye': 'm2a', 'adim': a} for k in kodlar for a in range(4)]
+with concurrent.futures.ThreadPoolExecutor(40) as h: say = collections.Counter(h.map(gonder, isler))
+c = sqlite3.connect(db)
+satir, eniler = c.execute("select count(*), min(EnIleriAdim) from Ilerlemeler where Hikaye='m2a'").fetchone()
+print(f"{say.get(204,0)}|{sum(say.values())}|{satir}|{eniler}")
+PY
+IFS='|' read -r KABUL TOPLAM SATIR ENILERI < "$GECICI/ayni.txt"
+if [ "$KABUL" = "$TOPLAM" ] && [ "$SATIR" = 200 ] && [ "$ENILERI" = 3 ]; then echo "  TAMAM  $TOPLAM kaydın hepsi kabul edildi; veli başına tek satır, en ileri adım 3"
+else echo "  HATA   aynı anda ilk kayıtlar: $KABUL/$TOPLAM kabul, $SATIR satır, en küçük 'en ileri adım' $ENILERI"; echo "::error::Yük: aynı veliden eşzamanlı kayıt $KABUL/$TOPLAM"; hata=1; fi
+
 KIP="$(python3 -c "import sqlite3,sys; print(sqlite3.connect(sys.argv[1]).execute('pragma journal_mode').fetchone()[0])" "$VeriTabani__Yol")"
 if [ "$KIP" = wal ]; then echo "  TAMAM  veritabanı WAL kipinde"; else echo "  HATA   veritabanı kipi: $KIP"; hata=1; fi
 

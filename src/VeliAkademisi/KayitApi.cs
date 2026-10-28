@@ -60,19 +60,22 @@ public static class KayitApi
             var bilgi = hv.Bilgi(istek.Hikaye!);
             if (istek.Adim < 0 || istek.Adim >= bilgi.Toplam) return Results.BadRequest();
 
+            // Tek komutla "yoksa ekle, varsa güncelle" (SQLite UPSERT). Önce okuyup sonra yazmak, aynı veliden aynı anda
+            // gelen ilk kayıtlarda ikisinin de satır eklemeye çalışmasına ve birinin 500 ile kaybolmasına yol açıyordu
+            // (28 Ekim, eşzamanlı deneme: 400 kayıttan 12'si).
+            //  - SonAdim: son gelen adım; EnIleriAdim: geri dönülse de küçülmez.
+            //  - Son adım kapanış ekranıdır; oraya ulaşılınca hikâye tamamlanmış sayılır ve öyle kalır.
             var simdi = DateTime.UtcNow;
-            var ilerleme = await db.Ilerlemeler.FirstOrDefaultAsync(x => x.VeliId == veli!.Id && x.Hikaye == istek.Hikaye);
-            if (ilerleme is null)
-            {
-                ilerleme = new Ilerleme { VeliId = veli!.Id, Hikaye = istek.Hikaye!, IlkGiris = simdi };
-                db.Ilerlemeler.Add(ilerleme);
-            }
-            ilerleme.SonAdim = istek.Adim;
-            ilerleme.EnIleriAdim = Math.Max(ilerleme.EnIleriAdim, istek.Adim);
-            // Son adım kapanış ekranıdır; oraya ulaşılınca hikâye tamamlanmış sayılır ve öyle kalır.
-            if (istek.Adim == bilgi.Toplam - 1) ilerleme.Tamamlandi = true;
-            ilerleme.SonGuncelleme = simdi;
-            await db.SaveChangesAsync();
+            var tamamlandi = istek.Adim == bilgi.Toplam - 1;
+            await db.Database.ExecuteSqlInterpolatedAsync($"""
+                INSERT INTO Ilerlemeler (VeliId, Hikaye, EnIleriAdim, SonAdim, Tamamlandi, IlkGiris, SonGuncelleme)
+                VALUES ({veli!.Id}, {istek.Hikaye}, {istek.Adim}, {istek.Adim}, {tamamlandi}, {simdi}, {simdi})
+                ON CONFLICT (VeliId, Hikaye) DO UPDATE SET
+                    SonAdim = excluded.SonAdim,
+                    EnIleriAdim = max(EnIleriAdim, excluded.EnIleriAdim),
+                    Tamamlandi = Tamamlandi OR excluded.Tamamlandi,
+                    SonGuncelleme = excluded.SonGuncelleme
+                """);
             return Results.NoContent();
         });
 

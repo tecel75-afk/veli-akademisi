@@ -33,6 +33,7 @@ public static class KayitApi
                 {
                     gorseller = m.Gorseller.Select(g => new { dosya = g.Dosya, baslik = g.Baslik }),
                     baglanti = m.Baglanti is null ? null : new { adres = m.Baglanti.Adres, yazi = m.Baglanti.Yazi },
+                    pdf = m.Pdf is null ? null : new { dosya = m.Pdf.Dosya, yazi = m.Pdf.Yazi },
                 },
                 sonraki = sira + 1 < Hikayeler.Sira.Count ? Hikayeler.Sira[sira + 1] : null,
                 hikaye,

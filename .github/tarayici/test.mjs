@@ -168,14 +168,20 @@ try {
     await Promise.all([sayfa.waitForNavigation({ waitUntil: 'load', timeout: 15000 }), sayfa.click('#va-sonraki')]);
     kontrol('"Sonraki modüle geç" → m2a açıldı', `/v/${KOD_MATERYAL}/m2a/`, new URL(sayfa.url()).pathname);
 
-    // Son hikâyede (m7) "Sonraki modüle geç" yok; materyali olmayan hikâyede kart yok.
+    // Son hikâyede (m7) "Sonraki modüle geç" yok; gerçek materyaller: 2 kart görseli ve yazdırılabilir PDF düğmesi.
     const durum7 = durumBekle();
     await sayfa.goto(`${ADRES}/v/${KOD_HEPSI}/m7/`, { waitUntil: 'load' });
     await durum7;
     await sayfa.evaluate('i = STEPS.length - 1; render();');
     await new Promise(r => setTimeout(r, 1000));
-    kontrol('m7 kapanışı: "Sonraki modüle geç" yok, materyal kartı yok', 'false|false',
+    kontrol('m7 kapanışı: "Sonraki modüle geç" yok, materyal kartı var', 'false|true',
       `${!!(await sayfa.$('#va-sonraki'))}|${!!(await sayfa.$('.va-materyaller'))}`);
+    kontrol('m7 materyalleri: 2 kart görseli, başlıklarıyla', 'Evdeki işler: görünenler ve görünmeyenler|Benim saatim',
+      (await sayfa.$$eval('.va-materyaller .va-kucuk span', l => l.map(x => x.textContent))).join('|'));
+    kontrol('m7 PDF düğmesi: dosya ve indirme özelliği', 'materyal/m7-kartlar.pdf|m7-kartlar.pdf|Kartları yazdırmak için PDF olarak indir',
+      await sayfa.$eval('#va-pdf', a => [a.getAttribute('href'), a.getAttribute('download'), a.textContent].join('|')));
+    await sayfa.waitForFunction(() => [...document.querySelectorAll('.va-kucuk img')].every(r => r.complete && r.naturalWidth > 0),
+      { timeout: 10000 }).then(() => kontrol('m7 kart görselleri yüklendi', true, true), () => kontrol('m7 kart görselleri yüklendi', true, false));
     kontrol('m7 kapanışı: "Baştan izle" düğmesi yerinde', 'Baştan izle', await sayfa.$eval('#ileri', b => b.textContent.trim()));
     await sayfa.click('#ileri');   // Baştan izle
     kontrol('"Baştan izle"den sonra alt çubukta yalnızca kendi düğmesi kalır', 'ileri',

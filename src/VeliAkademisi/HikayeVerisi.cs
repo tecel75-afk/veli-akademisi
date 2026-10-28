@@ -9,10 +9,12 @@ public record Soru(int Adim, int No, string Metin, IReadOnlyList<string> Siklar,
 public record MateryalGorseli(string Dosya, string Baslik);
 // Hikâyenin sonundaki dış bağlantı (ör. Tohum Otizm Vakfı'nın ilgili sayfası).
 public record DisBaglanti(string Adres, string Yazi);
-public record Materyaller(IReadOnlyList<MateryalGorseli> Gorseller, DisBaglanti? Baglanti)
+// Hikâyenin sonundaki yazdırılabilir PDF (icerik/{kod}/materyal/{Dosya}); düğmede Yazi yazar.
+public record MateryalPdf(string Dosya, string Yazi);
+public record Materyaller(IReadOnlyList<MateryalGorseli> Gorseller, DisBaglanti? Baglanti, MateryalPdf? Pdf = null)
 {
     public static readonly Materyaller Bos = new(Array.Empty<MateryalGorseli>(), null);
-    public bool BosMu => Gorseller.Count == 0 && Baglanti is null;
+    public bool BosMu => Gorseller.Count == 0 && Baglanti is null && Pdf is null;
 }
 
 // Bir hikâyenin sunucunun bilmesi gereken bilgileri.
@@ -50,7 +52,8 @@ public class HikayeVerisi
 
     // icerik/{kod}/materyaller.json (isteğe bağlı). Biçim:
     //   { "gorseller": [ { "dosya": "kart1.webp", "baslik": "Önce-sonra kartı" } ],
-    //     "baglanti":  { "adres": "https://...", "yazi": "Tohum Otizm Vakfı: ..." } }
+    //     "pdf":       { "dosya": "m1-kartlar.pdf", "yazi": "Kartları yazdırmak için PDF olarak indir" },
+    //     "baglanti":  { "adres": "https://...", "yazi": "Tohum Otizm Vakfı: ..." } }   (her biri isteğe bağlı)
     // Dosya yoksa ya da boşsa materyal gösterilmez. Hatalıysa site açılmaz ve hatanın nerede olduğu yazılır
     // (yanlış bir dosyanın sessizce atlanması yerine).
     static Materyaller MateryalleriOku(string icerikYolu, string kod)
@@ -80,6 +83,16 @@ public class HikayeVerisi
                 throw new InvalidDataException(Hata($"bağlantı adresi https:// ile başlamalı (\"{adres}\")"));
             baglanti = new DisBaglanti(adres, bg.TryGetProperty("yazi", out var y) ? y.GetString() ?? adres : adres);
         }
-        return new Materyaller(gorseller, baglanti);
+        MateryalPdf? pdf = null;
+        if (kok.TryGetProperty("pdf", out var pd) && pd.ValueKind == JsonValueKind.Object)
+        {
+            var dosya = pd.GetProperty("dosya").GetString() ?? "";
+            if (!System.Text.RegularExpressions.Regex.IsMatch(dosya, @"^[A-Za-z0-9_-]+\.pdf$"))
+                throw new InvalidDataException(Hata($"geçersiz PDF dosya adı \"{dosya}\" (yalnızca harf, rakam, - _ ve .pdf)"));
+            if (!File.Exists(Path.Combine(icerikYolu, kod, "materyal", dosya)))
+                throw new InvalidDataException(Hata($"\"materyal/{dosya}\" bulunamadı"));
+            pdf = new MateryalPdf(dosya, pd.TryGetProperty("yazi", out var y) ? y.GetString() ?? "PDF olarak indir" : "PDF olarak indir");
+        }
+        return new Materyaller(gorseller, baglanti, pdf);
     }
 }

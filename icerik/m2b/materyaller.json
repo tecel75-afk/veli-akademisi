@@ -1,0 +1,16 @@
+{
+  "gorseller": [
+    {
+      "dosya": "m2b-kart-1.webp",
+      "baslik": "Kapı kartları"
+    },
+    {
+      "dosya": "m2b-kart-2.webp",
+      "baslik": "Üst değiştirme odada"
+    }
+  ],
+  "pdf": {
+    "dosya": "m2b-kartlar.pdf",
+    "yazi": "Kartları yazdırmak için PDF olarak indir"
+  }
+}

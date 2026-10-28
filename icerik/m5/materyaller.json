@@ -1,0 +1,20 @@
+{
+  "gorseller": [
+    {
+      "dosya": "m5-kart-1.webp",
+      "baslik": "Akşam sırası"
+    },
+    {
+      "dosya": "m5-kart-2.webp",
+      "baslik": "Değişiklik kartı"
+    },
+    {
+      "dosya": "m5-kart-3.webp",
+      "baslik": "Evimizin üç kuralı"
+    }
+  ],
+  "pdf": {
+    "dosya": "m5-kartlar.pdf",
+    "yazi": "Kartları yazdırmak için PDF olarak indir"
+  }
+}

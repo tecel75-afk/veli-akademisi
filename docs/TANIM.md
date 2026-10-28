@@ -100,9 +100,14 @@ Veli tarafı olabildiğince sadedir: veli hikâyeleri izler ve sorulara cevap ve
 
 ### 6a. Materyaller ekranı
 - Hikâyeye ait birkaç görsel; dokununca büyür, "İndir" ile telefona kaydedilir.
-- Altında Tohum Otizm Vakfı'nın ilgili sayfasına bağlantı (yeni sekmede).
+- Yazdırılabilir A4 PDF: "Kartları yazdırmak için PDF olarak indir" düğmesi (28 Ekim).
+- Altında Tohum Otizm Vakfı'nın ilgili sayfasına bağlantı (yeni sekmede). *28 Ekim kararı: uygulama ilçe
+  geneline yayılacağı için Tohum bağlantıları şimdilik eklenmedi; biçim destekliyor.*
 - Tanım: `icerik/<kod>/materyaller.json`; görseller `icerik/<kod>/materyal/` klasöründe. Biçim:
-  `{ "gorseller": [ { "dosya": "kart1.webp", "baslik": "..." } ], "baglanti": { "adres": "https://...", "yazi": "..." } }`
+  `{ "gorseller": [ { "dosya": "kart1.webp", "baslik": "..." } ], "pdf": { "dosya": "m1-kartlar.pdf", "yazi": "..." },
+  "baglanti": { "adres": "https://...", "yazi": "..." } }` (her biri isteğe bağlı)
+- 28 Ekim: rehberlik servisinin hazırladığı kartlar eklendi. Her hikâyeye kendi PDF sayfaları (m2 PDF'i: 1–2. sayfa m2a,
+  3–4. sayfa m2b), sayfaların 150 dpi WebP görüntüleri ve sayfa başlıkları. PDF'ler meta verisiz yeniden yazıldı.
   Sonradan doldurulur; dosya yoksa ya da boşsa materyal kartı gösterilmez. Dosya hatalıysa (olmayan görsel,
   https olmayan adres) site açılmaz ve hatanın yeri yazılır.
 

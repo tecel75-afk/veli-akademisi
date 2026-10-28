@@ -1,0 +1,20 @@
+{
+  "gorseller": [
+    {
+      "dosya": "m3-kart-1.webp",
+      "baslik": "Çekmece etiketleri"
+    },
+    {
+      "dosya": "m3-kart-2.webp",
+      "baslik": "Çorap giyme adımları"
+    },
+    {
+      "dosya": "m3-kart-3.webp",
+      "baslik": "Sabah işlerim"
+    }
+  ],
+  "pdf": {
+    "dosya": "m3-kartlar.pdf",
+    "yazi": "Kartları yazdırmak için PDF olarak indir"
+  }
+}

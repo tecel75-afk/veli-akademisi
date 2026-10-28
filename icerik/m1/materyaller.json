@@ -1,0 +1,16 @@
+{
+  "gorseller": [
+    {
+      "dosya": "m1-kart-1.webp",
+      "baslik": "Önce – Sonra Şeridi"
+    },
+    {
+      "dosya": "m1-kart-2.webp",
+      "baslik": "“Biraz daha” ve “Bitti” kartları"
+    }
+  ],
+  "pdf": {
+    "dosya": "m1-kartlar.pdf",
+    "yazi": "Kartları yazdırmak için PDF olarak indir"
+  }
+}

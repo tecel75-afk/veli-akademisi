@@ -1,0 +1,16 @@
+{
+  "gorseller": [
+    {
+      "dosya": "m2a-kart-1.webp",
+      "baslik": "Üç Halka"
+    },
+    {
+      "dosya": "m2a-kart-2.webp",
+      "baslik": "Nasıl selam vermek istersin?"
+    }
+  ],
+  "pdf": {
+    "dosya": "m2a-kartlar.pdf",
+    "yazi": "Kartları yazdırmak için PDF olarak indir"
+  }
+}

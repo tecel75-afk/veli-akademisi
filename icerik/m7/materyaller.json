@@ -1,0 +1,16 @@
+{
+  "gorseller": [
+    {
+      "dosya": "m7-kart-1.webp",
+      "baslik": "Evdeki işler: görünenler ve görünmeyenler"
+    },
+    {
+      "dosya": "m7-kart-2.webp",
+      "baslik": "Benim saatim"
+    }
+  ],
+  "pdf": {
+    "dosya": "m7-kartlar.pdf",
+    "yazi": "Kartları yazdırmak için PDF olarak indir"
+  }
+}

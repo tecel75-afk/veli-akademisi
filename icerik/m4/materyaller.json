@@ -1,0 +1,16 @@
+{
+  "gorseller": [
+    {
+      "dosya": "m4-kart-1.webp",
+      "baslik": "Karşıdan karşıya geçme"
+    },
+    {
+      "dosya": "m4-kart-2.webp",
+      "baslik": "Cep yardım kartı"
+    }
+  ],
+  "pdf": {
+    "dosya": "m4-kartlar.pdf",
+    "yazi": "Kartları yazdırmak için PDF olarak indir"
+  }
+}

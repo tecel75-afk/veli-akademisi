@@ -262,9 +262,12 @@ for h in m2a m2b m3 m4 m5 m6 m7; do ilr $h $(( $(toplam $h) - 1 )) > /dev/null; 
 kontrol "hepsi bitti: bağlantı en son bakılan hikâyeye (m7) gider" "302 $ADRES/v/$KOD3/m7/" "$(yonlendirme "$ADRES/v/$KOD3")"
 sleep 1; ilr m3 2 > /dev/null
 kontrol "hepsi bitti, m3 tekrar izlendi: bağlantı m3'e gider" "302 $ADRES/v/$KOD3/m3/" "$(yonlendirme "$ADRES/v/$KOD3")"
-kontrol "durum: m7 son hikâye (sıradaki yok), materyali yok" "None|0|True" \
+kontrol "durum: m7 son hikâye (sıradaki yok); 2 kart görseli, yazdırılabilir PDF, dış bağlantı yok" "None|2|m7-kartlar.pdf|True" \
   "$(curl -s "$ADRES/api/durum?kod=$KOD3&hikaye=m7" | python3 -c "
-import json,sys; d=json.load(sys.stdin); m=d['materyaller']; print(d['sonraki'], len(m['gorseller']), m['baglanti'] is None, sep='|')")"
+import json,sys; d=json.load(sys.stdin); m=d['materyaller']; print(d['sonraki'], len(m['gorseller']), (m['pdf'] or {}).get('dosya'), m['baglanti'] is None, sep='|')")"
+kontrol "  m7 PDF'i iniyor (application/pdf)" "200 application/pdf" "$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "$ADRES/v/$KOD3/m7/materyal/m7-kartlar.pdf")"
+# Gerçek materyaller: 8 hikâyenin her birinde materyaller.json, görseller ve PDF yerinde mi?
+kontrol "8 hikâyenin materyalleri yerinde (görsel sayısı)" "m1:2 m2a:2 m2b:2 m3:3 m4:2 m5:3 m6:2 m7:2" "$(for h in m1 m2a m2b m3 m4 m5 m6 m7; do printf '%s:%s ' "$h" "$(python3 -c "import json,sys; print(len(json.load(open(sys.argv[1],encoding='utf-8'))['gorseller']))" "$YAYIN/icerik/$h/materyaller.json")"; done | sed 's/ $//')"
 kontrol "8 sayfanın hepsi: onaylı sayfa + yalnızca belgelenmiş ekler; Google bağlantısı yok" "yok" \
   "$(python3 "$GECICI/sayfa_denetle.py" "$YAYIN/icerik" "$ADRES" "$KOD3" m1 m2a m2b m3 m4 m5 m6 m7)"
 

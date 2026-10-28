@@ -101,7 +101,7 @@
     var son = oge('div', 'va-son');
     var mat = d.materyaller || { gorseller: [] };
 
-    if (mat.gorseller.length || mat.baglanti) {
+    if (mat.gorseller.length || mat.baglanti || mat.pdf) {
       var kart = oge('div', 'card va-materyaller');
       kart.style.cssText = 'display:flex;flex-direction:column;gap:12px';
       kart.appendChild(oge('h2', 'h2', 'Materyaller'));
@@ -119,6 +119,13 @@
           izgara.appendChild(b);
         });
         kart.appendChild(izgara);
+      }
+      if (mat.pdf) {
+        // Kartlar kesilip kullanılmak üzere hazırlandı; yazdırmak için PDF (A4) indirilir.
+        var pdf = oge('a', 'btn', mat.pdf.yazi);
+        pdf.href = 'materyal/' + mat.pdf.dosya; pdf.setAttribute('download', mat.pdf.dosya); pdf.id = 'va-pdf';
+        pdf.style.cssText = 'text-align:center;text-decoration:none';
+        kart.appendChild(pdf);
       }
       if (mat.baglanti) {
         var a = oge('a', 'va-dis', mat.baglanti.yazi + ' ↗');

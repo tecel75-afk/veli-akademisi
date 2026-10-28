@@ -1,0 +1,16 @@
+{
+  "gorseller": [
+    {
+      "dosya": "m6-kart-1.webp",
+      "baslik": "İstek kartları"
+    },
+    {
+      "dosya": "m6-kart-2.webp",
+      "baslik": "Beni nasıl anlarsınız?"
+    }
+  ],
+  "pdf": {
+    "dosya": "m6-kartlar.pdf",
+    "yazi": "Kartları yazdırmak için PDF olarak indir"
+  }
+}

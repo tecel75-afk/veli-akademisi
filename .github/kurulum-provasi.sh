@@ -61,6 +61,17 @@ BEKLENEN_MP3=1 $K sesler "$S/ses.zip"
 kontrol "ses dosyası site üzerinden veriliyor" "200 audio/mpeg" "$(curl -s -o /dev/null -w '%{http_code} %{content_type}' "${A[@]}" "${O[@]}" "http://127.0.0.1/v/$KOD/m1/ses/m1_s001.mp3")"
 kontrol "eksik ses paketi reddedilir" 1 "$(mkdir -p "$S/eksik/icerik/m1/ses" && printf x > "$S/eksik/icerik/m1/ses/m1_s001.mp3" && (cd "$S/eksik" && zip -qr ../eksik.zip icerik) && $K sesler "$S/eksik.zip" >/dev/null 2>&1; echo $?)"
 
+# Ses güncelleme: yalnızca var olan dosyalar değişir; hatalı bir dosya varsa hiçbiri değişmez; eskiler yedeklenir.
+mkdir -p "$S/guncel/alt" && printf 'ID3yeni' > "$S/guncel/alt/m1_s001.mp3" && (cd "$S/guncel" && zip -qr ../guncel.zip alt)
+mkdir -p "$S/hatali" && printf 'ID3hatali' > "$S/hatali/m1_s001.mp3" && printf 'x' > "$S/hatali/m9_s001.mp3" && (cd "$S/hatali" && zip -qr ../hatali.zip .)
+SES_ONCE="$(cat /opt/veliakademisi/ses/m1/m1_s001.mp3)"
+kontrol "ses güncelleme: hatalı adlı dosya varsa durur" evet "$($K ses-guncelle "$S/hatali.zip" >/dev/null 2>&1 && echo hayır || echo evet)"
+kontrol "  hiçbir dosya değişmedi" "$SES_ONCE" "$(cat /opt/veliakademisi/ses/m1/m1_s001.mp3)"
+$K ses-guncelle "$S/guncel.zip"
+kontrol "ses güncelleme: dosya yenilendi" "ID3yeni" "$(cat /opt/veliakademisi/ses/m1/m1_s001.mp3)"
+kontrol "  eski hâli yedeklendi" "$SES_ONCE" "$(cat /var/backups/veliakademisi/ses-*/m1/m1_s001.mp3)"
+kontrol "  site yeni sesi veriyor" "ID3yeni" "$(curl -s "${A[@]}" "${O[@]}" "http://127.0.0.1/v/$KOD/m1/ses/m1_s001.mp3")"
+
 $K yedek
 kontrol "yedek dosyası alındı" 1 "$(ls /var/backups/veliakademisi/veliakademisi-*.db | wc -l)"
 kontrol "yedek geçerli (veli sayısı 1)" 1 "$(sqlite3 /var/backups/veliakademisi/veliakademisi-*.db 'select count(*) from Veliler')"

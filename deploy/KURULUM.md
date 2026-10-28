@@ -133,6 +133,7 @@ son çare olarak (iki yönetici de ulaşılamıyorsa) okulun ayrıntı sayfasın
 | `sudo bash /root/kurulum/kurulum.sh durum` | Servisin durumu, sürüm, son günlük satırları |
 | `sudo veliakademisi-guncelle` | GitHub'daki son sürümü kurar; açılmazsa önceki sürüme kendiliğinden döner |
 | `sudo veliakademisi-yedek` | Hemen bir yedek alır (`/var/backups/veliakademisi/`) |
+| `sudo bash /root/kurulum/kurulum.sh ses-guncelle /root/<zip>` | Yeniden üretilen ses dosyalarını yerine koyar; yalnızca sitede var olan adlar kabul edilir, tek bir hatalı dosyada hiçbiri değişmez; eskiler `/var/backups/veliakademisi/ses-<tarih-saat>/` altına yedeklenir |
 | `sudo bash /root/kurulum/kurulum.sh okul-ekle "Okulun adı"` | Okul ekler (normalde sistem yöneticisi sayfasından yapılır) |
 
 ## Çok okullu sürüme geçiş (27 Ekim'de kurulan sunucu için, bir kez)

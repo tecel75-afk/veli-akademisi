@@ -11,6 +11,7 @@
 #   sudo bash kurulum.sh yedek                7) günlük otomatik yedek
 #   sudo bash kurulum.sh guvenlik-duvari      8) güvenlik duvarı (yalnızca SSH, HTTP, HTTPS açık)
 #   sudo bash kurulum.sh durum                   her zaman: servis, site ve son günlük satırları
+#   sudo bash kurulum.sh ses-guncelle <yeni.zip>            yalnızca değişen ses dosyalarını yerine koyar (eskiler yedeklenir)
 #   sudo bash kurulum.sh okul-ekle "Okulun adı"             okul ekler (yönetim ekranı yerine komutla)
 #   sudo bash kurulum.sh veli-ekle "Ad" "Sınıf" <okul no>   deneme velisi (yönetim ekranı yerine komutla)
 #
@@ -174,6 +175,38 @@ adim_sesler() {
   tamam "sesler yerinde: $KOK/ses"
 }
 
+# Yeniden üretilen ses dosyalarını (ör. anlatıcının yeni tonuyla) yerine koyar.
+# Zip'in içindeki klasör yapısı önemli değildir; dosya adları sitedekiyle aynı olmalıdır (ör. m1_s002.mp3, m2a_s011_k2.mp3).
+# Adı tanınmayan ya da sitede karşılığı olmayan tek bir dosya bile varsa HİÇBİR dosya değiştirilmez.
+# Değiştirilecek dosyaların eski hâlleri önce yedeklenir: /var/backups/veliakademisi/ses-<tarih-saat>/<hikâye>/
+adim_ses_guncelle() {
+  baslik "Ses dosyalarını güncelleme"
+  local z="${1:-}"; [ -f "$z" ] || dur "Zip bulunamadı: '$z'. Kullanım: sudo bash kurulum.sh ses-guncelle /root/yeni-sesler.zip"
+  local g; g="$(mktemp -d)"
+  unzip -q -j "$z" '*.mp3' -d "$g" 2>/dev/null || { rm -rf "$g"; dur "Zip'in içinde mp3 dosyası bulunamadı."; }
+  local f ad kod hata=0 sayi=0
+  for f in "$g"/*.mp3; do
+    ad="$(basename "$f")"
+    if ! [[ "$ad" =~ ^(m1|m2a|m2b|m3|m4|m5|m6|m7)_s[0-9]{3}(_k[12]|_c[1-3])?\.mp3$ ]]; then
+      echo "  HATA   adı tanınmıyor: $ad"; hata=1; continue; fi
+    kod="${BASH_REMATCH[1]}"
+    [ -f "$KOK/ses/$kod/$ad" ] || { echo "  HATA   sitede böyle bir ses yok: $kod/$ad"; hata=1; continue; }
+    [ -s "$f" ] || { echo "  HATA   dosya boş: $ad"; hata=1; continue; }
+    sayi=$((sayi + 1))
+  done
+  [ "$hata" -eq 0 ] || { rm -rf "$g"; dur "Hiçbir dosya değiştirilmedi. Hatalı dosyaları düzeltip yeniden deneyin."; }
+  local yedek; yedek="$YEDEKLER/ses-$(date +%F-%H%M%S)"
+  for f in "$g"/*.mp3; do
+    ad="$(basename "$f")"; kod="${ad%%_s*}"
+    install -d -m 700 "$yedek/$kod"
+    cp -p "$KOK/ses/$kod/$ad" "$yedek/$kod/$ad"
+    install -m 644 "$f" "$KOK/ses/$kod/$ad"
+  done
+  rm -rf "$g"
+  echo "         değiştirilen: $sayi dosya   eski hâlleri: $yedek"
+  tamam "ses dosyaları güncellendi (sayfa yenilenince yeni sesler çalar)"
+}
+
 adim_yonetici() {
   baslik "6) Sistem yöneticisi hesabı"
   echo "Sistem yöneticisinin adı, kullanıcı adı ve şifresi sorulur (şifre en az 10 karakter; yazarken görünmez, iki kez sorulur)."
@@ -241,7 +274,8 @@ case "${1:-}" in
   yedek)           adim_yedek ;;
   guvenlik-duvari) adim_guvenlik_duvari ;;
   durum)           adim_durum ;;
+  ses-guncelle)    adim_ses_guncelle "${2:-}" ;;
   okul-ekle)       shift; adim_okul_ekle "$@" ;;
   veli-ekle)       shift; adim_veli_ekle "$@" ;;
-  *) sed -n '2,18p' "$0"; exit 1 ;;
+  *) sed -n '2,19p' "$0"; exit 1 ;;
 esac

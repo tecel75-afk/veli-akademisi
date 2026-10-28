@@ -52,6 +52,10 @@ jobs:
       - name: Duman testi (siteyi çalıştır ve kontrol et)
         run: bash .github/duman-testi.sh yayin
 
+      # Yük ölçümü: 1.000 veliyle (ilçe için öngörülen en yüksek sayı) ekranların cevap süreleri.
+      - name: Yük ölçümü (1.000 veli)
+        run: bash .github/yuk-olcumu.sh yayin
+
       - name: Paketle (uygulama + kurulum dosyaları)
         run: |
           printf 'commit %s\nderleme %s\n' "$GITHUB_SHA" "$(date -u '+%Y-%m-%d %H:%M UTC')" > yayin/SURUM.txt
@@ -60,7 +64,7 @@ jobs:
           ls -l veli-akademisi.zip kurulum.zip
 
       - name: Kurulum betiklerini denetle (shellcheck)
-        run: shellcheck -S error deploy/*.sh .github/kurulum-provasi.sh
+        run: shellcheck -S error deploy/*.sh .github/kurulum-provasi.sh .github/duman-testi.sh .github/yuk-olcumu.sh
 
       # Kurulum provası: deploy/kurulum.sh, sunucudaki adımlarla bu Ubuntu makinesinde baştan sona çalıştırılır.
       - name: Kurulum provası

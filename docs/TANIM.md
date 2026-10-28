@@ -151,11 +151,15 @@ Sayfanın betiğine küçük çağrılar eklenir. Çağrı başarısız olursa s
 - Kod sayfanın adresinden okunur; sayfa kodsuz açılırsa hiçbir şey gönderilmez.
 - API uçlarına hız sınırı: dakikada 120 istek/kod.
 
-## 9. Veri modeli (öneri)
-- `Veli`: Id, Ad (ör. "Ayşe Hanım"), Sinif (serbest metin, ör. "4-A"), Kod (benzersiz), OlusturmaTarihi, SonGiris.
+## 9. Veri modeli
+- `Okul`: Id, Ad (benzersiz), Etkin, OlusturmaTarihi. *(28 Ekim: çok okullu yapı, bölüm 18)*
+- `Kullanici`: Id, AdSoyad, KullaniciAdi (benzersiz), SifreOzeti, Rol (sistem yöneticisi / okul yöneticisi /
+  ilçe izleyicisi), OkulId (yalnızca okul yöneticisinde), GeciciSifre, Etkin, GuvenlikDamgasi, OlusturmaTarihi, SonGiris.
+- `Veli`: Id, OkulId, Ad (ör. "Ayşe Hanım"), Sinif (serbest metin, ör. "4-A"), Kod (benzersiz), OlusturmaTarihi, SonGiris.
 - `Ilerleme`: VeliId, Hikaye, EnIleriAdim, SonAdim, Tamamlandi, IlkGiris, SonGuncelleme.
 - `Cevap`: Id, VeliId, Hikaye, Adim, Secim, Zaman.
 - Soru metinleri, şıklar ve ideal şık veritabanına yazılmaz; `steps.json`'dan okunur.
+- Şema değişiklikleri EF Core şema güncellemeleriyle (Migrations, `Veri/Gecisler`) yapılır; veriler korunur.
 
 ## 10. Kişisel veriler (KVKK)
 - Tutulmaz: telefon numarası, T.C. kimlik no, çocuğun adı, tanısı, IP adresi kaydı.
@@ -163,10 +167,13 @@ Sayfanın betiğine küçük çağrılar eklenir. Çağrı başarısız olursa s
 - Yazı tipleri sitenin kendi sunucusundan verilir; veli sayfaları dış bir sunucuya istek göndermez
   (Tohum bağlantısı veli dokununca açılır).
 - Veliye bağlantı gönderilmeden önce veli onam metni okul müdürü tarafından onaylanır.
+- Yöneticiler için yalnızca ad soyad ve kullanıcı adı tutulur; telefon ve e-posta tutulmaz.
+- Sistem yöneticisi ve ilçe izleyicisi veli adı, sınıfı, kodu ve cevabı görmez (bölüm 18).
 
 ## 11. Yönetim sayfası (`/yonetim`)
-- Tek yönetici. Şifreli giriş (şifrenin hash'i yapılandırmada; depoda düz şifre yok), çerez oturumu,
-  5 hatalı denemede 15 dakika kilit.
+*28 Ekim'de çok okullu yapıya geçildi; roller ve okul ayrımı bölüm 18'de. Bu bölüm okul yöneticisinin ekranlarını anlatır.*
+- Kişisel hesaplar: kullanıcı adı + şifre (yalnızca özeti tutulur), çerez oturumu; aynı kullanıcı adıyla
+  5 hatalı denemede o ad 15 dakika kilitlenir.
 - **Veli ekle:** Ad + Sınıf → kod üretilir → tam bağlantı + "Kopyala". Toplu ekleme: her satıra "Ad;Sınıf".
 - **Takip tablosu:** satır = veli, sütun = 8 hikâye; hücre: Başlanmadı / %ilerleme / Tamamlandı.
   Sınıfa göre süzme, ada göre arama.
@@ -177,8 +184,10 @@ Sayfanın betiğine küçük çağrılar eklenir. Çağrı başarısız olursa s
   2. Cevaplar: her soru tek satır — veli, sınıf, hikâye, soru no, soru metni, ilk seçim (harf ve metin),
      ilk seçim zamanı, son seçim (harf ve metin), son seçim zamanı, "ideal şık seçildi mi?"
      (son seçime göre Evet/Hayır; bütün şıkları eşit sorularda boş).
-- **Silme:** tek veli (tüm kayıtlarıyla); "Tüm velileri ve kayıtları sil" (yıl sonu; iki kez onay).
-- **Yedeği indir:** veritabanının güncel yedeğini indirir; yönetici haftada bir kendi bilgisayarına kaydeder.
+- **Silme:** tek veli (tüm kayıtlarıyla); "Tüm velileri ve kayıtları sil" (yıl sonu; iki kez onay; yalnızca kendi okulu).
+- **Yedeği indir:** 28 Ekim'de okul ekranından kaldırıldı (tam yedek bütün okulların verisini içerir);
+  şifreli haftalık yedeği sistem yöneticisi indirir (bölüm 18).
+- **Yöneticiler:** okulun yöneticileri; yönetici ekleme, şifresini unutana geçici şifre, hesap kapatma.
 - Telefonda da kullanılabilir.
 
 ## 12. Kurulum ve işletim
@@ -240,3 +249,23 @@ Veli için ek özellikler (profil, mesajlaşma, bildirim), veli şifresi, SMS/Wh
   yapmadı; risk yönetici tarafından 26 Ekim 2026'da kabul edildi. Abonelik sırasında üretilen içeriğin
   ticari lisansı abonelik bittikten sonra da süresiz geçerlidir (ElevenLabs yardım sayfası). Abonelik
   sonrası üretilecek seslerde atıf gerekir; eksik ses kalmaması için iptal tarihi: 13 Kasım 2026.
+
+## 18. Çok okullu yapı (28 Ekim 2026)
+Okul müdürünün görüşmesinden sonra uygulamanın ilçedeki okullara yayılması gündeme geldi; kod İlçe MEM kararı
+beklenmeden yazıldı, yayına alma İlçe MEM onayından sonra yapılır. Tasarım belgesi: "Veli Akademisi · Çok Okullu
+Yapı Tasarım Taslağı". Kararlar (28 Ekim):
+1. **Tek kurulum, çok okul.** Veli tarafı değişmez. Her okul yalnızca kendi velilerini görür.
+2. **Roller:** sistem yöneticisi (sunucu sorumlusu; okul açar/pasife alır, ilk iki yöneticiyi ve ilçe izleyicisini
+   açar, haftalık yedeği indirir; veli verisi görmez), okul yöneticisi (kendi okulunun veli işleri ve yöneticileri),
+   ilçe izleyicisi (İlçe MEM'de projelere bakan kişi; okul başına isimsiz sayılar).
+3. **Okul başına en az iki açık yönetici;** iki olmadan veli eklenemez. Şifresini unutana diğer yönetici geçici
+   şifre verir; e-postayla şifre sıfırlama yoktur.
+4. **Okul ayrımı tek yerde** (veritabanı katmanında genel süzgeç): kapsam verilmeyen istekte veli verisi hiç
+   görünmez. Başka okulun velisinin adresi "bulunamadı" döner.
+5. **Pasif okul:** yöneticileri giremez, velilerinin bağlantıları çalışmaz; veriler silinmez.
+6. **Kapasite:** en fazla 1.000 veli; her derlemede 1.000 veliyle yük ölçümü yapılır (`.github/yuk-olcumu.sh`).
+7. **Sunucu dışı yedek:** sistem yöneticisi haftada bir şifreli (AES-256, 7-Zip ile açılan) tam yedeği indirir;
+   okulun bilgisayarında ya da kilitli USB bellekte saklanır, son 4 hafta tutulur; yurt dışındaki bulut
+   hizmetleri kullanılmaz. Şifre saklanmaz; 7 gün geçerse ekranda hatırlatma çıkar.
+8. **Geçiş:** 27 Ekim'de kurulan veritabanında yalnızca deneme verisi olduğu doğrulanırsa yedeği alınıp yeni yapıyla
+   boş kurulur (KURULUM.md, "Çok okullu sürüme geçiş").

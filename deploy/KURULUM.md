@@ -104,12 +104,27 @@ Yine de bir sorun olursa Turhost'un VNC konsolundan sunucuya her zaman girilebil
 ## 8) Deneme
 
 1. Bilgisayarda tarayıcıyla `https://veliakademisi.bep-uda-projeler.com/yonetim` adresini açın.
-   Önce **önizleme** kullanıcı adı ve şifresi (`onizleme` + önizleme şifresi), sonra **yönetim** şifresi istenir.
-2. "Veli ekle" ile kendinize bir deneme velisi ekleyin, bağlantıyı kopyalayıp WhatsApp'tan kendi telefonunuza gönderin.
-3. Telefonda bağlantıyı açın (önizleme şifresi istenir). Hikâyeyi başlatın, bir soruda şık seçin.
-4. Yönetim sayfasında ilerlemeyi ve seçimi görün; Excel'i indirin.
+   Önce **önizleme** kullanıcı adı ve şifresi (`onizleme` + önizleme şifresi), sonra **sistem yöneticisi**
+   kullanıcı adı ve şifresi istenir. Sistem yöneticisi sayfası (Okullar) açılır.
+2. "Okul ekle" ile okulu, ilk iki yöneticisiyle birlikte ekleyin. İki geçici şifre bir kez gösterilir; not alın.
+3. Okul yöneticisi olarak girin (başka bir tarayıcıda ya da gizli pencerede): geçici şifreyle girince önce kendi
+   şifrenizi belirlersiniz. "Veli ekle" ile bir deneme velisi ekleyin, bağlantıyı WhatsApp'tan telefonunuza gönderin.
+4. Telefonda bağlantıyı açın (önizleme şifresi istenir). Hikâyeyi başlatın, bir soruda şık seçin.
+5. Okul yöneticisi sayfasında ilerlemeyi ve seçimi görün; Excel'i indirin.
+6. Sistem yöneticisi sayfasında "Haftalık yedek" bölümünden şifreli yedeği indirin; 7-Zip ile açılabildiğini görün.
 
 Kabul ölçütlerinin (TANIM.md bölüm 14) telefonla yapılanlarını bu aşamada birlikte işaretleriz.
+
+## Roller (kim neyi yapar)
+
+| Rol | Ne yapar | Ne göremez |
+|---|---|---|
+| Sistem yöneticisi (sunucu sorumlusu) | Okul ekler / pasife alır; okulun ilk iki yöneticisini açar; ilçe izleyicisi hesabı açar; haftalık şifreli yedeği indirir | Veli adı, sınıfı, ilerlemesi, cevabı |
+| Okul yöneticisi (okul başına en az iki) | Kendi okulunun velileri, takip tablosu, Excel, yıl sonu silme; okulun yöneticileri (ekleme, geçici şifre, kapatma) | Başka okulların hiçbir bilgisi |
+| İlçe izleyicisi | Okul başına isimsiz sayılar (veli, başlayan, hikâye başına tamamlayan) | Veli adı, sınıfı, kodu, cevabı |
+
+Şifresini unutan okul yöneticisine okulun **diğer yöneticisi** geçici şifre verir. Sistem yöneticisi bunu yalnızca
+son çare olarak (iki yönetici de ulaşılamıyorsa) okulun ayrıntı sayfasından yapar.
 
 ## Her zaman kullanılabilecek komutlar
 
@@ -118,6 +133,21 @@ Kabul ölçütlerinin (TANIM.md bölüm 14) telefonla yapılanlarını bu aşama
 | `sudo bash /root/kurulum/kurulum.sh durum` | Servisin durumu, sürüm, son günlük satırları |
 | `sudo veliakademisi-guncelle` | GitHub'daki son sürümü kurar; açılmazsa önceki sürüme kendiliğinden döner |
 | `sudo veliakademisi-yedek` | Hemen bir yedek alır (`/var/backups/veliakademisi/`) |
+| `sudo bash /root/kurulum/kurulum.sh okul-ekle "Okulun adı"` | Okul ekler (normalde sistem yöneticisi sayfasından yapılır) |
+
+## Çok okullu sürüme geçiş (27 Ekim'de kurulan sunucu için, bir kez)
+
+27 Ekim'de kurulan veritabanı eski yöntemle (şema güncelleme kaydı olmadan) kuruldu. Çok okullu sürüm böyle bir
+veritabanında **açılmaz ve ona dokunmaz**; güncelleme betiği de kendiliğinden önceki sürüme döner. Geçiş, içinde yalnızca
+deneme verisi olduğu doğrulandıktan sonra (28 Ekim kararı) şöyle yapılır; her adım ayrı çalıştırılır, çıktısı kontrol edilir:
+
+1. Veritabanında ne olduğuna bakılır (yalnızca okuma): `sudo sqlite3 /var/lib/veliakademisi/veliakademisi.db "select Id, Ad, Sinif from Veliler"`
+2. Yedek alınır: `sudo veliakademisi-yedek`
+3. Servis durdurulur, eski veritabanı silinmeden kenara alınır (`veliakademisi.db.eski-27ekim`).
+4. Yeni sürüm kurulur: `sudo veliakademisi-guncelle` (site boş veritabanıyla açılır).
+5. Sistem yöneticisi hesabı açılır: `sudo bash /root/kurulum/kurulum.sh yonetici`
+6. Eski ayar satırı `Yonetim__SifreHash` artık kullanılmaz; ayar dosyasından silinir.
+7. 8) Deneme bölümündeki adımlar yapılır.
 
 ## Sonraki ayrı işler (şimdi değil)
 
@@ -135,6 +165,7 @@ Kabul ölçütlerinin (TANIM.md bölüm 14) telefonla yapılanlarını bu aşama
 | Uygulama | `/opt/veliakademisi/uygulama` (bir önceki sürüm: `/opt/veliakademisi/onceki`) |
 | Sesler | `/opt/veliakademisi/ses/<hikâye>/` |
 | Veritabanı ve oturum anahtarları | `/var/lib/veliakademisi/` |
-| Ayarlar (site adresi, şifre özeti) | `/etc/veliakademisi/ayarlar.env` |
+| Ayarlar (site adresi, klasörler) | `/etc/veliakademisi/ayarlar.env` |
+| Son haftalık yedek indirme zamanı | `/var/lib/veliakademisi/son-yedek.txt` |
 | Gece yedekleri (14 gün) | `/var/backups/veliakademisi/` |
 | nginx günlükleri (7 gün; IP kısaltılmış, veli kodu gizli) | `/var/log/nginx/veliakademisi-*.gunluk` |

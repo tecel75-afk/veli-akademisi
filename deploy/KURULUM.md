@@ -149,14 +149,19 @@ deneme verisi olduğu doğrulandıktan sonra (28 Ekim kararı) şöyle yapılır
 6. Eski ayar satırı `Yonetim__SifreHash` artık kullanılmaz; ayar dosyasından silinir.
 7. 8) Deneme bölümündeki adımlar yapılır.
 
+## Yapılan güvenlik işleri (28 Ekim 2026)
+
+- **SSH yalnızca anahtarla:** `/etc/ssh/sshd_config.d/00-veliakademisi.conf` (şifreyle giriş kapalı, root yalnızca
+  anahtarla). Anahtar yöneticinin bilgisayarında (`id_ed25519`, parolalı). Root şifresi değişmedi: Turhost'un VNC
+  ekranından girmek içindir. Anahtar kaybolursa VNC'den girilip yeni anahtar eklenir.
+- Eski kurulumdan kalanlar: `github-actions-bep` anahtarı silindi (önceki liste: `/root/.ssh/authorized_keys.yedek-28ekim`);
+  `bepadmin` hesabı kilitlendi (açmak için: `usermod --unlock --expiredate '' bepadmin`).
+- Kaldırılanlar: Google Chrome ve deposu, Chromium, CUPS (yazıcı servisi) ve masaüstü paketleri (126 paket).
+- Kalanlar (BEP_UDA'nın yeniden kurulumunda karar verilecek): `bep-uda-projeler.com` sertifikası ve nginx'in `default` sitesi.
+
 ## Sonraki ayrı işler (şimdi değil)
 
-- **Yayına alma:** önizleme şifresinin kaldırılması (müdür onayı, onam metni ve deneme bittikten sonra).
-- **SSH güvenliği:** root'un şifreyle girişinin kapatılması. Bilgisayarınızda bir SSH anahtarı oluşturulur, sunucuya
-  tanıtılır, sonra şifreyle giriş kapatılır. Yanlış yapılırsa sunucuya SSH ile girilemez (VNC her zaman çalışır);
-  bu yüzden ayrı ve dikkatli bir adım olarak yapılacak.
-- Eski kurulumdan kalanlar: `bepadmin` kullanıcısı ve eski SSL sertifikaları (devir notu, 25 Ekim) incelenip
-  gerekiyorsa temizlenecek.
+- **Yayına alma:** önizleme şifresinin kaldırılması (İlçe MEM ve müdür onayı, onam metni ve deneme bittikten sonra).
 
 ## Sunucudaki yerler (bilgi için)
 

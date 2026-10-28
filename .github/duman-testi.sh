@@ -408,6 +408,7 @@ icerir() { grep -qF -- "$2" "$1" && echo evet || echo hayır; }
 veli_sayisi() { satir "select count(*) from Veliler where OkulId=$OKUL_A"; }   # A okulunun velileri
 
 kontrol "yönetim sayfasında 'Veli ekle' bağlantısı" evet "$(icerir "$GECICI/yonetim.html" 'href="/yonetim/veli-ekle"')"
+kontrol "veli ekleme sayfasında kapsam uyarısı (yalnızca özel gereksinimli çocuğu olan aileler)" evet "$(curl -s -b "$CEREZ" "$ADRES/yonetim/veli-ekle" | gq 'Yalnızca özel gereksinimli (engelli) çocuğu olan aileleri ekleyin' && echo evet || echo hayır)"
 kontrol "veli ekleme sayfası açılıyor" 200 "$(durum_c() { curl -s -o /dev/null -w '%{http_code}' -b "$CEREZ" "$1"; }; durum_c "$ADRES/yonetim/veli-ekle")"
 ONCE="$(veli_sayisi)"
 Y="$(ekle tek "Ad=Ayşe Hanım" "Sinif=4-A")"
